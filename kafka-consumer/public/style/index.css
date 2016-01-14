@@ -1,0 +1,69 @@
+.kafka-card {
+  margin: 20px 0px;
+}
+
+.kafka-tweets {
+  margin: 0 auto;
+}
+
+@media (min-width: 1111px) {
+  .kafka-tweets {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1110px) {
+  .kafka-tweets {
+    max-width: 90%;
+  }
+}
+
+.kafka-status {
+  margin: 0 auto;
+}
+
+@media (min-width: 1111px) {
+  .kafka-status {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1110px) {
+  .kafka-status {
+    max-width: 90%;
+  }
+}
+
+.kafka-table {
+  width: 100%
+}
+
+.kafka-column, .kafka-count-column {
+  text-align: center;
+}
+
+.kafka-count-column {
+  padding: 15px 0px;
+}
+
+.kafka-count {
+  font-size: 1.5em;
+  text-align: center;
+  margin: auto;
+  height: 100px;
+  max-width: 200px;
+}
+
+.kafka-status-paper {
+  margin: 10px 0px;
+}
+
+.kafka-status-image {
+  height: 150px;
+}
+
+.kafka-image-paper {
+  width: 150px;
+  height: 150px;
+  margin: 10px auto;
+}
