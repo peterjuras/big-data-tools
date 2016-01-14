@@ -47429,6 +47429,11 @@ function cleanTweets(oldTweets, newTweet, count) {
   return cleaned.slice(0, count);
 }
 
+var buffer = undefined;
+var publishedBuffer = undefined;
+var lastState = undefined;
+var lastPublished = undefined;
+
 var MainComponent = function (_React$Component) {
   _inherits(MainComponent, _React$Component);
 
@@ -47471,84 +47476,14 @@ var MainComponent = function (_React$Component) {
       tweets: [],
       published: 0
     };
-    // TODO: Remove
-    _this.state = {
-      menuOpen: false,
-      statusVisible: true,
-      kafka: {
-        consumed: {
-          0: 123,
-          1: 123,
-          2: 123,
-          3: 123,
-          4: 123,
-          5: 123,
-          6: 123,
-          7: 123,
-          8: 123,
-          9: 123,
-          10: 123,
-          11: 123,
-          12: 123,
-          13: 123,
-          14: 123,
-          15: 123,
-          16: 123,
-          17: 123,
-          18: 123,
-          19: 123,
-          20: 123,
-          21: 123,
-          22: 123,
-          23: 123,
-          24: 123,
-          25: 123,
-          26: 123,
-          27: 123,
-          28: 123,
-          29: 123
-        },
-        topicMetadata: {
-          0: { leader: 0 },
-          1: { leader: 1 },
-          2: { leader: 2 },
-          3: { leader: 0 },
-          4: { leader: 1 },
-          5: { leader: 2 },
-          6: { leader: 0 },
-          7: { leader: 1 },
-          8: { leader: 2 },
-          9: { leader: 0 },
-          10: { leader: 1 },
-          11: { leader: 2 },
-          12: { leader: 0 },
-          13: { leader: 1 },
-          14: { leader: 2 },
-          15: { leader: 0 },
-          16: { leader: 1 },
-          17: { leader: 2 },
-          18: { leader: 0 },
-          19: { leader: 1 },
-          20: { leader: 2 },
-          21: { leader: 0 },
-          22: { leader: 1 },
-          23: { leader: 2 },
-          24: { leader: 0 },
-          25: { leader: 1 },
-          26: { leader: 2 },
-          27: { leader: 0 },
-          28: { leader: 1 },
-          29: { leader: 2 }
-        },
-        brokers: [{ id: 0 }, { id: 1 }],
-        status: {
-          0: 'true',
-          1: 'true',
-          2: 'false'
-        }
-      },
-      published: 1234
-    };
+    setInterval(function () {
+      if (buffer && (buffer !== lastState || publishedBuffer !== lastPublished)) {
+        buffer.published = publishedBuffer;
+        _this.setState(buffer);
+        lastState = buffer;
+        lastPublished = publishedBuffer;
+      }
+    }, 100);
     return _this;
   }
 
@@ -47564,15 +47499,20 @@ var MainComponent = function (_React$Component) {
       });
 
       socket.on('tweet', function (msg) {
-        var newTweets = cleanTweets(_this2.state.tweets, JSON.parse(msg.tweet.value), 25);
-        _this2.setState({
+        var newTweets = [];
+        if (!_this2.state.statusVisible) {
+          newTweets = cleanTweets(_this2.state.tweets, JSON.parse(msg.tweet.value), 25);
+        }
+        buffer = {
+          // this.setState({
           kafka: msg.kafka,
           tweets: newTweets
-        });
+          // });
+        };
       });
 
       socket.on('published:' + this.props.topic, function (msg) {
-        return _this2.setState({ published: msg });
+        return publishedBuffer = msg;
       });
     }
   }, {
@@ -47654,7 +47594,7 @@ var StatusComponent = function (_React$Component) {
       if (!this.props.kafka.brokers) {
         return _react2.default.createElement(
           'div',
-          { style: this.props.style },
+          { style: { margin: '20px' } },
           'Waiting for first tweet'
         );
       }
@@ -47857,7 +47797,9 @@ var TwitterComponent = function (_React$Component) {
   _createClass(TwitterComponent, [{
     key: 'render',
     value: function render() {
-      var tweets = this.props.tweets.map(function (tweet) {
+      var tweets = this.props.tweets.filter(function (tweet) {
+        return tweet.id;
+      }).map(function (tweet) {
         return _react2.default.createElement(_tweet2.default, { key: tweet.id, tweet: tweet });
       });
       return _react2.default.createElement(

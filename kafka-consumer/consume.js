@@ -51,6 +51,8 @@ function getBrokerId(hostname) {
 
 const msgs = {};
 
+const messageBuffer ={};
+
 // socket.io
 const io = require('socket.io')(3000);
 io.on('connection', socket => {
@@ -75,12 +77,6 @@ io.on('connection', socket => {
       }));
 
       kafkaConsumer.on('message', tweet => {
-        if (msgs[`${tweet.partition}${tweet.offset}`]) {
-          console.log('Something went horribly wrong!');
-          console.log(tweet);
-        } else {
-          msgs[`${tweet.partition}${tweet.offset}`] = true;
-        }
         if (!consumed[message]) {
           consumed[message] = { };
         }
@@ -168,4 +164,4 @@ process.on('SIGINT', () => {
   redis.forEach(redis => redis.disconnect());
 
   process.exit();
-})
+});

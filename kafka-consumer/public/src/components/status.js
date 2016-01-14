@@ -5,7 +5,7 @@ import KafkaServerComponent from './kafka-server';
 class StatusComponent extends React.Component {
   render() {
     if (!this.props.kafka.brokers) {
-      return <div style={this.props.style}>Waiting for first tweet</div>;
+      return <div style={{margin: '20px'}}>Waiting for first tweet</div>;
     }
     const brokers = [0, 1, 2]
       .map(broker =>
