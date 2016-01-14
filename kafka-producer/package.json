@@ -1,0 +1,19 @@
+{
+  "author": "Peter Juras",
+  "name": "kafka-node-producer",
+  "version": "0.0.0",
+  "scripts": {
+    "produce-kafka": "node kafka.js --produce kafka",
+    "produce-redis": "node kafka.js --produce redis",
+    "consume-kafka": "node kafka.js --consume kafka",
+    "consume-redis": "node kafka.js --consume redis",
+    "consume-both": "node kafka.js --consume kafka redis"
+  },
+  "dependencies": {
+    "async": "^1.5.1",
+    "ioredis": "^1.14.0",
+    "kafka-node": "^0.2.29",
+    "twitter": "^1.2.5",
+    "yargs": "^3.31.0"
+  }
+}
