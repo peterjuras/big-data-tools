@@ -12,7 +12,10 @@ class KafkaServerComponent extends React.Component {
   render() {
     const partitions = Object.keys(this.props.kafka.topicMetadata)
       .filter(partition => this.props.kafka.topicMetadata[partition].leader === this.props.id)
-      .map(partition => <TableRow key={partition}><TableRowColumn>Partition {partition}</TableRowColumn><TableRowColumn>{this.props.kafka.consumed[partition]}</TableRowColumn></TableRow>);
+      .map(partition => <TableRow key={partition}>
+          <TableRowColumn className="kafka-partition-column">Partition {partition}</TableRowColumn>
+          <TableRowColumn className="kafka-partition-column">{this.props.kafka.consumed[partition]}</TableRowColumn>
+        </TableRow>);
 
     const brokerOnline = this.props.kafka.brokers
       .filter(broker => broker.id === this.props.id).length > 0;
@@ -23,12 +26,14 @@ class KafkaServerComponent extends React.Component {
       status = 'images/kafka-offline.png';
     }
     return <div>
-      <Paper className="kafka-image-paper">
+      <Paper className="kafka-image-paper" zDepth={2}>
         <img className="kafka-status-image" src={status}/>
       </Paper>
       <Table>
-
-        <TableBody>
+        <TableHeader style={{display: 'none'}}>
+          <TableRow />
+        </TableHeader>
+        <TableBody displayRowCheckbox={false}>
           {partitions}
         </TableBody>
       </Table>

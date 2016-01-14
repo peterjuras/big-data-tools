@@ -15,7 +15,7 @@ class StatusComponent extends React.Component {
     const totalConsumed = Object.keys(this.props.kafka.consumed)
       .reduce((previous, partition) => previous + this.props.kafka.consumed[partition], 0)
     return <div style={this.props.style} className="kafka-status">
-      <Paper className="kafka-status-paper">
+      <Paper className="kafka-status-paper" zDepth={2}>
         <table className="kafka-table">
           <tbody>
             <tr>
@@ -35,7 +35,7 @@ class StatusComponent extends React.Component {
           </tbody>
         </table>
       </Paper>
-      <Paper className="kafka-status-paper">
+      <Paper className="kafka-status-paper" zDepth={2}>
         <table className="kafka-table">
           <tbody>
             <tr>

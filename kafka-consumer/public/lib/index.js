@@ -47327,13 +47327,13 @@ var KafkaServerComponent = function (_React$Component) {
           { key: partition },
           _react2.default.createElement(
             _tableRowColumn2.default,
-            null,
+            { className: 'kafka-partition-column' },
             'Partition ',
             partition
           ),
           _react2.default.createElement(
             _tableRowColumn2.default,
-            null,
+            { className: 'kafka-partition-column' },
             _this2.props.kafka.consumed[partition]
           )
         );
@@ -47353,15 +47353,20 @@ var KafkaServerComponent = function (_React$Component) {
         null,
         _react2.default.createElement(
           _paper2.default,
-          { className: 'kafka-image-paper' },
+          { className: 'kafka-image-paper', zDepth: 2 },
           _react2.default.createElement('img', { className: 'kafka-status-image', src: status })
         ),
         _react2.default.createElement(
           _table2.default,
           null,
           _react2.default.createElement(
+            _tableHeader2.default,
+            { style: { display: 'none' } },
+            _react2.default.createElement(_tableRow2.default, null)
+          ),
+          _react2.default.createElement(
             _tableBody2.default,
-            null,
+            { displayRowCheckbox: false },
             partitions
           )
         )
@@ -47668,7 +47673,7 @@ var StatusComponent = function (_React$Component) {
         { style: this.props.style, className: 'kafka-status' },
         _react2.default.createElement(
           _paper2.default,
-          { className: 'kafka-status-paper' },
+          { className: 'kafka-status-paper', zDepth: 2 },
           _react2.default.createElement(
             'table',
             { className: 'kafka-table' },
@@ -47716,7 +47721,7 @@ var StatusComponent = function (_React$Component) {
         ),
         _react2.default.createElement(
           _paper2.default,
-          { className: 'kafka-status-paper' },
+          { className: 'kafka-status-paper', zDepth: 2 },
           _react2.default.createElement(
             'table',
             { className: 'kafka-table' },
