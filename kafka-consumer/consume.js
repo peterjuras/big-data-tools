@@ -57,6 +57,9 @@ const messageBuffer ={};
 const io = require('socket.io')(3000);
 io.on('connection', socket => {
   socket.on('subscribe', message => {
+    if (!message || message === '') {
+      return;
+    }
     socket.join(message);
     let totalPublished = 0;
     if (!topicSubscribers[message]) {

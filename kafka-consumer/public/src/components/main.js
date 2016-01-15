@@ -11,15 +11,13 @@ function cleanTweets(oldTweets, newTweet, count) {
   return cleaned.slice(0, count);
 }
 
-let buffer;
-let publishedBuffer;
+let bufferState;
 let lastState;
-let lastPublished;
 
 class MainComponent extends React.Component {
   constructor(...props) {
     super(...props);
-    this.state = {
+    this.state = bufferState = lastState = {
       menuOpen: false,
       statusVisible: false,
       kafka: { },
@@ -27,13 +25,11 @@ class MainComponent extends React.Component {
       published: 0
     };
     setInterval(() => {
-      if (buffer && (buffer !== lastState || publishedBuffer !== lastPublished)) {
-        buffer.published = publishedBuffer;
-        this.setState(buffer);
-        lastState = buffer;
-        lastPublished = publishedBuffer;
+      if (bufferState && bufferState !== lastState) {
+        this.setState(bufferState);
+        lastState = bufferState;
       }
-    }, 100);
+    }, 16);
   }
 
   componentWillMount() {
@@ -45,18 +41,19 @@ class MainComponent extends React.Component {
 
     socket.on('tweet', msg => {
       let newTweets = [];
-      if (!this.state.statusVisible) {
-        newTweets = cleanTweets(this.state.tweets, JSON.parse(msg.tweet.value), 25);
-      }
-      buffer = {
-      // this.setState({
+      newTweets = cleanTweets(this.state.tweets, JSON.parse(msg.tweet.value), 25);
+      bufferState = {
         kafka: msg.kafka,
-        tweets: newTweets
-      // });
+        tweets: newTweets,
+        published: bufferState.published
       };
     });
 
-    socket.on(`published:${this.props.topic}`, msg => publishedBuffer = msg);
+    socket.on(`published:${this.props.topic}`, msg => bufferState = {
+      kafka: bufferState.kafka,
+      tweets: bufferState.tweets,
+      published: msg
+    });
   }
 
   displayTweets = () => this.setState({

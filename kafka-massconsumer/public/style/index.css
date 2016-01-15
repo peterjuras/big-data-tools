@@ -1,0 +1,18 @@
+.mass-paper {
+  margin: 50px auto;
+  padding: 50px 0px;
+  text-align: center;
+  width: 80%;
+}
+
+.mass-number {
+  font-size: 5em;
+}
+
+.mass-divider {
+  margin: 50px !important;
+}
+
+.mass-label {
+  font-size: 2em;
+}

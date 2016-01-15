@@ -1,0 +1,24 @@
+settings {
+  nodaemon = true,
+
+  sync {
+    default.rsync,
+    source = "/home/juras/Source/big-data/big-data/kafka-consumer",
+    target = "10.155.208.109:/home/juras/kafka-consumer",
+    exclude = "node_modules"
+  },
+
+  sync {
+    default.rsync,
+    source = "/home/juras/Source/big-data/big-data/kafka-massconsumer",
+    target = "10.155.208.109:/home/juras/kafka-massconsumer",
+    exclude = "node_modules"
+  },
+
+  sync {
+    default.rsync,
+    source = "/home/juras/Source/big-data/big-data/kafka-producer",
+    target = "10.155.208.186:/home/juras/kafka-producer",
+    exclude = "node_modules"
+  }
+}

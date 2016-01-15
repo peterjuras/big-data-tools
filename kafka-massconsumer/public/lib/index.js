@@ -1170,7 +1170,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":174}],13:[function(require,module,exports){
+},{"ms":122}],13:[function(require,module,exports){
 
 module.exports =  require('./lib/');
 
@@ -1918,7 +1918,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./transport":16,"./transports":17,"component-emitter":9,"debug":11,"engine.io-parser":23,"indexof":56,"parsejson":175,"parseqs":176,"parseuri":177}],16:[function(require,module,exports){
+},{"./transport":16,"./transports":17,"component-emitter":9,"debug":11,"engine.io-parser":23,"indexof":55,"parsejson":123,"parseqs":124,"parseuri":125}],16:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -3039,7 +3039,7 @@ Polling.prototype.uri = function(){
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":16,"component-inherit":10,"debug":11,"engine.io-parser":23,"parseqs":176,"xmlhttprequest-ssl":22,"yeast":341}],21:[function(require,module,exports){
+},{"../transport":16,"component-inherit":10,"debug":11,"engine.io-parser":23,"parseqs":124,"xmlhttprequest-ssl":22,"yeast":284}],21:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -3326,7 +3326,7 @@ WS.prototype.check = function(){
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../transport":16,"component-inherit":10,"debug":11,"engine.io-parser":23,"parseqs":176,"ws":7,"yeast":341}],22:[function(require,module,exports){
+},{"../transport":16,"component-inherit":10,"debug":11,"engine.io-parser":23,"parseqs":124,"ws":7,"yeast":284}],22:[function(require,module,exports){
 // browser shim for xmlhttprequest module
 var hasCORS = require('has-cors');
 
@@ -3364,7 +3364,7 @@ module.exports = function(opts) {
   }
 }
 
-},{"has-cors":55}],23:[function(require,module,exports){
+},{"has-cors":54}],23:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -3962,7 +3962,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./keys":24,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":4,"blob":5,"has-binary":25,"utf8":339}],24:[function(require,module,exports){
+},{"./keys":24,"after":1,"arraybuffer.slice":2,"base64-arraybuffer":4,"blob":5,"has-binary":25,"utf8":283}],24:[function(require,module,exports){
 
 /**
  * Gets the keys for an object.
@@ -4045,107 +4045,7 @@ function hasBinary(data) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"isarray":68}],26:[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule CSSCore
- * @typechecks
- */
-
-'use strict';
-
-var invariant = require('./invariant');
-
-/**
- * The CSSCore module specifies the API (and implements most of the methods)
- * that should be used when dealing with the display of elements (via their
- * CSS classes and visibility on screen. It is an API focused on mutating the
- * display and not reading it as no logical state should be encoded in the
- * display of elements.
- */
-
-var CSSCore = {
-
-  /**
-   * Adds the class passed in to the element if it doesn't already have it.
-   *
-   * @param {DOMElement} element the element to set the class on
-   * @param {string} className the CSS className
-   * @return {DOMElement} the element passed in
-   */
-  addClass: function (element, className) {
-    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
-
-    if (className) {
-      if (element.classList) {
-        element.classList.add(className);
-      } else if (!CSSCore.hasClass(element, className)) {
-        element.className = element.className + ' ' + className;
-      }
-    }
-    return element;
-  },
-
-  /**
-   * Removes the class passed in from the element
-   *
-   * @param {DOMElement} element the element to set the class on
-   * @param {string} className the CSS className
-   * @return {DOMElement} the element passed in
-   */
-  removeClass: function (element, className) {
-    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
-
-    if (className) {
-      if (element.classList) {
-        element.classList.remove(className);
-      } else if (CSSCore.hasClass(element, className)) {
-        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
-        .replace(/^\s*|\s*$/g, ''); // trim the ends
-      }
-    }
-    return element;
-  },
-
-  /**
-   * Helper to add or remove a class from an element based on a condition.
-   *
-   * @param {DOMElement} element the element to set the class on
-   * @param {string} className the CSS className
-   * @param {*} bool condition to whether to add or remove the class
-   * @return {DOMElement} the element passed in
-   */
-  conditionClass: function (element, className, bool) {
-    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
-  },
-
-  /**
-   * Tests whether the element has the class specified.
-   *
-   * @param {DOMNode|DOMWindow} element the element to set the class on
-   * @param {string} className the CSS className
-   * @return {boolean} true if the element has the class, false if not
-   */
-  hasClass: function (element, className) {
-    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : undefined;
-    if (element.classList) {
-      return !!className && element.classList.contains(className);
-    }
-    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
-  }
-
-};
-
-module.exports = CSSCore;
-}).call(this,require('_process'))
-},{"./invariant":42,"_process":178}],27:[function(require,module,exports){
+},{"isarray":67}],26:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -4232,7 +4132,7 @@ var EventListener = {
 
 module.exports = EventListener;
 }).call(this,require('_process'))
-},{"./emptyFunction":34,"_process":178}],28:[function(require,module,exports){
+},{"./emptyFunction":33,"_process":126}],27:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4269,7 +4169,7 @@ var ExecutionEnvironment = {
 };
 
 module.exports = ExecutionEnvironment;
-},{}],29:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4302,7 +4202,7 @@ function camelize(string) {
 }
 
 module.exports = camelize;
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4343,7 +4243,7 @@ function camelizeStyleName(string) {
 }
 
 module.exports = camelizeStyleName;
-},{"./camelize":29}],31:[function(require,module,exports){
+},{"./camelize":28}],30:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4399,7 +4299,7 @@ function containsNode(_x, _x2) {
 }
 
 module.exports = containsNode;
-},{"./isTextNode":44}],32:[function(require,module,exports){
+},{"./isTextNode":43}],31:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4485,7 +4385,7 @@ function createArrayFromMixed(obj) {
 }
 
 module.exports = createArrayFromMixed;
-},{"./toArray":52}],33:[function(require,module,exports){
+},{"./toArray":51}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -4572,7 +4472,7 @@ function createNodesFromMarkup(markup, handleScript) {
 
 module.exports = createNodesFromMarkup;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":28,"./createArrayFromMixed":32,"./getMarkupWrap":38,"./invariant":42,"_process":178}],34:[function(require,module,exports){
+},{"./ExecutionEnvironment":27,"./createArrayFromMixed":31,"./getMarkupWrap":37,"./invariant":41,"_process":126}],33:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4611,7 +4511,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -4634,7 +4534,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":178}],36:[function(require,module,exports){
+},{"_process":126}],35:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4661,7 +4561,7 @@ function focusNode(node) {
 }
 
 module.exports = focusNode;
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4697,7 +4597,7 @@ function getActiveElement() /*?DOMElement*/{
 }
 
 module.exports = getActiveElement;
-},{}],38:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -4795,7 +4695,7 @@ function getMarkupWrap(nodeName) {
 
 module.exports = getMarkupWrap;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":28,"./invariant":42,"_process":178}],39:[function(require,module,exports){
+},{"./ExecutionEnvironment":27,"./invariant":41,"_process":126}],38:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4834,7 +4734,7 @@ function getUnboundedScrollPosition(scrollable) {
 }
 
 module.exports = getUnboundedScrollPosition;
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4868,7 +4768,7 @@ function hyphenate(string) {
 }
 
 module.exports = hyphenate;
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4908,7 +4808,7 @@ function hyphenateStyleName(string) {
 }
 
 module.exports = hyphenateStyleName;
-},{"./hyphenate":40}],42:[function(require,module,exports){
+},{"./hyphenate":39}],41:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -4961,7 +4861,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":178}],43:[function(require,module,exports){
+},{"_process":126}],42:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4985,7 +4885,7 @@ function isNode(object) {
 }
 
 module.exports = isNode;
-},{}],44:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5011,7 +4911,7 @@ function isTextNode(object) {
 }
 
 module.exports = isTextNode;
-},{"./isNode":43}],45:[function(require,module,exports){
+},{"./isNode":42}],44:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -5062,7 +4962,7 @@ var keyMirror = function (obj) {
 
 module.exports = keyMirror;
 }).call(this,require('_process'))
-},{"./invariant":42,"_process":178}],46:[function(require,module,exports){
+},{"./invariant":41,"_process":126}],45:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5098,7 +4998,7 @@ var keyOf = function (oneKeyObj) {
 };
 
 module.exports = keyOf;
-},{}],47:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5150,7 +5050,7 @@ function mapObject(object, callback, context) {
 }
 
 module.exports = mapObject;
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5182,7 +5082,7 @@ function memoizeStringOnly(callback) {
 }
 
 module.exports = memoizeStringOnly;
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5206,7 +5106,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = performance || {};
-},{"./ExecutionEnvironment":28}],50:[function(require,module,exports){
+},{"./ExecutionEnvironment":27}],49:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5241,7 +5141,7 @@ if (performance.now) {
 }
 
 module.exports = performanceNow;
-},{"./performance":49}],51:[function(require,module,exports){
+},{"./performance":48}],50:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -5292,7 +5192,7 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = shallowEqual;
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -5352,7 +5252,7 @@ function toArray(obj) {
 
 module.exports = toArray;
 }).call(this,require('_process'))
-},{"./invariant":42,"_process":178}],53:[function(require,module,exports){
+},{"./invariant":41,"_process":126}],52:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -5412,7 +5312,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":34,"_process":178}],54:[function(require,module,exports){
+},{"./emptyFunction":33,"_process":126}],53:[function(require,module,exports){
 (function (global){
 
 /*
@@ -5475,7 +5375,7 @@ function hasBinary(data) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"isarray":68}],55:[function(require,module,exports){
+},{"isarray":67}],54:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -5494,7 +5394,7 @@ try {
   module.exports = false;
 }
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -5505,7 +5405,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -5542,7 +5442,7 @@ var _pluginsFlexboxOld2 = _interopRequireDefault(_pluginsFlexboxOld);
 
 exports['default'] = [_pluginsCursor2['default'], _pluginsFlex2['default'], _pluginsSizing2['default'], _pluginsGradient2['default'], _pluginsFlexboxIE2['default'], _pluginsFlexboxOld2['default']];
 module.exports = exports['default'];
-},{"./plugins/cursor":62,"./plugins/flex":63,"./plugins/flexboxIE":64,"./plugins/flexboxOld":65,"./plugins/gradient":66,"./plugins/sizing":67}],58:[function(require,module,exports){
+},{"./plugins/cursor":61,"./plugins/flex":62,"./plugins/flexboxIE":63,"./plugins/flexboxOld":64,"./plugins/gradient":65,"./plugins/sizing":66}],57:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5739,9 +5639,9 @@ var Prefixer = (function () {
 exports['default'] = Prefixer;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Plugins":57,"./caniuseData":59,"./getBrowserInformation":60,"./getPrefixedKeyframes":61,"_process":178}],59:[function(require,module,exports){
+},{"./Plugins":56,"./caniuseData":58,"./getBrowserInformation":59,"./getPrefixedKeyframes":60,"_process":126}],58:[function(require,module,exports){
 var caniuseData = {"chrome":{"transform":35,"transformOrigin":35,"transformOriginX":35,"transformOriginY":35,"backfaceVisibility":35,"perspective":35,"perspectiveOrigin":35,"transformStyle":35,"transformOriginZ":35,"animation":42,"animationDelay":42,"animationDirection":42,"animationFillMode":42,"animationDuration":42,"animationIterationCount":42,"animationName":42,"animationPlayState":42,"animationTimingFunction":42,"appearance":49,"userSelect":49,"fontKerning":32,"textEmphasisPosition":49,"textEmphasis":49,"textEmphasisStyle":49,"textEmphasisColor":49,"boxDecorationBreak":49,"clipPath":49,"maskImage":49,"maskMode":49,"maskRepeat":49,"maskPosition":49,"maskClip":49,"maskOrigin":49,"maskSize":49,"maskComposite":49,"mask":49,"maskBorderSource":49,"maskBorderMode":49,"maskBorderSlice":49,"maskBorderWidth":49,"maskBorderOutset":49,"maskBorderRepeat":49,"maskBorder":49,"maskType":49,"textDecorationStyle":49,"textDecorationSkip":49,"textDecorationLine":49,"textDecorationColor":49,"filter":49,"fontFeatureSettings":49,"breakAfter":49,"breakBefore":49,"breakInside":49,"columnCount":49,"columnFill":49,"columnGap":49,"columnRule":49,"columnRuleColor":49,"columnRuleStyle":49,"columnRuleWidth":49,"columns":49,"columnSpan":49,"columnWidth":49},"safari":{"flex":8,"flexBasis":8,"flexDirection":8,"flexGrow":8,"flexFlow":8,"flexShrink":8,"flexWrap":8,"alignContent":8,"alignItems":8,"alignSelf":8,"justifyContent":8,"order":8,"transition":6,"transitionDelay":6,"transitionDuration":6,"transitionProperty":6,"transitionTimingFunction":6,"transform":8,"transformOrigin":8,"transformOriginX":8,"transformOriginY":8,"backfaceVisibility":8,"perspective":8,"perspectiveOrigin":8,"transformStyle":8,"transformOriginZ":8,"animation":8,"animationDelay":8,"animationDirection":8,"animationFillMode":8,"animationDuration":8,"animationIterationCount":8,"animationName":8,"animationPlayState":8,"animationTimingFunction":8,"appearance":9,"userSelect":9,"backdropFilter":9,"fontKerning":9,"scrollSnapType":9,"scrollSnapPointsX":9,"scrollSnapPointsY":9,"scrollSnapDestination":9,"scrollSnapCoordinate":9,"textEmphasisPosition":7,"textEmphasis":7,"textEmphasisStyle":7,"textEmphasisColor":7,"boxDecorationBreak":9,"clipPath":9,"maskImage":9,"maskMode":9,"maskRepeat":9,"maskPosition":9,"maskClip":9,"maskOrigin":9,"maskSize":9,"maskComposite":9,"mask":9,"maskBorderSource":9,"maskBorderMode":9,"maskBorderSlice":9,"maskBorderWidth":9,"maskBorderOutset":9,"maskBorderRepeat":9,"maskBorder":9,"maskType":9,"textDecorationStyle":9,"textDecorationSkip":9,"textDecorationLine":9,"textDecorationColor":9,"shapeImageThreshold":9,"shapeImageMargin":9,"shapeImageOutside":9,"filter":9,"hyphens":9,"flowInto":9,"flowFrom":9,"breakBefore":8,"breakAfter":8,"breakInside":8,"regionFragment":9,"columnCount":8,"columnFill":8,"columnGap":8,"columnRule":8,"columnRuleColor":8,"columnRuleStyle":8,"columnRuleWidth":8,"columns":8,"columnSpan":8,"columnWidth":8},"firefox":{"appearance":45,"userSelect":45,"boxSizing":28,"textAlignLast":45,"textDecorationStyle":35,"textDecorationSkip":35,"textDecorationLine":35,"textDecorationColor":35,"tabSize":45,"hyphens":42,"fontFeatureSettings":33,"breakAfter":45,"breakBefore":45,"breakInside":45,"columnCount":45,"columnFill":45,"columnGap":45,"columnRule":45,"columnRuleColor":45,"columnRuleStyle":45,"columnRuleWidth":45,"columns":45,"columnSpan":45,"columnWidth":45},"opera":{"flex":16,"flexBasis":16,"flexDirection":16,"flexGrow":16,"flexFlow":16,"flexShrink":16,"flexWrap":16,"alignContent":16,"alignItems":16,"alignSelf":16,"justifyContent":16,"order":16,"transform":22,"transformOrigin":22,"transformOriginX":22,"transformOriginY":22,"backfaceVisibility":22,"perspective":22,"perspectiveOrigin":22,"transformStyle":22,"transformOriginZ":22,"animation":29,"animationDelay":29,"animationDirection":29,"animationFillMode":29,"animationDuration":29,"animationIterationCount":29,"animationName":29,"animationPlayState":29,"animationTimingFunction":29,"appearance":35,"userSelect":35,"fontKerning":19,"textEmphasisPosition":35,"textEmphasis":35,"textEmphasisStyle":35,"textEmphasisColor":35,"boxDecorationBreak":35,"clipPath":35,"maskImage":35,"maskMode":35,"maskRepeat":35,"maskPosition":35,"maskClip":35,"maskOrigin":35,"maskSize":35,"maskComposite":35,"mask":35,"maskBorderSource":35,"maskBorderMode":35,"maskBorderSlice":35,"maskBorderWidth":35,"maskBorderOutset":35,"maskBorderRepeat":35,"maskBorder":35,"maskType":35,"filter":35,"fontFeatureSettings":35,"breakAfter":35,"breakBefore":35,"breakInside":35,"columnCount":35,"columnFill":35,"columnGap":35,"columnRule":35,"columnRuleColor":35,"columnRuleStyle":35,"columnRuleWidth":35,"columns":35,"columnSpan":35,"columnWidth":35},"ie":{"gridTemplateRows":11,"grid":11,"flowInto":11,"flexDirection":10,"touchAction":10,"gridRow":11,"scrollSnapPointsX":11,"wrapMargin":11,"breakBefore":11,"gridRowEnd":11,"gridRowStart":11,"breakInside":11,"transformOrigin":9,"scrollSnapType":11,"scrollSnapDestination":11,"gridTemplate":11,"flexWrap":10,"transformOriginX":9,"flowFrom":11,"gridColumnStart":11,"userSelect":11,"wrapFlow":11,"scrollSnapCoordinate":11,"gridGap":11,"gridAutoRows":11,"hyphens":11,"regionFragment":11,"flex":10,"columnGap":11,"wrapThrough":11,"transformOriginY":9,"breakAfter":11,"rowGap":11,"gridTemplateColumns":11,"gridArea":11,"transform":9,"gridAutoFlow":11,"flexFlow":10,"gridTemplateAreas":11,"gridColumn":11,"gridAutoColumns":11,"scrollSnapPointsY":11,"textSizeAdjust":11},"ios_saf":{"flex":8.1,"flexBasis":8.1,"flexDirection":8.1,"flexGrow":8.1,"flexFlow":8.1,"flexShrink":8.1,"flexWrap":8.1,"alignContent":8.1,"alignItems":8.1,"alignSelf":8.1,"justifyContent":8.1,"order":8.1,"transition":6,"transitionDelay":6,"transitionDuration":6,"transitionProperty":6,"transitionTimingFunction":6,"transform":8.1,"transformOrigin":8.1,"transformOriginX":8.1,"transformOriginY":8.1,"backfaceVisibility":8.1,"perspective":8.1,"perspectiveOrigin":8.1,"transformStyle":8.1,"transformOriginZ":8.1,"animation":8.1,"animationDelay":8.1,"animationDirection":8.1,"animationFillMode":8.1,"animationDuration":8.1,"animationIterationCount":8.1,"animationName":8.1,"animationPlayState":8.1,"animationTimingFunction":8.1,"appearance":9,"userSelect":9,"backdropFilter":9,"fontKerning":9,"scrollSnapType":9,"scrollSnapPointsX":9,"scrollSnapPointsY":9,"scrollSnapDestination":9,"scrollSnapCoordinate":9,"boxDecorationBreak":9,"clipPath":9,"maskImage":9,"maskMode":9,"maskRepeat":9,"maskPosition":9,"maskClip":9,"maskOrigin":9,"maskSize":9,"maskComposite":9,"mask":9,"maskBorderSource":9,"maskBorderMode":9,"maskBorderSlice":9,"maskBorderWidth":9,"maskBorderOutset":9,"maskBorderRepeat":9,"maskBorder":9,"maskType":9,"textSizeAdjust":9,"textDecorationStyle":9,"textDecorationSkip":9,"textDecorationLine":9,"textDecorationColor":9,"shapeImageThreshold":9,"shapeImageMargin":9,"shapeImageOutside":9,"filter":9,"hyphens":9,"flowInto":9,"flowFrom":9,"breakBefore":8.1,"breakAfter":8.1,"breakInside":8.1,"regionFragment":9,"columnCount":8.1,"columnFill":8.1,"columnGap":8.1,"columnRule":8.1,"columnRuleColor":8.1,"columnRuleStyle":8.1,"columnRuleWidth":8.1,"columns":8.1,"columnSpan":8.1,"columnWidth":8.1},"android":{"borderImage":4.2,"borderImageOutset":4.2,"borderImageRepeat":4.2,"borderImageSlice":4.2,"borderImageSource":4.2,"borderImageWidth":4.2,"flex":4.2,"flexBasis":4.2,"flexDirection":4.2,"flexGrow":4.2,"flexFlow":4.2,"flexShrink":4.2,"flexWrap":4.2,"alignContent":4.2,"alignItems":4.2,"alignSelf":4.2,"justifyContent":4.2,"order":4.2,"transition":4.2,"transitionDelay":4.2,"transitionDuration":4.2,"transitionProperty":4.2,"transitionTimingFunction":4.2,"transform":4.4,"transformOrigin":4.4,"transformOriginX":4.4,"transformOriginY":4.4,"backfaceVisibility":4.4,"perspective":4.4,"perspectiveOrigin":4.4,"transformStyle":4.4,"transformOriginZ":4.4,"animation":4.4,"animationDelay":4.4,"animationDirection":4.4,"animationFillMode":4.4,"animationDuration":4.4,"animationIterationCount":4.4,"animationName":4.4,"animationPlayState":4.4,"animationTimingFunction":4.4,"appearance":44,"userSelect":44,"fontKerning":4.4,"textEmphasisPosition":44,"textEmphasis":44,"textEmphasisStyle":44,"textEmphasisColor":44,"boxDecorationBreak":44,"clipPath":44,"maskImage":44,"maskMode":44,"maskRepeat":44,"maskPosition":44,"maskClip":44,"maskOrigin":44,"maskSize":44,"maskComposite":44,"mask":44,"maskBorderSource":44,"maskBorderMode":44,"maskBorderSlice":44,"maskBorderWidth":44,"maskBorderOutset":44,"maskBorderRepeat":44,"maskBorder":44,"maskType":44,"filter":44,"fontFeatureSettings":44,"breakAfter":44,"breakBefore":44,"breakInside":44,"columnCount":44,"columnFill":44,"columnGap":44,"columnRule":44,"columnRuleColor":44,"columnRuleStyle":44,"columnRuleWidth":44,"columns":44,"columnSpan":44,"columnWidth":44},"and_chr":{"appearance":46,"userSelect":46,"textEmphasisPosition":46,"textEmphasis":46,"textEmphasisStyle":46,"textEmphasisColor":46,"boxDecorationBreak":46,"clipPath":46,"maskImage":46,"maskMode":46,"maskRepeat":46,"maskPosition":46,"maskClip":46,"maskOrigin":46,"maskSize":46,"maskComposite":46,"mask":46,"maskBorderSource":46,"maskBorderMode":46,"maskBorderSlice":46,"maskBorderWidth":46,"maskBorderOutset":46,"maskBorderRepeat":46,"maskBorder":46,"maskType":46,"textDecorationStyle":46,"textDecorationSkip":46,"textDecorationLine":46,"textDecorationColor":46,"filter":46,"fontFeatureSettings":46,"breakAfter":46,"breakBefore":46,"breakInside":46,"columnCount":46,"columnFill":46,"columnGap":46,"columnRule":46,"columnRuleColor":46,"columnRuleStyle":46,"columnRuleWidth":46,"columns":46,"columnSpan":46,"columnWidth":46},"and_uc":{"flex":9.9,"flexBasis":9.9,"flexDirection":9.9,"flexGrow":9.9,"flexFlow":9.9,"flexShrink":9.9,"flexWrap":9.9,"alignContent":9.9,"alignItems":9.9,"alignSelf":9.9,"justifyContent":9.9,"order":9.9,"transition":9.9,"transitionDelay":9.9,"transitionDuration":9.9,"transitionProperty":9.9,"transitionTimingFunction":9.9,"transform":9.9,"transformOrigin":9.9,"transformOriginX":9.9,"transformOriginY":9.9,"backfaceVisibility":9.9,"perspective":9.9,"perspectiveOrigin":9.9,"transformStyle":9.9,"transformOriginZ":9.9,"animation":9.9,"animationDelay":9.9,"animationDirection":9.9,"animationFillMode":9.9,"animationDuration":9.9,"animationIterationCount":9.9,"animationName":9.9,"animationPlayState":9.9,"animationTimingFunction":9.9,"appearance":9.9,"userSelect":9.9,"fontKerning":9.9,"textEmphasisPosition":9.9,"textEmphasis":9.9,"textEmphasisStyle":9.9,"textEmphasisColor":9.9,"maskImage":9.9,"maskMode":9.9,"maskRepeat":9.9,"maskPosition":9.9,"maskClip":9.9,"maskOrigin":9.9,"maskSize":9.9,"maskComposite":9.9,"mask":9.9,"maskBorderSource":9.9,"maskBorderMode":9.9,"maskBorderSlice":9.9,"maskBorderWidth":9.9,"maskBorderOutset":9.9,"maskBorderRepeat":9.9,"maskBorder":9.9,"maskType":9.9,"textSizeAdjust":9.9,"filter":9.9,"hyphens":9.9,"flowInto":9.9,"flowFrom":9.9,"breakBefore":9.9,"breakAfter":9.9,"breakInside":9.9,"regionFragment":9.9,"fontFeatureSettings":9.9,"columnCount":9.9,"columnFill":9.9,"columnGap":9.9,"columnRule":9.9,"columnRuleColor":9.9,"columnRuleStyle":9.9,"columnRuleWidth":9.9,"columns":9.9,"columnSpan":9.9,"columnWidth":9.9},"op_mini":{"borderImage":5,"borderImageOutset":5,"borderImageRepeat":5,"borderImageSlice":5,"borderImageSource":5,"borderImageWidth":5,"tabSize":5,"objectFit":5,"objectPosition":5}}; module.exports = caniuseData
-},{}],60:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -5946,7 +5846,7 @@ exports['default'] = function (userAgent) {
 };
 
 module.exports = exports['default'];
-},{"bowser":6}],61:[function(require,module,exports){
+},{"bowser":6}],60:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -5966,7 +5866,7 @@ exports['default'] = function (_ref) {
 };
 
 module.exports = exports['default'];
-},{}],62:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -5988,7 +5888,7 @@ exports['default'] = function (property, value, _ref2) {
 };
 
 module.exports = exports['default'];
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6010,7 +5910,7 @@ exports['default'] = function (property, value, _ref2) {
 };
 
 module.exports = exports['default'];
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6052,7 +5952,7 @@ exports['default'] = function (property, value, _ref2, styles) {
 };
 
 module.exports = exports['default'];
-},{}],65:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6100,7 +6000,7 @@ exports['default'] = function (property, value, _ref2) {
 };
 
 module.exports = exports['default'];
-},{}],66:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6123,7 +6023,7 @@ exports['default'] = function (property, value, _ref2) {
 };
 
 module.exports = exports['default'];
-},{}],67:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6148,12 +6048,12 @@ exports['default'] = function (property, value, _ref2) {
 };
 
 module.exports = exports['default'];
-},{}],68:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],69:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6184,7 +6084,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],70:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6217,7 +6117,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6251,7 +6151,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],72:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /**
  * lodash 3.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -6301,7 +6201,7 @@ function createBaseFor(fromRight) {
 
 module.exports = baseFor;
 
-},{}],73:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6368,7 +6268,7 @@ function identity(value) {
 
 module.exports = bindCallback;
 
-},{}],74:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 /**
  * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6422,7 +6322,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"lodash._bindcallback":73,"lodash._isiterateecall":76,"lodash.restparam":85}],75:[function(require,module,exports){
+},{"lodash._bindcallback":72,"lodash._isiterateecall":75,"lodash.restparam":83}],74:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6561,7 +6461,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],76:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 /**
  * lodash 3.0.9 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -6695,243 +6595,7 @@ function isObject(value) {
 
 module.exports = isIterateeCall;
 
-},{}],77:[function(require,module,exports){
-/**
- * lodash 3.1.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var getNative = require('lodash._getnative');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeNow = getNative(Date, 'now');
-
-/**
- * Gets the number of milliseconds that have elapsed since the Unix epoch
- * (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @category Date
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => logs the number of milliseconds it took for the deferred function to be invoked
- */
-var now = nativeNow || function() {
-  return new Date().getTime();
-};
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed invocations. Provide an options object to indicate that `func`
- * should be invoked on the leading and/or trailing edge of the `wait` timeout.
- * Subsequent calls to the debounced function return the result of the last
- * `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
- * on the trailing edge of the timeout only if the the debounced function is
- * invoked more than once during the `wait` timeout.
- *
- * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options] The options object.
- * @param {boolean} [options.leading=false] Specify invoking on the leading
- *  edge of the timeout.
- * @param {number} [options.maxWait] The maximum time `func` is allowed to be
- *  delayed before it is invoked.
- * @param {boolean} [options.trailing=true] Specify invoking on the trailing
- *  edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // avoid costly calculations while the window size is in flux
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // invoke `sendMail` when the click event is fired, debouncing subsequent calls
- * jQuery('#postbox').on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // ensure `batchLog` is invoked once after 1 second of debounced calls
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', _.debounce(batchLog, 250, {
- *   'maxWait': 1000
- * }));
- *
- * // cancel a debounced call
- * var todoChanges = _.debounce(batchLog, 1000);
- * Object.observe(models.todo, todoChanges);
- *
- * Object.observe(models, function(changes) {
- *   if (_.find(changes, { 'user': 'todo', 'type': 'delete'})) {
- *     todoChanges.cancel();
- *   }
- * }, ['delete']);
- *
- * // ...at some point `models.todo` is changed
- * models.todo.completed = true;
- *
- * // ...before 1 second has passed `models.todo` is deleted
- * // which cancels the debounced `todoChanges` call
- * delete models.todo;
- */
-function debounce(func, wait, options) {
-  var args,
-      maxTimeoutId,
-      result,
-      stamp,
-      thisArg,
-      timeoutId,
-      trailingCall,
-      lastCalled = 0,
-      maxWait = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = wait < 0 ? 0 : (+wait || 0);
-  if (options === true) {
-    var leading = true;
-    trailing = false;
-  } else if (isObject(options)) {
-    leading = !!options.leading;
-    maxWait = 'maxWait' in options && nativeMax(+options.maxWait || 0, wait);
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function cancel() {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    if (maxTimeoutId) {
-      clearTimeout(maxTimeoutId);
-    }
-    lastCalled = 0;
-    maxTimeoutId = timeoutId = trailingCall = undefined;
-  }
-
-  function complete(isCalled, id) {
-    if (id) {
-      clearTimeout(id);
-    }
-    maxTimeoutId = timeoutId = trailingCall = undefined;
-    if (isCalled) {
-      lastCalled = now();
-      result = func.apply(thisArg, args);
-      if (!timeoutId && !maxTimeoutId) {
-        args = thisArg = undefined;
-      }
-    }
-  }
-
-  function delayed() {
-    var remaining = wait - (now() - stamp);
-    if (remaining <= 0 || remaining > wait) {
-      complete(trailingCall, maxTimeoutId);
-    } else {
-      timeoutId = setTimeout(delayed, remaining);
-    }
-  }
-
-  function maxDelayed() {
-    complete(trailing, timeoutId);
-  }
-
-  function debounced() {
-    args = arguments;
-    stamp = now();
-    thisArg = this;
-    trailingCall = trailing && (timeoutId || !leading);
-
-    if (maxWait === false) {
-      var leadingCall = leading && !timeoutId;
-    } else {
-      if (!maxTimeoutId && !leading) {
-        lastCalled = stamp;
-      }
-      var remaining = maxWait - (stamp - lastCalled),
-          isCalled = remaining <= 0 || remaining > maxWait;
-
-      if (isCalled) {
-        if (maxTimeoutId) {
-          maxTimeoutId = clearTimeout(maxTimeoutId);
-        }
-        lastCalled = stamp;
-        result = func.apply(thisArg, args);
-      }
-      else if (!maxTimeoutId) {
-        maxTimeoutId = setTimeout(maxDelayed, remaining);
-      }
-    }
-    if (isCalled && timeoutId) {
-      timeoutId = clearTimeout(timeoutId);
-    }
-    else if (!timeoutId && wait !== maxWait) {
-      timeoutId = setTimeout(delayed, wait);
-    }
-    if (leadingCall) {
-      isCalled = true;
-      result = func.apply(thisArg, args);
-    }
-    if (isCalled && !timeoutId && !maxTimeoutId) {
-      args = thisArg = undefined;
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  return debounced;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = debounce;
-
-},{"lodash._getnative":75}],78:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.0.5 (Custom Build) <https://lodash.com/>
@@ -7182,7 +6846,7 @@ function isObjectLike(value) {
 module.exports = isArguments;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],79:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -7364,7 +7028,7 @@ function isNative(value) {
 
 module.exports = isArray;
 
-},{}],80:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -7469,7 +7133,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"lodash._basefor":72,"lodash.isarguments":78,"lodash.keysin":83}],81:[function(require,module,exports){
+},{"lodash._basefor":71,"lodash.isarguments":76,"lodash.keysin":81}],79:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.0.3 (Custom Build) <https://lodash.com/>
@@ -7611,7 +7275,7 @@ function isTypedArray(value) {
 module.exports = isTypedArray;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],82:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 /**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -7849,7 +7513,7 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":75,"lodash.isarguments":78,"lodash.isarray":79}],83:[function(require,module,exports){
+},{"lodash._getnative":74,"lodash.isarguments":76,"lodash.isarray":77}],81:[function(require,module,exports){
 /**
  * lodash 3.0.8 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -7983,7 +7647,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash.isarguments":78,"lodash.isarray":79}],84:[function(require,module,exports){
+},{"lodash.isarguments":76,"lodash.isarray":77}],82:[function(require,module,exports){
 /**
  * lodash 3.3.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -8251,7 +7915,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"lodash._arraycopy":69,"lodash._arrayeach":70,"lodash._createassigner":74,"lodash.isarguments":78,"lodash.isarray":79,"lodash.isplainobject":80,"lodash.istypedarray":81,"lodash.keys":82,"lodash.toplainobject":87}],85:[function(require,module,exports){
+},{"lodash._arraycopy":68,"lodash._arrayeach":69,"lodash._createassigner":73,"lodash.isarguments":76,"lodash.isarray":77,"lodash.isplainobject":78,"lodash.istypedarray":79,"lodash.keys":80,"lodash.toplainobject":84}],83:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -8320,105 +7984,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],86:[function(require,module,exports){
-/**
- * lodash 3.0.4 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var debounce = require('lodash.debounce');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a throttled function that only invokes `func` at most once per
- * every `wait` milliseconds. The throttled function comes with a `cancel`
- * method to cancel delayed invocations. Provide an options object to indicate
- * that `func` should be invoked on the leading and/or trailing edge of the
- * `wait` timeout. Subsequent calls to the throttled function return the
- * result of the last `func` call.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
- * on the trailing edge of the timeout only if the the throttled function is
- * invoked more than once during the `wait` timeout.
- *
- * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
- * for details over the differences between `_.throttle` and `_.debounce`.
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
- * @param {Object} [options] The options object.
- * @param {boolean} [options.leading=true] Specify invoking on the leading
- *  edge of the timeout.
- * @param {boolean} [options.trailing=true] Specify invoking on the trailing
- *  edge of the timeout.
- * @returns {Function} Returns the new throttled function.
- * @example
- *
- * // avoid excessively updating the position while scrolling
- * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
- *
- * // invoke `renewToken` when the click event is fired, but not more than once every 5 minutes
- * jQuery('.interactive').on('click', _.throttle(renewToken, 300000, {
- *   'trailing': false
- * }));
- *
- * // cancel a trailing throttled call
- * jQuery(window).on('popstate', throttled.cancel);
- */
-function throttle(func, wait, options) {
-  var leading = true,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  if (options === false) {
-    leading = false;
-  } else if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-  return debounce(func, wait, { 'leading': leading, 'maxWait': +wait, 'trailing': trailing });
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = throttle;
-
-},{"lodash.debounce":77}],87:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -8459,7 +8025,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"lodash._basecopy":71,"lodash.keysin":83}],88:[function(require,module,exports){
+},{"lodash._basecopy":70,"lodash.keysin":81}],85:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -8827,7 +8393,7 @@ var AppBar = _react2.default.createClass({
 exports.default = AppBar;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./icon-button":101,"./mixins/style-propable":115,"./paper":118,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/typography":137,"./svg-icons/navigation/menu":145,"./utils/prop-types":169,"_process":178,"react":326}],89:[function(require,module,exports){
+},{"./icon-button":89,"./mixins/style-propable":91,"./paper":93,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./styles/typography":105,"./svg-icons/navigation/menu":108,"./utils/prop-types":119,"_process":126,"react":270}],86:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -8840,1273 +8406,68 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _stylePropable = require('./mixins/style-propable');
+var _muiThemeable = require('./muiThemeable');
 
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
+var _muiThemeable2 = _interopRequireDefault(_muiThemeable);
 
-var _colors = require('./styles/colors');
-
-var _colors2 = _interopRequireDefault(_colors);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var Avatar = _react2.default.createClass({
-  displayName: 'Avatar',
-
-  propTypes: {
-    /**
-     * The backgroundColor of the avatar. Does not apply to image avatars.
-     */
-    backgroundColor: _react2.default.PropTypes.string,
-
-    /**
-     * Can be used, for instance, to render a letter inside the avatar.
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root `div` or `img` element.
-     */
-    className: _react2.default.PropTypes.string,
-
-    /**
-     * The icon or letter's color.
-     */
-    color: _react2.default.PropTypes.string,
-
-    /**
-     * This is the SvgIcon or FontIcon to be used inside the avatar.
-     */
-    icon: _react2.default.PropTypes.element,
-
-    /**
-     * This is the size of the avatar in pixels.
-     */
-    size: _react2.default.PropTypes.number,
-
-    /**
-     * If passed in, this component will render an img element. Otherwise, a div will be rendered.
-     */
-    src: _react2.default.PropTypes.string,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      backgroundColor: _colors2.default.grey400,
-      color: _colors2.default.white,
-      size: 40
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  render: function render() {
-    var _props = this.props;
-    var backgroundColor = _props.backgroundColor;
-    var color = _props.color;
-    var icon = _props.icon;
-    var size = _props.size;
-    var src = _props.src;
-    var style = _props.style;
-    var className = _props.className;
-
-    var other = _objectWithoutProperties(_props, ['backgroundColor', 'color', 'icon', 'size', 'src', 'style', 'className']);
-
-    var styles = {
-      root: {
-        height: size,
-        width: size,
-        userSelect: 'none',
-        borderRadius: '50%',
-        display: 'inline-block'
-      }
-    };
-
-    if (src) {
-      var borderColor = this.state.muiTheme.avatar.borderColor;
-
-      if (borderColor) {
-        styles.root = this.mergeStyles(styles.root, {
-          height: size - 2,
-          width: size - 2,
-          border: 'solid 1px ' + borderColor
-        });
-      }
-
-      return _react2.default.createElement('img', _extends({}, other, {
-        src: src,
-        style: this.prepareStyles(styles.root, style),
-        className: className
-      }));
-    } else {
-      styles.root = this.mergeStyles(styles.root, {
-        backgroundColor: backgroundColor,
-        textAlign: 'center',
-        lineHeight: size + 'px',
-        fontSize: size / 2 + 4,
-        color: color
-      });
-
-      var styleIcon = {
-        margin: 8
-      };
-
-      var iconElement = icon ? _react2.default.cloneElement(icon, {
-        color: color,
-        style: this.mergeStyles(styleIcon, icon.props.style)
-      }) : null;
-
-      return _react2.default.createElement(
-        'div',
-        _extends({}, other, {
-          style: this.prepareStyles(styles.root, style),
-          className: className
-        }),
-        iconElement,
-        this.props.children
-      );
-    }
-  }
-});
-
-exports.default = Avatar;
-module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/colors":128,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"react":326}],90:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('./mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _autoPrefix = require('./styles/auto-prefix');
-
-var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-/**
- *  BeforeAfterWrapper
- *    An alternative for the ::before and ::after css pseudo-elements for
- *    components whose styles are defined in javascript instead of css.
- *
- *  Usage: For the element that we want to apply before and after elements to,
- *    wrap its children with BeforeAfterWrapper. For example:
- *
- *                                            <Paper>
- *  <Paper>                                     <div> // See notice
- *    <BeforeAfterWrapper>        renders         <div/> // before element
- *      [children of paper]       ------>         [children of paper]
- *    </BeforeAfterWrapper>                       <div/> // after element
- *  </Paper>                                    </div>
- *                                            </Paper>
- *
- *  Notice: Notice that this div bundles together our elements. If the element
- *    that we want to apply before and after elements is a HTML tag (i.e. a
- *    div, p, or button tag), we can avoid this extra nesting by passing using
- *    the BeforeAfterWrapper in place of said tag like so:
- *
- *  <p>
- *    <BeforeAfterWrapper>   do this instead   <BeforeAfterWrapper elementType='p'>
- *      [children of p]          ------>         [children of p]
- *    </BeforeAfterWrapper>                    </BeforeAfterWrapper>
- *  </p>
- *
- *  BeforeAfterWrapper features spread functionality. This means that we can
- *  pass HTML tag properties directly into the BeforeAfterWrapper tag.
- *
- *  When using BeforeAfterWrapper, ensure that the parent of the beforeElement
- *  and afterElement have a defined style position.
- */
-
-var BeforeAfterWrapper = _react2.default.createClass({
-  displayName: 'BeforeAfterWrapper',
-
-  propTypes: {
-    afterElementType: _react2.default.PropTypes.string,
-    afterStyle: _react2.default.PropTypes.object,
-    beforeElementType: _react2.default.PropTypes.string,
-    beforeStyle: _react2.default.PropTypes.object,
-    children: _react2.default.PropTypes.node,
-    elementType: _react2.default.PropTypes.string,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      beforeElementType: 'div',
-      afterElementType: 'div',
-      elementType: 'div'
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  render: function render() {
-    var _props = this.props;
-    var beforeStyle = _props.beforeStyle;
-    var afterStyle = _props.afterStyle;
-    var beforeElementType = _props.beforeElementType;
-    var afterElementType = _props.afterElementType;
-    var elementType = _props.elementType;
-
-    var other = _objectWithoutProperties(_props, ['beforeStyle', 'afterStyle', 'beforeElementType', 'afterElementType', 'elementType']);
-
-    var beforeElement = undefined,
-        afterElement = undefined;
-
-    beforeStyle = _autoPrefix2.default.all({ boxSizing: 'border-box' });
-    afterStyle = _autoPrefix2.default.all({ boxSizing: 'border-box' });
-
-    if (this.props.beforeStyle) beforeElement = _react2.default.createElement(this.props.beforeElementType, {
-      style: this.prepareStyles(beforeStyle, this.props.beforeStyle),
-      key: '::before'
-    });
-    if (this.props.afterStyle) afterElement = _react2.default.createElement(this.props.afterElementType, {
-      style: this.prepareStyles(afterStyle, this.props.afterStyle),
-      key: '::after'
-    });
-
-    var children = [beforeElement, this.props.children, afterElement];
-
-    var props = other;
-    props.style = this.prepareStyles(this.props.style);
-
-    return _react2.default.createElement(this.props.elementType, props, children);
-  }
-});
-
-exports.default = BeforeAfterWrapper;
-module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/auto-prefix":125,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"react":326}],91:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _extend = require('../utils/extend');
-
-var _extend2 = _interopRequireDefault(_extend);
-
-var _keyboardArrowUp = require('../svg-icons/hardware/keyboard-arrow-up');
-
-var _keyboardArrowUp2 = _interopRequireDefault(_keyboardArrowUp);
-
-var _keyboardArrowDown = require('../svg-icons/hardware/keyboard-arrow-down');
-
-var _keyboardArrowDown2 = _interopRequireDefault(_keyboardArrowDown);
-
-var _iconButton = require('../icon-button');
-
-var _iconButton2 = _interopRequireDefault(_iconButton);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _contextPure = require('../mixins/context-pure');
-
-var _contextPure2 = _interopRequireDefault(_contextPure);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CardExpandable = _react2.default.createClass({
-  displayName: 'CardExpandable',
-
-  propTypes: {
-    expanded: _react2.default.PropTypes.bool,
-    onExpanding: _react2.default.PropTypes.func.isRequired,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default, _contextPure2.default],
-
-  statics: {
-    getRelevantContextKeys: function getRelevantContextKeys(muiTheme) {
-      return {
-        isRtl: muiTheme.isRtl
-      };
-    },
-    getChildrenClasses: function getChildrenClasses() {
-      return [_iconButton2.default];
-    }
-  },
-
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getStyles: function getStyles() {
-    var contextKeys = this.constructor.getRelevantContextKeys(this.state.muiTheme);
-
-    var directionStyle = contextKeys.isRtl ? {
-      left: 4
-    } : {
-      right: 4
-    };
-
-    return {
-      root: (0, _extend2.default)({
-        top: 0,
-        bottom: 0,
-        margin: 'auto',
-        position: 'absolute'
-      }, directionStyle)
-    };
-  },
-  render: function render() {
-    var styles = this.getStyles();
-
-    var expandable = undefined;
-    if (this.props.expanded === true) expandable = _react2.default.createElement(_keyboardArrowUp2.default, null);else expandable = _react2.default.createElement(_keyboardArrowDown2.default, null);
-
-    var mergedStyles = this.mergeStyles(styles.root, this.props.style);
-
-    var expandableBtn = _react2.default.createElement(
-      _iconButton2.default,
-      {
-        style: mergedStyles,
-        onTouchTap: this.props.onExpanding },
-      expandable
-    );
-
-    return expandableBtn;
-  }
-});
-
-exports.default = CardExpandable;
-module.exports = exports['default'];
-},{"../icon-button":101,"../mixins/context-pure":113,"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../svg-icons/hardware/keyboard-arrow-down":140,"../svg-icons/hardware/keyboard-arrow-up":141,"../utils/extend":165,"react":326}],92:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _styles = require('../styles');
+var _styles = require('./utils/styles');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _avatar = require('../avatar');
-
-var _avatar2 = _interopRequireDefault(_avatar);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CardHeader = _react2.default.createClass({
-  displayName: 'CardHeader',
-
-  propTypes: {
-    actAsExpander: _react2.default.PropTypes.bool,
-    avatar: _react2.default.PropTypes.node,
-    children: _react2.default.PropTypes.node,
-    expandable: _react2.default.PropTypes.bool,
-    showExpandableButton: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    subtitle: _react2.default.PropTypes.node,
-    subtitleColor: _react2.default.PropTypes.string,
-    subtitleStyle: _react2.default.PropTypes.object,
-    textStyle: _react2.default.PropTypes.object,
-    title: _react2.default.PropTypes.node,
-    titleColor: _react2.default.PropTypes.string,
-    titleStyle: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      titleColor: _styles2.default.Colors.darkBlack,
-      subtitleColor: _styles2.default.Colors.lightBlack,
-      avatar: null
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getStyles: function getStyles() {
-    return {
-      root: {
-        height: 72,
-        padding: 16,
-        fontWeight: _styles2.default.Typography.fontWeightMedium,
-        boxSizing: 'border-box',
-        position: 'relative'
-      },
-      text: {
-        display: 'inline-block',
-        verticalAlign: 'top'
-      },
-      avatar: {
-        marginRight: 16
-      },
-      title: {
-        color: this.props.titleColor,
-        display: 'block',
-        fontSize: 15
-      },
-      subtitle: {
-        color: this.props.subtitleColor,
-        display: 'block',
-        fontSize: 14
-      }
-    };
-  },
-  render: function render() {
-    var styles = this.getStyles();
-    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-    var textStyle = this.prepareStyles(styles.text, this.props.textStyle);
-    var titleStyle = this.prepareStyles(styles.title, this.props.titleStyle);
-    var subtitleStyle = this.prepareStyles(styles.subtitle, this.props.subtitleStyle);
-
-    var avatar = this.props.avatar;
-    if (_react2.default.isValidElement(this.props.avatar)) {
-      var avatarMergedStyle = this.mergeStyles(styles.avatar, avatar.props.style);
-      avatar = _react2.default.cloneElement(avatar, { style: avatarMergedStyle });
-    } else if (avatar !== null) {
-      avatar = _react2.default.createElement(_avatar2.default, { src: this.props.avatar, style: styles.avatar });
-    }
-
-    return _react2.default.createElement(
-      'div',
-      _extends({}, this.props, { style: rootStyle }),
-      avatar,
-      _react2.default.createElement(
-        'div',
-        { style: textStyle },
-        _react2.default.createElement(
-          'span',
-          { style: titleStyle },
-          this.props.title
-        ),
-        _react2.default.createElement(
-          'span',
-          { style: subtitleStyle },
-          this.props.subtitle
-        )
-      ),
-      this.props.children
-    );
-  }
-});
-
-exports.default = CardHeader;
-module.exports = exports['default'];
-},{"../avatar":89,"../mixins/style-propable":115,"../styles":130,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326}],93:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CardText = _react2.default.createClass({
-  displayName: 'CardText',
-
-  propTypes: {
-    actAsExpander: _react2.default.PropTypes.bool,
-    children: _react2.default.PropTypes.node,
-    color: _react2.default.PropTypes.string,
-    expandable: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getStyles: function getStyles() {
-    var themeVariables = this.state.muiTheme.cardText;
-    return {
-      root: {
-        padding: 16,
-        fontSize: '14px',
-        color: this.props.color ? this.props.color : themeVariables.textColor
-      }
-    };
-  },
-  render: function render() {
-    var styles = this.getStyles();
-    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-
-    return _react2.default.createElement(
-      'div',
-      _extends({}, this.props, { style: rootStyle }),
-      this.props.children
-    );
-  }
-});
-
-exports.default = CardText;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326}],94:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _styles = require('../styles');
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CardTitle = _react2.default.createClass({
-  displayName: 'CardTitle',
-
-  propTypes: {
-    actAsExpander: _react2.default.PropTypes.bool,
-    children: _react2.default.PropTypes.node,
-    expandable: _react2.default.PropTypes.bool,
-    showExpandableButton: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    subtitle: _react2.default.PropTypes.node,
-    subtitleColor: _react2.default.PropTypes.string,
-    subtitleStyle: _react2.default.PropTypes.object,
-    title: _react2.default.PropTypes.node,
-    titleColor: _react2.default.PropTypes.string,
-    titleStyle: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      titleColor: _styles2.default.Colors.darkBlack,
-      subtitleColor: _styles2.default.Colors.lightBlack
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({
-      muiTheme: newMuiTheme
-    });
-  },
-  getStyles: function getStyles() {
-    return {
-      root: {
-        padding: 16,
-        position: 'relative'
-      },
-      title: {
-        fontSize: 24,
-        color: this.props.titleColor,
-        display: 'block',
-        lineHeight: '36px'
-      },
-      subtitle: {
-        fontSize: 14,
-        color: this.props.subtitleColor,
-        display: 'block'
-      }
-    };
-  },
-  render: function render() {
-    var styles = this.getStyles();
-    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-    var titleStyle = this.prepareStyles(styles.title, this.props.titleStyle);
-    var subtitleStyle = this.prepareStyles(styles.subtitle, this.props.subtitleStyle);
-
-    return _react2.default.createElement(
-      'div',
-      _extends({}, this.props, { style: rootStyle }),
-      _react2.default.createElement(
-        'span',
-        { style: titleStyle },
-        this.props.title
-      ),
-      _react2.default.createElement(
-        'span',
-        { style: subtitleStyle },
-        this.props.subtitle
-      ),
-      this.props.children
-    );
-  }
-});
-
-exports.default = CardTitle;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles":130,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326}],95:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _paper = require('../paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _cardExpandable = require('./card-expandable');
-
-var _cardExpandable2 = _interopRequireDefault(_cardExpandable);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-var Card = _react2.default.createClass({
-  displayName: 'Card',
-
-  propTypes: {
-    /**
-     * Whether a click on this card component expands the card. Can be set on any child of the Card component.
-     */
-    actAsExpander: _react2.default.PropTypes.bool,
-
-    /**
-     * Can be used to render elements inside the Card.
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * Whether this card component is expandable. Can be set on any child of the Card component.
-     */
-    expandable: _react2.default.PropTypes.bool,
-
-    /**
-     * Whether this card is initially expanded.
-     */
-    initiallyExpanded: _react2.default.PropTypes.bool,
-
-    /**
-     * Fired when the expandable state changes.
-     */
-    onExpandChange: _react2.default.PropTypes.func,
-
-    /**
-     * Whether this card component include a button to expand the card. CardTitle,
-     * CardHeader and CardActions implement showExpandableButton. Any child component
-     * of Card can implements showExpandableButton or forwards the property to a child
-     * component supporting it.
-     */
-    showExpandableButton: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      expandable: false,
-      initiallyExpanded: false,
-      actAsExpander: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      expanded: this.props.initiallyExpanded ? true : false
-    };
-  },
-  _onExpandable: function _onExpandable(event) {
-    event.preventDefault();
-    var newExpandedState = !(this.state.expanded === true);
-    this.setState({ expanded: newExpandedState });
-    if (this.props.onExpandChange) this.props.onExpandChange(newExpandedState);
-  },
-  render: function render() {
-    var _this = this;
-
-    var lastElement = undefined;
-    var newChildren = _react2.default.Children.map(this.props.children, function (currentChild) {
-      var doClone = false;
-      var newChild = undefined;
-      var newProps = {};
-      var element = currentChild;
-      if (!currentChild || !currentChild.props) {
-        return null;
-      }
-      if (_this.state.expanded === false && currentChild.props.expandable === true) return;
-      if (currentChild.props.actAsExpander === true) {
-        doClone = true;
-        newProps.onTouchTap = _this._onExpandable;
-        newProps.style = _this.mergeStyles({ cursor: 'pointer' }, currentChild.props.style);
-      }
-      if (currentChild.props.showExpandableButton === true) {
-        doClone = true;
-        newChild = _react2.default.createElement(_cardExpandable2.default, { expanded: _this.state.expanded, onExpanding: _this._onExpandable });
-      }
-      if (doClone) {
-        element = _react2.default.cloneElement(currentChild, newProps, currentChild.props.children, newChild);
-      }
-      return element;
-    }, this);
-
-    // If the last element is text or a title we should add
-    // 8px padding to the bottom of the card
-    var addBottomPadding = lastElement && (lastElement.type.displayName === 'CardText' || lastElement.type.displayName === 'CardTitle');
-    var _props = this.props;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['style']);
-
-    var mergedStyles = this.mergeStyles({
-      overflow: 'hidden',
-      zIndex: 1
-    }, style);
-
-    return _react2.default.createElement(
-      _paper2.default,
-      _extends({}, other, { style: mergedStyles }),
-      _react2.default.createElement(
-        'div',
-        { style: { paddingBottom: addBottomPadding ? 8 : 0 } },
-        newChildren
-      )
-    );
-  }
-});
-
-exports.default = Card;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../paper":118,"./card-expandable":91,"react":326}],96:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _enhancedSwitch = require('./enhanced-switch');
-
-var _enhancedSwitch2 = _interopRequireDefault(_enhancedSwitch);
-
-var _stylePropable = require('./mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _transitions = require('./styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _checkBoxOutlineBlank = require('./svg-icons/toggle/check-box-outline-blank');
-
-var _checkBoxOutlineBlank2 = _interopRequireDefault(_checkBoxOutlineBlank);
-
-var _checkBox = require('./svg-icons/toggle/check-box');
-
-var _checkBox2 = _interopRequireDefault(_checkBox);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var Checkbox = _react2.default.createClass({
-  displayName: 'Checkbox',
-
-  propTypes: {
-    checked: _react2.default.PropTypes.bool,
-    checkedIcon: _react2.default.PropTypes.element,
-    defaultChecked: _react2.default.PropTypes.bool,
-    disabled: _react2.default.PropTypes.bool,
-    iconStyle: _react2.default.PropTypes.object,
-    labelPosition: _react2.default.PropTypes.oneOf(['left', 'right']),
-    labelStyle: _react2.default.PropTypes.object,
-    onCheck: _react2.default.PropTypes.func,
-    unCheckedIcon: _react2.default.PropTypes.element,
-    valueLink: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getInitialState: function getInitialState() {
-    return {
-      switched: this.props.checked || this.props.defaultChecked || this.props.valueLink && this.props.valueLink.value || false,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({
-      muiTheme: newMuiTheme,
-      switched: this.props.checked !== nextProps.checked ? nextProps.checked : this.state.switched
-    });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.checkbox;
-  },
-  getStyles: function getStyles() {
-    var checkboxSize = 24;
-    var styles = {
-      icon: {
-        height: checkboxSize,
-        width: checkboxSize
-      },
-      check: {
-        position: 'absolute',
-        opacity: 0,
-        transform: 'scale(0)',
-        transitionOrigin: '50% 50%',
-        transition: _transitions2.default.easeOut('450ms', 'opacity', '0ms') + ', ' + _transitions2.default.easeOut('0ms', 'transform', '450ms'),
-        fill: this.getTheme().checkedColor
-      },
-      box: {
-        position: 'absolute',
-        opacity: 1,
-        fill: this.getTheme().boxColor,
-        transition: _transitions2.default.easeOut('2s', null, '200ms')
-      },
-      checkWhenSwitched: {
-        opacity: 1,
-        transform: 'scale(1)',
-        transition: _transitions2.default.easeOut('0ms', 'opacity', '0ms') + ', ' + _transitions2.default.easeOut('800ms', 'transform', '0ms')
-      },
-      boxWhenSwitched: {
-        transition: _transitions2.default.easeOut('100ms', null, '0ms'),
-        fill: this.getTheme().checkedColor
-      },
-      checkWhenDisabled: {
-        fill: this.getTheme().disabledColor
-      },
-      boxWhenDisabled: {
-        fill: this.getTheme().disabledColor
-      },
-      label: {
-        color: this.props.disabled ? this.getTheme().labelDisabledColor : this.getTheme().labelColor
-      }
-    };
-
-    return styles;
-  },
-  isChecked: function isChecked() {
-    return this.refs.enhancedSwitch.isSwitched();
-  },
-  setChecked: function setChecked(newCheckedValue) {
-    this.refs.enhancedSwitch.setSwitched(newCheckedValue);
-  },
-  _handleCheck: function _handleCheck(e, isInputChecked) {
-    if (this.props.onCheck) this.props.onCheck(e, isInputChecked);
-  },
-  _handleStateChange: function _handleStateChange(newSwitched) {
-    this.setState({ switched: newSwitched });
-  },
-  render: function render() {
-    var _props = this.props;
-    var iconStyle = _props.iconStyle;
-    var onCheck = _props.onCheck;
-    var checkedIcon = _props.checkedIcon;
-    var unCheckedIcon = _props.unCheckedIcon;
-
-    var other = _objectWithoutProperties(_props, ['iconStyle', 'onCheck', 'checkedIcon', 'unCheckedIcon']);
-
-    var styles = this.getStyles();
-    var boxStyles = this.mergeStyles(styles.box, this.state.switched && styles.boxWhenSwitched, iconStyle, this.props.disabled && styles.boxWhenDisabled);
-    var checkStyles = this.mergeStyles(styles.check, this.state.switched && styles.checkWhenSwitched, iconStyle, this.props.disabled && styles.checkWhenDisabled);
-
-    var checkedElement = checkedIcon ? _react2.default.cloneElement(checkedIcon, {
-      style: this.mergeStyles(checkStyles, checkedIcon.props.style)
-    }) : _react2.default.createElement(_checkBox2.default, {
-      style: checkStyles
-    });
-
-    var unCheckedElement = unCheckedIcon ? _react2.default.cloneElement(unCheckedIcon, {
-      style: this.mergeStyles(boxStyles, unCheckedIcon.props.style)
-    }) : _react2.default.createElement(_checkBoxOutlineBlank2.default, {
-      style: boxStyles
-    });
-
-    var checkboxElement = _react2.default.createElement(
-      'div',
-      null,
-      unCheckedElement,
-      checkedElement
-    );
-
-    var rippleColor = this.state.switched ? checkStyles.fill : boxStyles.fill;
-    var mergedIconStyle = this.mergeStyles(styles.icon, iconStyle);
-
-    var labelStyle = this.mergeStyles(styles.label, this.props.labelStyle);
-
-    var enhancedSwitchProps = {
-      ref: 'enhancedSwitch',
-      inputType: 'checkbox',
-      switched: this.state.switched,
-      switchElement: checkboxElement,
-      rippleColor: rippleColor,
-      iconStyle: mergedIconStyle,
-      onSwitch: this._handleCheck,
-      labelStyle: labelStyle,
-      onParentShouldUpdate: this._handleStateChange,
-      defaultSwitched: this.props.defaultChecked,
-      labelPosition: this.props.labelPosition ? this.props.labelPosition : 'right'
-    };
-
-    return _react2.default.createElement(_enhancedSwitch2.default, _extends({}, other, enhancedSwitchProps));
-  }
-});
-
-exports.default = Checkbox;
-module.exports = exports['default'];
-},{"./enhanced-switch":99,"./mixins/style-propable":115,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"./svg-icons/toggle/check-box":147,"./svg-icons/toggle/check-box-outline-blank":146,"react":326}],97:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _beforeAfterWrapper = require('./before-after-wrapper');
-
-var _beforeAfterWrapper2 = _interopRequireDefault(_beforeAfterWrapper);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var styles = {
-  before: {
-    content: "' '",
-    display: 'table'
-  },
-  after: {
-    content: "' '",
-    clear: 'both',
-    display: 'table'
-  }
-};
-
-var ClearFix = function ClearFix(_ref) {
-  var style = _ref.style;
-  var children = _ref.children;
-
-  var other = _objectWithoutProperties(_ref, ['style', 'children']);
-
-  return _react2.default.createElement(
-    _beforeAfterWrapper2.default,
-    _extends({}, other, {
-      beforeStyle: styles.before,
-      afterStyle: styles.after,
-      style: style }),
-    children
-  );
-};
-
-ClearFix.displayName = 'ClearFix';
-
-ClearFix.propTypes = {
-  children: _react2.default.PropTypes.node,
+var propTypes = {
+  /**
+   * CSS class that will be added to the divider's root element
+   */
+  className: _react2.default.PropTypes.string,
 
   /**
-   * Override the inline-styles of the root element.
+   * If true, the divider will be indented 72px
+   */
+  inset: _react2.default.PropTypes.bool,
+
+  /**
+   * Override the inline-styles of the list divider's root element
    */
   style: _react2.default.PropTypes.object
 };
 
-exports.default = ClearFix;
+var defaultProps = {
+  inset: false
+};
+
+var Divider = function Divider(_ref) {
+  var inset = _ref.inset;
+  var muiTheme = _ref.muiTheme;
+  var style = _ref.style;
+
+  var other = _objectWithoutProperties(_ref, ['inset', 'muiTheme', 'style']);
+
+  var styles = {
+    root: {
+      margin: 0,
+      marginTop: -1,
+      marginLeft: inset ? 72 : 0,
+      height: 1,
+      border: 'none',
+      backgroundColor: muiTheme.rawTheme.palette.borderColor
+    }
+  };
+
+  return _react2.default.createElement('hr', _extends({}, other, { style: _styles2.default.prepareStyles(muiTheme, styles.root, style) }));
+};
+
+Divider.displayName = 'Divider';
+Divider.propTypes = propTypes;
+Divider.defaultProps = defaultProps;
+Divider = (0, _muiThemeable2.default)(Divider);
+
+exports.default = Divider;
 module.exports = exports['default'];
-},{"./before-after-wrapper":90,"react":326}],98:[function(require,module,exports){
+},{"./muiThemeable":92,"./utils/styles":121,"react":270}],87:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -10441,481 +8802,7 @@ var EnhancedButton = _react2.default.createClass({
 
 exports.default = EnhancedButton;
 module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./ripples/focus-ripple":123,"./ripples/touch-ripple":124,"./styles/colors":128,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./utils/children":159,"./utils/events":164,"./utils/key-code":167,"react":326,"react-addons-pure-render-mixin":181}],99:[function(require,module,exports){
-(function (process){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _keyCode = require('./utils/key-code');
-
-var _keyCode2 = _interopRequireDefault(_keyCode);
-
-var _stylePropable = require('./mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _transitions = require('./styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _uniqueId = require('./utils/unique-id');
-
-var _uniqueId2 = _interopRequireDefault(_uniqueId);
-
-var _windowListenable = require('./mixins/window-listenable');
-
-var _windowListenable2 = _interopRequireDefault(_windowListenable);
-
-var _clearfix = require('./clearfix');
-
-var _clearfix2 = _interopRequireDefault(_clearfix);
-
-var _focusRipple = require('./ripples/focus-ripple');
-
-var _focusRipple2 = _interopRequireDefault(_focusRipple);
-
-var _touchRipple = require('./ripples/touch-ripple');
-
-var _touchRipple2 = _interopRequireDefault(_touchRipple);
-
-var _paper = require('./paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var EnhancedSwitch = _react2.default.createClass({
-  displayName: 'EnhancedSwitch',
-
-  propTypes: {
-    checked: _react2.default.PropTypes.bool,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    defaultSwitched: _react2.default.PropTypes.bool,
-    disableFocusRipple: _react2.default.PropTypes.bool,
-    disableTouchRipple: _react2.default.PropTypes.bool,
-    disabled: _react2.default.PropTypes.bool,
-    iconStyle: _react2.default.PropTypes.object,
-    id: _react2.default.PropTypes.string,
-    inputType: _react2.default.PropTypes.string.isRequired,
-    label: _react2.default.PropTypes.node,
-    labelPosition: _react2.default.PropTypes.oneOf(['left', 'right']),
-    labelStyle: _react2.default.PropTypes.object,
-    name: _react2.default.PropTypes.string,
-    onBlur: _react2.default.PropTypes.func,
-    onFocus: _react2.default.PropTypes.func,
-    onMouseDown: _react2.default.PropTypes.func,
-    onMouseLeave: _react2.default.PropTypes.func,
-    onMouseUp: _react2.default.PropTypes.func,
-    onParentShouldUpdate: _react2.default.PropTypes.func.isRequired,
-    onSwitch: _react2.default.PropTypes.func,
-    onTouchEnd: _react2.default.PropTypes.func,
-    onTouchStart: _react2.default.PropTypes.func,
-    required: _react2.default.PropTypes.bool,
-    rippleColor: _react2.default.PropTypes.string,
-    rippleStyle: _react2.default.PropTypes.object,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    switchElement: _react2.default.PropTypes.element.isRequired,
-    switched: _react2.default.PropTypes.bool.isRequired,
-    thumbStyle: _react2.default.PropTypes.object,
-    trackStyle: _react2.default.PropTypes.object,
-    value: _react2.default.PropTypes.string
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_windowListenable2.default, _stylePropable2.default],
-
-  getInitialState: function getInitialState() {
-    return {
-      isKeyboardFocused: false,
-      parentWidth: 100,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    var inputNode = _reactDom2.default.findDOMNode(this.refs.checkbox);
-    if (!this.props.switched || inputNode.checked !== this.props.switched) {
-      this.props.onParentShouldUpdate(inputNode.checked);
-    }
-
-    window.addEventListener('resize', this._handleResize);
-
-    this._handleResize();
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var hasCheckedLinkProp = nextProps.hasOwnProperty('checkedLink');
-    var hasCheckedProp = nextProps.hasOwnProperty('checked');
-    var hasToggledProp = nextProps.hasOwnProperty('toggled');
-    var hasNewDefaultProp = nextProps.hasOwnProperty('defaultSwitched') && nextProps.defaultSwitched !== this.props.defaultSwitched;
-    var newState = {};
-    newState.muiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-
-    if (hasCheckedProp) {
-      newState.switched = nextProps.checked;
-    } else if (hasToggledProp) {
-      newState.switched = nextProps.toggled;
-    } else if (hasCheckedLinkProp) {
-      newState.switched = nextProps.checkedLink.value;
-    } else if (hasNewDefaultProp) {
-      newState.switched = nextProps.defaultSwitched;
-    }
-
-    if (newState.switched !== undefined && newState.switched !== this.props.switched) {
-      this.props.onParentShouldUpdate(newState.switched);
-    }
-
-    this.setState(newState);
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
-  },
-
-  windowListeners: {
-    keydown: '_handleWindowKeydown',
-    keyup: '_handleWindowKeyup'
-  },
-
-  getEvenWidth: function getEvenWidth() {
-    return parseInt(window.getComputedStyle(_reactDom2.default.findDOMNode(this.refs.root)).getPropertyValue('width'), 10);
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.rawTheme.palette;
-  },
-  getStyles: function getStyles() {
-    var spacing = this.state.muiTheme.rawTheme.spacing;
-    var switchWidth = 60 - spacing.desktopGutterLess;
-    var labelWidth = 'calc(100% - 60px)';
-    var styles = {
-      root: {
-        position: 'relative',
-        cursor: this.props.disabled ? 'default' : 'pointer',
-        overflow: 'visible',
-        display: 'table',
-        height: 'auto',
-        width: '100%'
-      },
-      input: {
-        position: 'absolute',
-        cursor: this.props.disabled ? 'default' : 'pointer',
-        pointerEvents: 'all',
-        opacity: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 2,
-        left: 0,
-        boxSizing: 'border-box',
-        padding: 0,
-        margin: 0
-      },
-      controls: {
-        width: '100%',
-        height: '100%'
-      },
-      label: {
-        float: 'left',
-        position: 'relative',
-        display: 'block',
-        width: labelWidth,
-        lineHeight: '24px',
-        color: this.getTheme().textColor,
-        fontFamily: this.state.muiTheme.rawTheme.fontFamily
-      },
-      wrap: {
-        transition: _transitions2.default.easeOut(),
-        float: 'left',
-        position: 'relative',
-        display: 'block',
-        width: switchWidth,
-        marginRight: this.props.labelPosition === 'right' ? spacing.desktopGutterLess : 0,
-        marginLeft: this.props.labelPosition === 'left' ? spacing.desktopGutterLess : 0
-      },
-      ripple: {
-        height: '200%',
-        width: '200%',
-        top: -12,
-        left: -12
-      }
-    };
-
-    return styles;
-  },
-  isSwitched: function isSwitched() {
-    return _reactDom2.default.findDOMNode(this.refs.checkbox).checked;
-  },
-
-  // no callback here because there is no event
-  setSwitched: function setSwitched(newSwitchedValue) {
-    if (!this.props.hasOwnProperty('checked') || this.props.checked === false) {
-      this.props.onParentShouldUpdate(newSwitchedValue);
-      _reactDom2.default.findDOMNode(this.refs.checkbox).checked = newSwitchedValue;
-    } else if (process.env.NODE_ENV !== 'production') {
-      var message = 'Cannot call set method while checked is defined as a property.';
-      console.error(message);
-    }
-  },
-  getValue: function getValue() {
-    return _reactDom2.default.findDOMNode(this.refs.checkbox).value;
-  },
-  isKeyboardFocused: function isKeyboardFocused() {
-    return this.state.isKeyboardFocused;
-  },
-  _handleChange: function _handleChange(e) {
-    this._tabPressed = false;
-    this.setState({
-      isKeyboardFocused: false
-    });
-
-    var isInputChecked = _reactDom2.default.findDOMNode(this.refs.checkbox).checked;
-
-    if (!this.props.hasOwnProperty('checked')) {
-      this.props.onParentShouldUpdate(isInputChecked);
-    }
-    if (this.props.onSwitch) {
-      this.props.onSwitch(e, isInputChecked);
-    }
-  },
-
-  // Checkbox inputs only use SPACE to change their state. Using ENTER will
-  // update the ui but not the input.
-  _handleWindowKeydown: function _handleWindowKeydown(e) {
-    if (e.keyCode === _keyCode2.default.TAB) {
-      this._tabPressed = true;
-    }
-    if (e.keyCode === _keyCode2.default.SPACE && this.state.isKeyboardFocused) {
-      this._handleChange(e);
-    }
-  },
-  _handleWindowKeyup: function _handleWindowKeyup(e) {
-    if (e.keyCode === _keyCode2.default.SPACE && this.state.isKeyboardFocused) {
-      this._handleChange(e);
-    }
-  },
-
-  /**
-   * Because both the ripples and the checkbox input cannot share pointer
-   * events, the checkbox input takes control of pointer events and calls
-   * ripple animations manually.
-   */
-  _handleMouseDown: function _handleMouseDown(e) {
-    //only listen to left clicks
-    if (e.button === 0) {
-      this.refs.touchRipple.start(e);
-    }
-  },
-  _handleMouseUp: function _handleMouseUp() {
-    this.refs.touchRipple.end();
-  },
-  _handleMouseLeave: function _handleMouseLeave() {
-    this.refs.touchRipple.end();
-  },
-  _handleTouchStart: function _handleTouchStart(e) {
-    this.refs.touchRipple.start(e);
-  },
-  _handleTouchEnd: function _handleTouchEnd() {
-    this.refs.touchRipple.end();
-  },
-  _handleBlur: function _handleBlur(e) {
-    this.setState({
-      isKeyboardFocused: false
-    });
-
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
-  },
-  _handleFocus: function _handleFocus(e) {
-    var _this = this;
-
-    //setTimeout is needed becuase the focus event fires first
-    //Wait so that we can capture if this was a keyboard focus
-    //or touch focus
-    setTimeout(function () {
-      if (_this._tabPressed) {
-        _this.setState({
-          isKeyboardFocused: true
-        });
-      }
-    }, 150);
-
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
-    }
-  },
-  _handleResize: function _handleResize() {
-    this.setState({ parentWidth: this.getEvenWidth() });
-  },
-  render: function render() {
-    var _props = this.props;
-    var name = _props.name;
-    var value = _props.value;
-    var label = _props.label;
-    var onSwitch = _props.onSwitch;
-    var defaultSwitched = _props.defaultSwitched;
-    var onBlur = _props.onBlur;
-    var onFocus = _props.onFocus;
-    var onMouseUp = _props.onMouseUp;
-    var onMouseDown = _props.onMouseDown;
-    var onMouseLeave = _props.onMouseLeave;
-    var onTouchStart = _props.onTouchStart;
-    var onTouchEnd = _props.onTouchEnd;
-    var disableTouchRipple = _props.disableTouchRipple;
-    var disableFocusRipple = _props.disableFocusRipple;
-    var className = _props.className;
-
-    var other = _objectWithoutProperties(_props, ['name', 'value', 'label', 'onSwitch', 'defaultSwitched', 'onBlur', 'onFocus', 'onMouseUp', 'onMouseDown', 'onMouseLeave', 'onTouchStart', 'onTouchEnd', 'disableTouchRipple', 'disableFocusRipple', 'className']);
-
-    var styles = this.getStyles();
-    var wrapStyles = this.prepareStyles(styles.wrap, this.props.iconStyle);
-    var rippleStyle = this.prepareStyles(styles.ripple, this.props.rippleStyle);
-    var rippleColor = this.props.hasOwnProperty('rippleColor') ? this.props.rippleColor : this.getTheme().primary1Color;
-
-    if (this.props.thumbStyle) {
-      wrapStyles.marginLeft /= 2;
-      wrapStyles.marginRight /= 2;
-    }
-
-    var inputId = this.props.id || _uniqueId2.default.generate();
-
-    var labelStyle = this.prepareStyles(styles.label, this.props.labelStyle);
-    var labelElement = this.props.label ? _react2.default.createElement(
-      'label',
-      { style: labelStyle, htmlFor: inputId },
-      this.props.label
-    ) : null;
-
-    var inputProps = {
-      ref: 'checkbox',
-      type: this.props.inputType,
-      style: this.prepareStyles(styles.input),
-      name: this.props.name,
-      value: this.props.value,
-      defaultChecked: this.props.defaultSwitched,
-      onBlur: this._handleBlur,
-      onFocus: this._handleFocus
-    };
-
-    var hideTouchRipple = this.props.disabled || disableTouchRipple;
-
-    if (!hideTouchRipple) {
-      inputProps.onMouseUp = this._handleMouseUp;
-      inputProps.onMouseDown = this._handleMouseDown;
-      inputProps.onMouseLeave = this._handleMouseLeave;
-      inputProps.onTouchStart = this._handleTouchStart;
-      inputProps.onTouchEnd = this._handleTouchEnd;
-    }
-
-    if (!this.props.hasOwnProperty('checkedLink')) {
-      inputProps.onChange = this._handleChange;
-    }
-
-    var inputElement = _react2.default.createElement('input', _extends({}, other, inputProps));
-
-    var touchRipple = _react2.default.createElement(_touchRipple2.default, {
-      ref: 'touchRipple',
-      key: 'touchRipple',
-      style: rippleStyle,
-      color: rippleColor,
-      centerRipple: true });
-
-    var focusRipple = _react2.default.createElement(_focusRipple2.default, {
-      key: 'focusRipple',
-      innerStyle: rippleStyle,
-      color: rippleColor,
-      show: this.state.isKeyboardFocused });
-
-    var ripples = [hideTouchRipple ? null : touchRipple, this.props.disabled || disableFocusRipple ? null : focusRipple];
-
-    // If toggle component (indicated by whether the style includes thumb) manually lay out
-    // elements in order to nest ripple elements
-    var switchElement = !this.props.thumbStyle ? _react2.default.createElement(
-      'div',
-      { style: wrapStyles },
-      this.props.switchElement,
-      ripples
-    ) : _react2.default.createElement(
-      'div',
-      { style: wrapStyles },
-      _react2.default.createElement('div', { style: this.prepareStyles(this.props.trackStyle) }),
-      _react2.default.createElement(
-        _paper2.default,
-        { style: this.props.thumbStyle, zDepth: 1, circle: true },
-        ' ',
-        ripples,
-        ' '
-      )
-    );
-
-    var labelPositionExist = this.props.labelPosition;
-
-    // Position is left if not defined or invalid.
-    var elementsInOrder = labelPositionExist && this.props.labelPosition.toUpperCase() === 'RIGHT' ? _react2.default.createElement(
-      _clearfix2.default,
-      { style: styles.controls },
-      switchElement,
-      labelElement
-    ) : _react2.default.createElement(
-      _clearfix2.default,
-      { style: styles.controls },
-      labelElement,
-      switchElement
-    );
-
-    return _react2.default.createElement(
-      'div',
-      { ref: 'root', className: className, style: this.prepareStyles(styles.root, this.props.style) },
-      inputElement,
-      elementsInOrder
-    );
-  }
-});
-
-exports.default = EnhancedSwitch;
-module.exports = exports['default'];
-}).call(this,require('_process'))
-},{"./clearfix":97,"./mixins/style-propable":115,"./mixins/window-listenable":116,"./paper":118,"./ripples/focus-ripple":123,"./ripples/touch-ripple":124,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"./utils/key-code":167,"./utils/unique-id":172,"_process":178,"react":326,"react-dom":184}],100:[function(require,module,exports){
+},{"./mixins/style-propable":91,"./ripples/focus-ripple":95,"./ripples/touch-ripple":96,"./styles/colors":99,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./utils/children":112,"./utils/events":115,"./utils/key-code":118,"react":270,"react-addons-pure-render-mixin":128}],88:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -11061,7 +8948,7 @@ var FontIcon = _react2.default.createClass({
 
 exports.default = FontIcon;
 module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"react":326}],101:[function(require,module,exports){
+},{"./mixins/style-propable":91,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./styles/transitions":104,"react":270}],89:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -11396,3661 +9283,7 @@ var IconButton = _react2.default.createClass({
 
 exports.default = IconButton;
 module.exports = exports['default'];
-},{"./enhanced-button":98,"./font-icon":100,"./mixins/context-pure":113,"./mixins/style-propable":115,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"./tooltip":156,"./utils/children":159,"./utils/prop-types":169,"react":326}],102:[function(require,module,exports){
-(function (process){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _keyCode = require('./utils/key-code');
-
-var _keyCode2 = _interopRequireDefault(_keyCode);
-
-var _stylePropable = require('./mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _autoPrefix = require('./styles/auto-prefix');
-
-var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
-
-var _transitions = require('./styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _windowListenable = require('./mixins/window-listenable');
-
-var _windowListenable2 = _interopRequireDefault(_windowListenable);
-
-var _overlay = require('./overlay');
-
-var _overlay2 = _interopRequireDefault(_overlay);
-
-var _paper = require('./paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _menu = require('./menu/menu');
-
-var _menu2 = _interopRequireDefault(_menu);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _warning = require('warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-var _deprecatedPropType = require('./utils/deprecatedPropType');
-
-var _deprecatedPropType2 = _interopRequireDefault(_deprecatedPropType);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var openNavEventHandler = null;
-
-var LeftNav = _react2.default.createClass({
-  displayName: 'LeftNav',
-
-  propTypes: {
-    /**
-     * The contents of the `LeftNav`
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-
-    /**
-     * Indicates whether swiping sideways when the `LeftNav` is closed should open it.
-     */
-    disableSwipeToOpen: _react2.default.PropTypes.bool,
-
-    /**
-     * Indicates that the `LeftNav` should be docked. In this state, the overlay won't
-     * show and clicking on a menu item will not close the `LeftNav`.
-     */
-    docked: _react2.default.PropTypes.bool,
-
-    /**
-     * A react component that will be displayed above all the menu items.
-     * Usually, this is used for a logo or a profile image.
-     */
-    header: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.element, 'Instead, use composability.'),
-
-    /**
-     * Class name for the menuItem.
-     */
-    menuItemClassName: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.string, 'It will be removed with menuItems.'),
-
-    /**
-     * Class name for the link menuItem.
-     */
-    menuItemClassNameLink: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.string, 'It will be removed with menuItems.'),
-
-    /**
-     * Class name for the subheader menuItem.
-     */
-    menuItemClassNameSubheader: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.string, 'It will be removed with menuItems.'),
-
-    /**
-     * JSON data representing all menu items to render.
-     */
-    menuItems: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.array, 'Instead, use composability.'),
-
-    /**
-     * Fired when a menu item is clicked that is not the
-     * one currently selected. Note that this requires the `injectTapEventPlugin`
-     * component. See the "Get Started" section for more detail.
-     */
-    onChange: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.func, 'It will be removed with menuItems.'),
-
-    /**
-     * Fired when the component is opened.
-     */
-    onNavClose: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.func, 'Instead, use onRequestChange.'),
-
-    /**
-     * Fired when the component is closed.
-     */
-    onNavOpen: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.func, 'Instead, use onRequestChange.'),
-
-    /**
-     * Callback function that is fired when the open state of the `LeftNav` is
-     * requested to be changed. The provided open argument determines whether
-     * the `LeftNav` is requested to be opened or closed. Also, the reason
-     * argument states why the `LeftNav` got closed or opend. It can be either
-     * `'clickaway'` for menuItem and overlay clicks, `'escape'` for pressing the
-     * escape key and 'swipe' for swiping. For opening the reason is always `'swipe'`.
-     */
-    onRequestChange: _react2.default.PropTypes.func,
-
-    /**
-     * Indicates that the `LeftNav` should be opened, closed or uncontrolled.
-     * Providing a boolean will turn the `LeftNav` into a controlled component.
-     */
-    open: _react2.default.PropTypes.bool,
-
-    /**
-     * Positions the `LeftNav` to open from the right side.
-     */
-    openRight: _react2.default.PropTypes.bool,
-
-    /**
-     * The `className` to add to the `Overlay` component that is rendered behind the `LeftNav`.
-     */
-    overlayClassName: _react2.default.PropTypes.string,
-
-    /**
-     * Overrides the inline-styles of the `Overlay` component that is rendered behind the `LeftNav`.
-     */
-    overlayStyle: _react2.default.PropTypes.object,
-
-    /**
-     * Indicates the particular item in the menuItems array that is currently selected.
-     */
-    selectedIndex: (0, _deprecatedPropType2.default)(_react2.default.PropTypes.number, 'It will be removed with menuItems.'),
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-
-    /**
-     * The width of the left most (or right most) area in pixels where the `LeftNav` can be
-     * swiped open from. Setting this to `null` spans that area to the entire page
-     * (**CAUTION!** Setting this property to `null` might cause issues with sliders and
-     * swipeable `Tabs`, use at your own risk).
-     */
-    swipeAreaWidth: _react2.default.PropTypes.number,
-
-    /**
-     * The width of the `LeftNav` in pixels. Defaults to using the values from theme.
-     */
-    width: _react2.default.PropTypes.number
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default, _windowListenable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      disableSwipeToOpen: false,
-      docked: true,
-      open: null,
-      openRight: false,
-      swipeAreaWidth: 30,
-      width: null
-    };
-  },
-  getInitialState: function getInitialState() {
-    this._maybeSwiping = false;
-    this._touchStartX = null;
-    this._touchStartY = null;
-    this._swipeStartX = null;
-
-    return {
-      open: this.props.open !== null ? this.props.open : this.props.docked,
-      swiping: null,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    this._updateMenuHeight();
-    this._enableSwipeHandling();
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    var newState = { muiTheme: newMuiTheme };
-
-    // If docked is changed, change the open state for when uncontrolled.
-    if (this.props.docked !== nextProps.docked) newState.open = nextProps.docked;
-
-    // If controlled then the open prop takes precedence.
-    if (nextProps.open !== null) newState.open = nextProps.open;
-
-    this.setState(newState);
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this._updateMenuHeight();
-    this._enableSwipeHandling();
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    this._disableSwipeHandling();
-  },
-
-  windowListeners: {
-    keyup: '_onWindowKeyUp',
-    resize: '_onWindowResize'
-  },
-
-  toggle: function toggle() {
-    process.env.NODE_ENV !== "production" ? (0, _warning2.default)(false, 'using methods on left nav has been deprecated. Please refer to documentations.') : undefined;
-    if (this.state.open) this.close();else this.open();
-    return this;
-  },
-  close: function close() {
-    process.env.NODE_ENV !== "production" ? (0, _warning2.default)(false, 'using methods on left nav has been deprecated. Please refer to documentations.') : undefined;
-    this.setState({ open: false });
-    if (this.props.onNavClose) this.props.onNavClose();
-    return this;
-  },
-  open: function open() {
-    process.env.NODE_ENV !== "production" ? (0, _warning2.default)(false, 'using methods on left nav has been deprecated. Please refer to documentations.') : undefined;
-    this.setState({ open: true });
-    if (this.props.onNavOpen) this.props.onNavOpen();
-    return this;
-  },
-  getStyles: function getStyles() {
-    var muiTheme = this.state.muiTheme;
-    var theme = muiTheme.leftNav;
-    var rawTheme = muiTheme.rawTheme;
-
-    var x = this._getTranslateMultiplier() * (this.state.open ? 0 : this._getMaxTranslateX());
-
-    var styles = {
-      root: {
-        height: '100%',
-        width: this.props.width || theme.width,
-        position: 'fixed',
-        zIndex: muiTheme.zIndex.leftNav,
-        left: 0,
-        top: 0,
-        transform: 'translate3d(' + x + 'px, 0, 0)',
-        transition: !this.state.swiping && _transitions2.default.easeOut(null, 'transform', null),
-        backgroundColor: theme.color,
-        overflow: 'auto'
-      },
-      menu: {
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        height: '100%',
-        borderRadius: '0'
-      },
-      overlay: {
-        zIndex: muiTheme.zIndex.leftNavOverlay,
-        pointerEvents: this.state.open ? 'auto' : 'none' },
-      // Bypass mouse events when left nav is closing.
-      menuItem: {
-        height: rawTheme.spacing.desktopLeftNavMenuItemHeight,
-        lineHeight: rawTheme.spacing.desktopLeftNavMenuItemHeight + 'px'
-      },
-      rootWhenOpenRight: {
-        left: 'auto',
-        right: 0
-      }
-    };
-
-    styles.menuItemLink = this.mergeStyles(styles.menuItem, {
-      display: 'block',
-      textDecoration: 'none',
-      color: rawTheme.palette.textColor
-    });
-    styles.menuItemSubheader = this.mergeStyles(styles.menuItem, {
-      overflow: 'hidden'
-    });
-
-    return styles;
-  },
-  _shouldShow: function _shouldShow() {
-    return this.state.open || !!this.state.swiping; // component is swiping
-  },
-  _close: function _close(reason) {
-    if (this.props.open === null) this.setState({ open: false });
-    if (this.props.onRequestChange) this.props.onRequestChange(false, reason);
-    return this;
-  },
-  _open: function _open(reason) {
-    if (this.props.open === null) this.setState({ open: true });
-    if (this.props.onRequestChange) this.props.onRequestChange(true, reason);
-    return this;
-  },
-  _updateMenuHeight: function _updateMenuHeight() {
-    if (this.props.header) {
-      var menu = _reactDom2.default.findDOMNode(this.refs.menuItems);
-      if (menu) {
-        var container = _reactDom2.default.findDOMNode(this.refs.clickAwayableElement);
-        var menuHeight = container.clientHeight - menu.offsetTop;
-        menu.style.height = menuHeight + 'px';
-      }
-    }
-  },
-  _onMenuItemClick: function _onMenuItemClick(e, key, payload) {
-    if (this.props.onChange && this.props.selectedIndex !== key) {
-      this.props.onChange(e, key, payload);
-    }
-    if (!this.props.docked) this._close('clickaway');
-  },
-  _onOverlayTouchTap: function _onOverlayTouchTap(event) {
-    event.preventDefault();
-    this._close('clickaway');
-  },
-  _onWindowKeyUp: function _onWindowKeyUp(e) {
-    if (e.keyCode === _keyCode2.default.ESC && !this.props.docked && this.state.open) {
-      this._close('escape');
-    }
-  },
-  _onWindowResize: function _onWindowResize() {
-    this._updateMenuHeight();
-  },
-  _getMaxTranslateX: function _getMaxTranslateX() {
-    var width = this.props.width || this.state.muiTheme.leftNav.width;
-    return width + 10;
-  },
-  _getTranslateMultiplier: function _getTranslateMultiplier() {
-    return this.props.openRight ? 1 : -1;
-  },
-  _enableSwipeHandling: function _enableSwipeHandling() {
-    if (!this.props.docked) {
-      document.body.addEventListener('touchstart', this._onBodyTouchStart);
-      if (!openNavEventHandler) {
-        openNavEventHandler = this._onBodyTouchStart;
-      }
-    } else {
-      this._disableSwipeHandling();
-    }
-  },
-  _disableSwipeHandling: function _disableSwipeHandling() {
-    document.body.removeEventListener('touchstart', this._onBodyTouchStart);
-    if (openNavEventHandler === this._onBodyTouchStart) {
-      openNavEventHandler = null;
-    }
-  },
-  _onBodyTouchStart: function _onBodyTouchStart(e) {
-
-    var swipeAreaWidth = this.props.swipeAreaWidth;
-
-    var touchStartX = e.touches[0].pageX;
-    var touchStartY = e.touches[0].pageY;
-
-    // Open only if swiping from far left (or right) while closed
-    if (swipeAreaWidth !== null && !this.state.open) {
-      if (this.props.openRight) {
-        // If openRight is true calculate from the far right
-        if (touchStartX < document.body.offsetWidth - swipeAreaWidth) return;
-      } else {
-        // If openRight is false calculate from the far left
-        if (touchStartX > swipeAreaWidth) return;
-      }
-    }
-
-    if (!this.state.open && (openNavEventHandler !== this._onBodyTouchStart || this.props.disableSwipeToOpen)) {
-      return;
-    }
-
-    this._maybeSwiping = true;
-    this._touchStartX = touchStartX;
-    this._touchStartY = touchStartY;
-
-    document.body.addEventListener('touchmove', this._onBodyTouchMove);
-    document.body.addEventListener('touchend', this._onBodyTouchEnd);
-    document.body.addEventListener('touchcancel', this._onBodyTouchEnd);
-  },
-  _setPosition: function _setPosition(translateX) {
-    var leftNav = _reactDom2.default.findDOMNode(this.refs.clickAwayableElement);
-    var transformCSS = 'translate3d(' + this._getTranslateMultiplier() * translateX + 'px, 0, 0)';
-    this.refs.overlay.setOpacity(1 - translateX / this._getMaxTranslateX());
-    _autoPrefix2.default.set(leftNav.style, 'transform', transformCSS);
-  },
-  _getTranslateX: function _getTranslateX(currentX) {
-    return Math.min(Math.max(this.state.swiping === 'closing' ? this._getTranslateMultiplier() * (currentX - this._swipeStartX) : this._getMaxTranslateX() - this._getTranslateMultiplier() * (this._swipeStartX - currentX), 0), this._getMaxTranslateX());
-  },
-  _onBodyTouchMove: function _onBodyTouchMove(e) {
-    var currentX = e.touches[0].pageX;
-    var currentY = e.touches[0].pageY;
-
-    if (this.state.swiping) {
-      e.preventDefault();
-      this._setPosition(this._getTranslateX(currentX));
-    } else if (this._maybeSwiping) {
-      var dXAbs = Math.abs(currentX - this._touchStartX);
-      var dYAbs = Math.abs(currentY - this._touchStartY);
-      // If the user has moved his thumb ten pixels in either direction,
-      // we can safely make an assumption about whether he was intending
-      // to swipe or scroll.
-      var threshold = 10;
-
-      if (dXAbs > threshold && dYAbs <= threshold) {
-        this._swipeStartX = currentX;
-        this.setState({
-          swiping: this.state.open ? 'closing' : 'opening'
-        });
-        this._setPosition(this._getTranslateX(currentX));
-      } else if (dXAbs <= threshold && dYAbs > threshold) {
-        this._onBodyTouchEnd();
-      }
-    }
-  },
-  _onBodyTouchEnd: function _onBodyTouchEnd(e) {
-    if (this.state.swiping) {
-      var currentX = e.changedTouches[0].pageX;
-      var translateRatio = this._getTranslateX(currentX) / this._getMaxTranslateX();
-
-      this._maybeSwiping = false;
-      var swiping = this.state.swiping;
-      this.setState({
-        swiping: null
-      });
-
-      // We have to open or close after setting swiping to null,
-      // because only then CSS transition is enabled.
-      if (translateRatio > 0.5) {
-        if (swiping === 'opening') {
-          this._setPosition(this._getMaxTranslateX());
-        } else {
-          this._close('swipe');
-        }
-      } else {
-        if (swiping === 'opening') {
-          this._open('swipe');
-        } else {
-          this._setPosition(0);
-        }
-      }
-    } else {
-      this._maybeSwiping = false;
-    }
-
-    document.body.removeEventListener('touchmove', this._onBodyTouchMove);
-    document.body.removeEventListener('touchend', this._onBodyTouchEnd);
-    document.body.removeEventListener('touchcancel', this._onBodyTouchEnd);
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var docked = _props.docked;
-    var header = _props.header;
-    var menuItemClassName = _props.menuItemClassName;
-    var menuItemClassNameSubheader = _props.menuItemClassNameSubheader;
-    var menuItemClassNameLink = _props.menuItemClassNameLink;
-    var menuItems = _props.menuItems;
-    var openRight = _props.openRight;
-    var overlayClassName = _props.overlayClassName;
-    var overlayStyle = _props.overlayStyle;
-    var selectedIndex = _props.selectedIndex;
-    var style = _props.style;
-
-    var styles = this.getStyles();
-
-    var overlay = undefined;
-    if (!docked) {
-      overlay = _react2.default.createElement(_overlay2.default, {
-        ref: 'overlay',
-        show: this._shouldShow(),
-        className: overlayClassName,
-        style: this.mergeStyles(styles.overlay, overlayStyle),
-        transitionEnabled: !this.state.swiping,
-        onTouchTap: this._onOverlayTouchTap });
-    }
-    var children = undefined;
-    if (menuItems === undefined) {
-      children = this.props.children;
-    } else {
-      children = _react2.default.createElement(_menu2.default, {
-        ref: 'menuItems',
-        style: this.mergeStyles(styles.menu),
-        zDepth: 0,
-        menuItems: menuItems,
-        menuItemStyle: this.mergeStyles(styles.menuItem),
-        menuItemStyleLink: this.mergeStyles(styles.menuItemLink),
-        menuItemStyleSubheader: this.mergeStyles(styles.menuItemSubheader),
-        menuItemClassName: menuItemClassName,
-        menuItemClassNameSubheader: menuItemClassNameSubheader,
-        menuItemClassNameLink: menuItemClassNameLink,
-        selectedIndex: selectedIndex,
-        onItemTap: this._onMenuItemClick });
-    }
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      overlay,
-      _react2.default.createElement(
-        _paper2.default,
-        {
-          ref: 'clickAwayableElement',
-          zDepth: 2,
-          rounded: false,
-          transitionEnabled: !this.state.swiping,
-          className: className,
-          style: this.mergeStyles(styles.root, openRight && styles.rootWhenOpenRight, style) },
-        header,
-        children
-      )
-    );
-  }
-});
-
-exports.default = LeftNav;
-module.exports = exports['default'];
-}).call(this,require('_process'))
-},{"./menu/menu":108,"./mixins/style-propable":115,"./mixins/window-listenable":116,"./overlay":117,"./paper":118,"./styles/auto-prefix":125,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"./utils/deprecatedPropType":162,"./utils/key-code":167,"_process":178,"react":326,"react-dom":184,"warning":340}],103:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _colorManipulator = require('../utils/color-manipulator');
-
-var _colorManipulator2 = _interopRequireDefault(_colorManipulator);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _colors = require('../styles/colors');
-
-var _colors2 = _interopRequireDefault(_colors);
-
-var _transitions = require('../styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _typography = require('../styles/typography');
-
-var _typography2 = _interopRequireDefault(_typography);
-
-var _enhancedButton = require('../enhanced-button');
-
-var _enhancedButton2 = _interopRequireDefault(_enhancedButton);
-
-var _iconButton = require('../icon-button');
-
-var _iconButton2 = _interopRequireDefault(_iconButton);
-
-var _arrowDropUp = require('../svg-icons/navigation/arrow-drop-up');
-
-var _arrowDropUp2 = _interopRequireDefault(_arrowDropUp);
-
-var _arrowDropDown = require('../svg-icons/navigation/arrow-drop-down');
-
-var _arrowDropDown2 = _interopRequireDefault(_arrowDropDown);
-
-var _nestedList = require('./nested-list');
-
-var _nestedList2 = _interopRequireDefault(_nestedList);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var ListItem = _react2.default.createClass({
-  displayName: 'ListItem',
-
-  propTypes: {
-    /**
-     * Generate a nested list indicator icon when
-     * nested list items are detected. Set to false
-     * if you do not want an indicator auto-generated.
-     * Note that an indicator will not be created if a
-     * rightIcon/Button has been specified.
-     */
-    autoGenerateNestedIndicator: _react2.default.PropTypes.bool,
-
-    /**
-     * Children passed into the ListItem.
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * Does not allow the element to be focused by the keyboard.
-     */
-    disableKeyboardFocus: _react2.default.PropTypes.bool,
-
-    /**
-     * If true, the list-item will not be clickable
-     * and will not display hover affects.
-     * This is automatically disabled if leftCheckbox
-     * or rightToggle is set.
-     */
-    disabled: _react2.default.PropTypes.bool,
-
-    /**
-     * Controls whether or not the child ListItems are initially displayed.
-     */
-    initiallyOpen: _react2.default.PropTypes.bool,
-
-    /**
-     * Style prop for the innder div element.
-     */
-    innerDivStyle: _react2.default.PropTypes.object,
-
-    /**
-     * If true, the children will be indented by 72px.
-     * Only needed if there is no left avatar or left icon.
-     */
-    insetChildren: _react2.default.PropTypes.bool,
-
-    /**
-     * This is the Avatar element to be displayed on the left side.
-     */
-    leftAvatar: _react2.default.PropTypes.element,
-
-    /**
-     * This is the Checkbox element to be displayed on the left side.
-     */
-    leftCheckbox: _react2.default.PropTypes.element,
-
-    /**
-     * This is the SvgIcon or FontIcon to be displayed on the left side.
-     */
-    leftIcon: _react2.default.PropTypes.element,
-
-    /**
-     * An array of ListItems to nest underneath the current ListItem.
-     */
-    nestedItems: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.element),
-
-    /**
-     * Controls how deep a ListItem appears.
-     * This property is automatically managed so modify at your own risk.
-     */
-    nestedLevel: _react2.default.PropTypes.number,
-
-    /**
-     * Called when the ListItem has keyboard focus.
-     */
-    onKeyboardFocus: _react2.default.PropTypes.func,
-
-    /**
-     * Called when the mouse is over the ListItem.
-     */
-    onMouseEnter: _react2.default.PropTypes.func,
-
-    /**
-     * Called when the mouse is no longer over the ListItem.
-     */
-    onMouseLeave: _react2.default.PropTypes.func,
-
-    /**
-     * Called when the ListItem toggles its nested ListItems.
-     */
-    onNestedListToggle: _react2.default.PropTypes.func,
-
-    /**
-     * Called when touches start.
-     */
-    onTouchStart: _react2.default.PropTypes.func,
-
-    /**
-     * Called when a touch tap event occures on the component.
-     */
-    onTouchTap: _react2.default.PropTypes.func,
-
-    /**
-     * This is the block element that contains the primary text.
-     * If a string is passed in, a div tag will be rendered.
-     */
-    primaryText: _react2.default.PropTypes.node,
-
-    /**
-     * If provided, tapping on the primary text
-     * of the item toggles the nested list.
-     */
-    primaryTogglesNestedList: _react2.default.PropTypes.bool,
-
-    /**
-     * This is the avatar element to be displayed on the right side.
-     */
-    rightAvatar: _react2.default.PropTypes.element,
-
-    /**
-     * This is the SvgIcon or FontIcon to be displayed on the right side.
-     */
-    rightIcon: _react2.default.PropTypes.element,
-
-    /**
-     * This is the IconButton to be displayed on the right side.
-     * Hovering over this button will remove the ListItem hover.
-     * Also, clicking on this button will not trigger a
-     * ListItem ripple. The event will be stopped and prevented
-     * from bubbling up to cause a ListItem click.
-     */
-    rightIconButton: _react2.default.PropTypes.element,
-
-    /**
-     * This is the Toggle element to display on the right side.
-     */
-    rightToggle: _react2.default.PropTypes.element,
-
-    /**
-     * This is the block element that contains the secondary text.
-     * If a string is passed in, a div tag will be rendered.
-     */
-    secondaryText: _react2.default.PropTypes.node,
-
-    /**
-     * Can be 1 or 2. This is the number of secondary
-     * text lines before ellipsis will show.
-     */
-    secondaryTextLines: _react2.default.PropTypes.oneOf([1, 2]),
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_reactAddonsPureRenderMixin2.default, _stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      autoGenerateNestedIndicator: true,
-      disableKeyboardFocus: false,
-      disabled: false,
-      initiallyOpen: false,
-      insetChildren: false,
-      nestedItems: [],
-      nestedLevel: 0,
-      onKeyboardFocus: function onKeyboardFocus() {},
-      onMouseEnter: function onMouseEnter() {},
-      onMouseLeave: function onMouseLeave() {},
-      onNestedListToggle: function onNestedListToggle() {},
-      onTouchStart: function onTouchStart() {},
-      primaryTogglesNestedList: false,
-      secondaryTextLines: 1
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      hovered: false,
-      isKeyboardFocused: false,
-      open: this.props.initiallyOpen,
-      rightIconButtonHovered: false,
-      rightIconButtonKeyboardFocused: false,
-      touch: false,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  applyFocusState: function applyFocusState(focusState) {
-    var button = this.refs.enhancedButton;
-    var buttonEl = _reactDom2.default.findDOMNode(button);
-
-    if (button) {
-      switch (focusState) {
-        case 'none':
-          buttonEl.blur();
-          break;
-        case 'focused':
-          buttonEl.focus();
-          break;
-        case 'keyboard-focused':
-          button.setKeyboardFocus();
-          buttonEl.focus();
-          break;
-      }
-    }
-  },
-  _createDisabledElement: function _createDisabledElement(styles, contentChildren) {
-    var _props = this.props;
-    var innerDivStyle = _props.innerDivStyle;
-    var style = _props.style;
-
-    var mergedDivStyles = this.prepareStyles(styles.root, styles.innerDiv, innerDivStyle, style);
-
-    return _react2.default.createElement('div', { style: mergedDivStyles }, contentChildren);
-  },
-  _createLabelElement: function _createLabelElement(styles, contentChildren) {
-    var _props2 = this.props;
-    var innerDivStyle = _props2.innerDivStyle;
-    var style = _props2.style;
-
-    var mergedLabelStyles = this.prepareStyles(styles.root, styles.innerDiv, innerDivStyle, styles.label, style);
-
-    return _react2.default.createElement('label', { style: mergedLabelStyles }, contentChildren);
-  },
-  _createTextElement: function _createTextElement(styles, data, key) {
-    var isAnElement = _react2.default.isValidElement(data);
-    var mergedStyles = isAnElement ? this.prepareStyles(styles, data.props.style) : null;
-
-    return isAnElement ? _react2.default.cloneElement(data, {
-      key: key,
-      style: mergedStyles
-    }) : _react2.default.createElement(
-      'div',
-      { key: key, style: this.prepareStyles(styles) },
-      data
-    );
-  },
-  _handleKeyboardFocus: function _handleKeyboardFocus(e, isKeyboardFocused) {
-    this.setState({ isKeyboardFocused: isKeyboardFocused });
-    this.props.onKeyboardFocus(e, isKeyboardFocused);
-  },
-  _handleMouseEnter: function _handleMouseEnter(e) {
-    if (!this.state.touch) this.setState({ hovered: true });
-    this.props.onMouseEnter(e);
-  },
-  _handleMouseLeave: function _handleMouseLeave(e) {
-    this.setState({ hovered: false });
-    this.props.onMouseLeave(e);
-  },
-  _handleNestedListToggle: function _handleNestedListToggle(e) {
-    e.stopPropagation();
-    this.setState({ open: !this.state.open });
-    this.props.onNestedListToggle(this);
-  },
-  _handleRightIconButtonKeyboardFocus: function _handleRightIconButtonKeyboardFocus(e, isKeyboardFocused) {
-    var iconButton = this.props.rightIconButton;
-    var newState = {};
-
-    newState.rightIconButtonKeyboardFocused = isKeyboardFocused;
-    if (isKeyboardFocused) newState.isKeyboardFocused = false;
-    this.setState(newState);
-
-    if (iconButton && iconButton.props.onKeyboardFocus) iconButton.props.onKeyboardFocus(e, isKeyboardFocused);
-  },
-  _handleRightIconButtonMouseDown: function _handleRightIconButtonMouseDown(e) {
-    var iconButton = this.props.rightIconButton;
-    e.stopPropagation();
-    if (iconButton && iconButton.props.onMouseDown) iconButton.props.onMouseDown(e);
-  },
-  _handleRightIconButtonMouseLeave: function _handleRightIconButtonMouseLeave(e) {
-    var iconButton = this.props.rightIconButton;
-    this.setState({ rightIconButtonHovered: false });
-    if (iconButton && iconButton.props.onMouseLeave) iconButton.props.onMouseLeave(e);
-  },
-  _handleRightIconButtonMouseEnter: function _handleRightIconButtonMouseEnter(e) {
-    var iconButton = this.props.rightIconButton;
-    this.setState({ rightIconButtonHovered: true });
-    if (iconButton && iconButton.props.onMouseEnter) iconButton.props.onMouseEnter(e);
-  },
-  _handleRightIconButtonMouseUp: function _handleRightIconButtonMouseUp(e) {
-    var iconButton = this.props.rightIconButton;
-    e.stopPropagation();
-    if (iconButton && iconButton.props.onMouseUp) iconButton.props.onMouseUp(e);
-  },
-  _handleRightIconButtonTouchTap: function _handleRightIconButtonTouchTap(e) {
-    var iconButton = this.props.rightIconButton;
-
-    //Stop the event from bubbling up to the list-item
-    e.stopPropagation();
-    if (iconButton && iconButton.props.onTouchTap) iconButton.props.onTouchTap(e);
-  },
-  _handleTouchStart: function _handleTouchStart(e) {
-    this.setState({ touch: true });
-    this.props.onTouchStart(e);
-  },
-  _pushElement: function _pushElement(children, element, baseStyles, additionalProps) {
-    if (element) {
-      var styles = this.mergeStyles(baseStyles, element.props.style);
-      children.push(_react2.default.cloneElement(element, _extends({
-        key: children.length,
-        style: styles
-      }, additionalProps)));
-    }
-  },
-  render: function render() {
-    var _props3 = this.props;
-    var autoGenerateNestedIndicator = _props3.autoGenerateNestedIndicator;
-    var children = _props3.children;
-    var disabled = _props3.disabled;
-    var disableKeyboardFocus = _props3.disableKeyboardFocus;
-    var innerDivStyle = _props3.innerDivStyle;
-    var insetChildren = _props3.insetChildren;
-    var leftAvatar = _props3.leftAvatar;
-    var leftCheckbox = _props3.leftCheckbox;
-    var leftIcon = _props3.leftIcon;
-    var nestedItems = _props3.nestedItems;
-    var nestedLevel = _props3.nestedLevel;
-    var onKeyboardFocus = _props3.onKeyboardFocus;
-    var onMouseLeave = _props3.onMouseLeave;
-    var onMouseEnter = _props3.onMouseEnter;
-    var onTouchStart = _props3.onTouchStart;
-    var onTouchTap = _props3.onTouchTap;
-    var rightAvatar = _props3.rightAvatar;
-    var rightIcon = _props3.rightIcon;
-    var rightIconButton = _props3.rightIconButton;
-    var rightToggle = _props3.rightToggle;
-    var primaryText = _props3.primaryText;
-    var primaryTogglesNestedList = _props3.primaryTogglesNestedList;
-    var secondaryText = _props3.secondaryText;
-    var secondaryTextLines = _props3.secondaryTextLines;
-    var style = _props3.style;
-
-    var other = _objectWithoutProperties(_props3, ['autoGenerateNestedIndicator', 'children', 'disabled', 'disableKeyboardFocus', 'innerDivStyle', 'insetChildren', 'leftAvatar', 'leftCheckbox', 'leftIcon', 'nestedItems', 'nestedLevel', 'onKeyboardFocus', 'onMouseLeave', 'onMouseEnter', 'onTouchStart', 'onTouchTap', 'rightAvatar', 'rightIcon', 'rightIconButton', 'rightToggle', 'primaryText', 'primaryTogglesNestedList', 'secondaryText', 'secondaryTextLines', 'style']);
-
-    var textColor = this.state.muiTheme.rawTheme.palette.textColor;
-    var hoverColor = _colorManipulator2.default.fade(textColor, 0.1);
-    var singleAvatar = !secondaryText && (leftAvatar || rightAvatar);
-    var singleNoAvatar = !secondaryText && !(leftAvatar || rightAvatar);
-    var twoLine = secondaryText && secondaryTextLines === 1;
-    var threeLine = secondaryText && secondaryTextLines > 1;
-    var hasCheckbox = leftCheckbox || rightToggle;
-
-    var styles = {
-      root: {
-        backgroundColor: (this.state.isKeyboardFocused || this.state.hovered) && !this.state.rightIconButtonHovered && !this.state.rightIconButtonKeyboardFocused ? hoverColor : null,
-        color: textColor,
-        display: 'block',
-        fontSize: 16,
-        lineHeight: '16px',
-        position: 'relative',
-        transition: _transitions2.default.easeOut()
-      },
-
-      //This inner div is needed so that ripples will span the entire container
-      innerDiv: {
-        marginLeft: nestedLevel * this.state.muiTheme.listItem.nestedLevelDepth,
-        paddingLeft: leftIcon || leftAvatar || leftCheckbox || insetChildren ? 72 : 16,
-        paddingRight: rightIcon || rightAvatar || rightIconButton ? 56 : rightToggle ? 72 : 16,
-        paddingBottom: singleAvatar ? 20 : 16,
-        paddingTop: singleNoAvatar || threeLine ? 16 : 20,
-        position: 'relative'
-      },
-
-      icons: {
-        height: 24,
-        width: 24,
-        display: 'block',
-        position: 'absolute',
-        top: twoLine ? 12 : singleAvatar ? 4 : 0,
-        margin: 12
-      },
-
-      leftIcon: {
-        color: _colors2.default.grey600,
-        fill: _colors2.default.grey600,
-        left: 4
-      },
-
-      rightIcon: {
-        color: _colors2.default.grey400,
-        fill: _colors2.default.grey400,
-        right: 4
-      },
-
-      avatars: {
-        position: 'absolute',
-        top: singleAvatar ? 8 : 16
-      },
-
-      label: {
-        cursor: 'pointer'
-      },
-
-      leftAvatar: {
-        left: 16
-      },
-
-      rightAvatar: {
-        right: 16
-      },
-
-      leftCheckbox: {
-        position: 'absolute',
-        display: 'block',
-        width: 24,
-        top: twoLine ? 24 : singleAvatar ? 16 : 12,
-        left: 16
-      },
-
-      primaryText: {},
-
-      rightIconButton: {
-        position: 'absolute',
-        display: 'block',
-        top: twoLine ? 12 : singleAvatar ? 4 : 0,
-        right: 4
-      },
-
-      rightToggle: {
-        position: 'absolute',
-        display: 'block',
-        width: 54,
-        top: twoLine ? 25 : singleAvatar ? 17 : 13,
-        right: 8
-      },
-
-      secondaryText: {
-        fontSize: 14,
-        lineHeight: threeLine ? '18px' : '16px',
-        height: threeLine ? 36 : 16,
-        margin: 0,
-        marginTop: 4,
-        color: _typography2.default.textLightBlack,
-
-        //needed for 2 and 3 line ellipsis
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: threeLine ? null : 'nowrap',
-        display: threeLine ? '-webkit-box' : null,
-        WebkitLineClamp: threeLine ? 2 : null,
-        WebkitBoxOrient: threeLine ? 'vertical' : null
-      }
-    };
-
-    var contentChildren = [children];
-
-    if (leftIcon) {
-      this._pushElement(contentChildren, leftIcon, this.mergeStyles(styles.icons, styles.leftIcon));
-    }
-
-    if (rightIcon) {
-      this._pushElement(contentChildren, rightIcon, this.mergeStyles(styles.icons, styles.rightIcon));
-    }
-
-    if (leftAvatar) {
-      this._pushElement(contentChildren, leftAvatar, this.mergeStyles(styles.avatars, styles.leftAvatar));
-    }
-
-    if (rightAvatar) {
-      this._pushElement(contentChildren, rightAvatar, this.mergeStyles(styles.avatars, styles.rightAvatar));
-    }
-
-    if (leftCheckbox) {
-      this._pushElement(contentChildren, leftCheckbox, this.mergeStyles(styles.leftCheckbox));
-    }
-
-    //RightIconButtonElement
-    var hasNestListItems = nestedItems.length;
-    var hasRightElement = rightAvatar || rightIcon || rightIconButton || rightToggle;
-    var needsNestedIndicator = hasNestListItems && autoGenerateNestedIndicator && !hasRightElement;
-
-    if (rightIconButton || needsNestedIndicator) {
-      var rightIconButtonElement = rightIconButton;
-      var rightIconButtonHandlers = {
-        onKeyboardFocus: this._handleRightIconButtonKeyboardFocus,
-        onMouseEnter: this._handleRightIconButtonMouseEnter,
-        onMouseLeave: this._handleRightIconButtonMouseLeave,
-        onTouchTap: this._handleRightIconButtonTouchTap,
-        onMouseDown: this._handleRightIconButtonMouseUp,
-        onMouseUp: this._handleRightIconButtonMouseUp
-      };
-
-      // Create a nested list indicator icon if we don't have an icon on the right
-      if (needsNestedIndicator) {
-        rightIconButtonElement = this.state.open ? _react2.default.createElement(
-          _iconButton2.default,
-          null,
-          _react2.default.createElement(_arrowDropUp2.default, null)
-        ) : _react2.default.createElement(
-          _iconButton2.default,
-          null,
-          _react2.default.createElement(_arrowDropDown2.default, null)
-        );
-        rightIconButtonHandlers.onTouchTap = this._handleNestedListToggle;
-      }
-
-      this._pushElement(contentChildren, rightIconButtonElement, this.mergeStyles(styles.rightIconButton), rightIconButtonHandlers);
-    }
-
-    if (rightToggle) {
-      this._pushElement(contentChildren, rightToggle, this.mergeStyles(styles.rightToggle));
-    }
-
-    if (primaryText) {
-      var secondaryTextElement = this._createTextElement(styles.primaryText, primaryText, 'primaryText');
-      contentChildren.push(secondaryTextElement);
-    }
-
-    if (secondaryText) {
-      var secondaryTextElement = this._createTextElement(styles.secondaryText, secondaryText, 'secondaryText');
-      contentChildren.push(secondaryTextElement);
-    }
-
-    var nestedList = nestedItems.length ? _react2.default.createElement(
-      _nestedList2.default,
-      { nestedLevel: nestedLevel + 1, open: this.state.open },
-      nestedItems
-    ) : undefined;
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      hasCheckbox ? this._createLabelElement(styles, contentChildren) : disabled ? this._createDisabledElement(styles, contentChildren) : _react2.default.createElement(
-        _enhancedButton2.default,
-        _extends({}, other, {
-          disabled: disabled,
-          disableKeyboardFocus: disableKeyboardFocus || this.state.rightIconButtonKeyboardFocused,
-          linkButton: true,
-          onKeyboardFocus: this._handleKeyboardFocus,
-          onMouseLeave: this._handleMouseLeave,
-          onMouseEnter: this._handleMouseEnter,
-          onTouchStart: this._handleTouchStart,
-          onTouchTap: primaryTogglesNestedList ? this._handleNestedListToggle : onTouchTap,
-          ref: 'enhancedButton',
-          style: this.mergeStyles(styles.root, style) }),
-        _react2.default.createElement(
-          'div',
-          { style: this.prepareStyles(styles.innerDiv, innerDivStyle) },
-          contentChildren
-        )
-      ),
-      nestedList
-    );
-  }
-});
-
-exports.default = ListItem;
-module.exports = exports['default'];
-},{"../enhanced-button":98,"../icon-button":101,"../mixins/style-propable":115,"../styles/colors":128,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/transitions":136,"../styles/typography":137,"../svg-icons/navigation/arrow-drop-down":142,"../svg-icons/navigation/arrow-drop-up":143,"../utils/color-manipulator":160,"./nested-list":105,"react":326,"react-addons-pure-render-mixin":181,"react-dom":184}],104:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _propTypes = require('../utils/prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _typography = require('../styles/typography');
-
-var _typography2 = _interopRequireDefault(_typography);
-
-var _paper = require('../paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var List = _react2.default.createClass({
-  displayName: 'List',
-
-  propTypes: {
-    /**
-     * These are usually ListItems that are passed to
-     * be part of the list.
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * If true, the subheader will be indented by 72px.
-     */
-    insetSubheader: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-
-    /**
-     * The subheader string that will be displayed at the top of the list.
-     */
-    subheader: _react2.default.PropTypes.node,
-
-    /**
-     * The style object to override subheader styles.
-     */
-    subheaderStyle: _react2.default.PropTypes.object,
-
-    /**
-     * The zDepth prop passed to the Paper element inside list.
-     */
-    zDepth: _propTypes2.default.zDepth
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_reactAddonsPureRenderMixin2.default, _stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      insetSubheader: false,
-      zDepth: 0
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  render: function render() {
-    var _props = this.props;
-    var children = _props.children;
-    var insetSubheader = _props.insetSubheader;
-    var style = _props.style;
-    var subheader = _props.subheader;
-    var subheaderStyle = _props.subheaderStyle;
-    var zDepth = _props.zDepth;
-
-    var other = _objectWithoutProperties(_props, ['children', 'insetSubheader', 'style', 'subheader', 'subheaderStyle', 'zDepth']);
-
-    var styles = {
-      root: {
-        padding: 0,
-        paddingBottom: 8,
-        paddingTop: subheader ? 0 : 8
-      },
-
-      subheader: {
-        color: _typography2.default.textLightBlack,
-        fontSize: 14,
-        fontWeight: _typography2.default.fontWeightMedium,
-        lineHeight: '48px',
-        paddingLeft: insetSubheader ? 72 : 16
-      }
-    };
-
-    var subheaderElement = undefined;
-    if (subheader) {
-      var mergedSubheaderStyles = this.prepareStyles(styles.subheader, subheaderStyle);
-      subheaderElement = _react2.default.createElement(
-        'div',
-        { style: mergedSubheaderStyles },
-        subheader
-      );
-    }
-
-    return _react2.default.createElement(
-      _paper2.default,
-      _extends({}, other, {
-        style: this.mergeStyles(styles.root, style),
-        zDepth: zDepth }),
-      subheaderElement,
-      children
-    );
-  }
-});
-
-exports.default = List;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../paper":118,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/typography":137,"../utils/prop-types":169,"react":326,"react-addons-pure-render-mixin":181}],105:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _immutabilityHelper = require('../utils/immutability-helper');
-
-var _immutabilityHelper2 = _interopRequireDefault(_immutabilityHelper);
-
-var _list = require('./list');
-
-var _list2 = _interopRequireDefault(_list);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NestedList = _react2.default.createClass({
-  displayName: 'NestedList',
-
-  propTypes: {
-    children: _react2.default.PropTypes.node,
-    nestedLevel: _react2.default.PropTypes.number,
-    open: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      nestedLevel: 1,
-      open: false
-    };
-  },
-  render: function render() {
-    var _props = this.props;
-    var children = _props.children;
-    var open = _props.open;
-    var nestedLevel = _props.nestedLevel;
-    var style = _props.style;
-
-    var styles = {
-      root: {
-        display: open ? null : 'none'
-      }
-    };
-
-    return _react2.default.createElement(
-      _list2.default,
-      { style: _immutabilityHelper2.default.merge(styles.root, style) },
-      _react2.default.Children.map(children, function (child) {
-        return _react2.default.isValidElement(child) ? _react2.default.cloneElement(child, {
-          nestedLevel: nestedLevel + 1
-        }) : child;
-      })
-    );
-  }
-});
-
-exports.default = NestedList;
-module.exports = exports['default'];
-},{"../utils/immutability-helper":166,"./list":104,"react":326}],106:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LinkMenuItem = _react2.default.createClass({
-  displayName: 'LinkMenuItem',
-
-  propTypes: {
-    active: _react2.default.PropTypes.bool,
-    className: _react2.default.PropTypes.string,
-    disabled: _react2.default.PropTypes.bool,
-    index: _react2.default.PropTypes.number.isRequired,
-    onMouseEnter: _react2.default.PropTypes.func,
-    onMouseLeave: _react2.default.PropTypes.func,
-    payload: _react2.default.PropTypes.string.isRequired,
-    selected: _react2.default.PropTypes.bool,
-    style: _react2.default.PropTypes.object,
-    target: _react2.default.PropTypes.string,
-    text: _react2.default.PropTypes.string.isRequired
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      active: false,
-      disabled: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      hovered: false
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.menuItem;
-  },
-  getStyles: function getStyles() {
-    var style = {
-      root: {
-        userSelect: 'none',
-        cursor: 'pointer',
-        display: 'block',
-        lineHeight: this.getTheme().height + 'px',
-        paddingLeft: this.getTheme().padding,
-        paddingRight: this.getTheme().padding
-      },
-      rootWhenHovered: {
-        backgroundColor: this.getTheme().hoverColor
-      },
-      rootWhenSelected: {
-        color: this.getTheme().selectedTextColor
-      },
-      rootWhenDisabled: {
-        cursor: 'default',
-        color: this.state.muiTheme.rawTheme.palette.disabledColor
-      }
-    };
-
-    return style;
-  },
-  _stopLink: function _stopLink(event) {
-    event.preventDefault();
-  },
-  _handleMouseEnter: function _handleMouseEnter(e) {
-    this.setState({ hovered: true });
-    if (!this.props.disabled && this.props.onMouseEnter) this.props.onMouseEnter(e);
-  },
-  _handleMouseLeave: function _handleMouseLeave(e) {
-    this.setState({ hovered: false });
-    if (!this.props.disabled && this.props.onMouseLeave) this.props.onMouseLeave(e);
-  },
-  render: function render() {
-    var onClickHandler = this.props.disabled ? this._stopLink : undefined;
-    // Prevent context menu 'Open In New Tab/Window'
-    var linkAttribute = this.props.disabled ? 'data-href' : 'href';
-    var link = {};
-    link[linkAttribute] = this.props.payload;
-
-    var styles = this.getStyles();
-
-    var linkStyles = this.prepareStyles(styles.root, this.props.selected && styles.rootWhenSelected, this.props.selected && styles.rootWhenSelected, this.props.active && !this.props.disabled && styles.rootWhenHovered, this.props.style, this.props.disabled && styles.rootWhenDisabled);
-
-    return _react2.default.createElement(
-      'a',
-      _extends({
-        key: this.props.index,
-        target: this.props.target,
-        style: linkStyles }, link, {
-        className: this.props.className,
-        onClick: onClickHandler,
-        onMouseEnter: this._handleMouseEnter,
-        onMouseLeave: this._handleMouseLeave }),
-      this.props.text
-    );
-  }
-});
-
-exports.default = LinkMenuItem;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326}],107:[function(require,module,exports){
-(function (process){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _fontIcon = require('../font-icon');
-
-var _fontIcon2 = _interopRequireDefault(_fontIcon);
-
-var _toggle = require('../toggle');
-
-var _toggle2 = _interopRequireDefault(_toggle);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _warning = require('warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var Types = {
-  LINK: 'LINK',
-  SUBHEADER: 'SUBHEADER',
-  NESTED: 'NESTED'
-};
-
-var MenuItem = _react2.default.createClass({
-  displayName: 'MenuItem',
-
-  propTypes: {
-    active: _react2.default.PropTypes.bool,
-    attribute: _react2.default.PropTypes.string,
-    children: _react2.default.PropTypes.node,
-    className: _react2.default.PropTypes.string,
-    data: _react2.default.PropTypes.string,
-    disabled: _react2.default.PropTypes.bool,
-    icon: _react2.default.PropTypes.node,
-    iconClassName: _react2.default.PropTypes.string,
-    iconRightClassName: _react2.default.PropTypes.string,
-    iconRightStyle: _react2.default.PropTypes.object,
-    iconStyle: _react2.default.PropTypes.object,
-    index: _react2.default.PropTypes.number.isRequired,
-    number: _react2.default.PropTypes.string,
-    onMouseEnter: _react2.default.PropTypes.func,
-    onMouseLeave: _react2.default.PropTypes.func,
-    onToggle: _react2.default.PropTypes.func,
-    onTouchTap: _react2.default.PropTypes.func,
-    selected: _react2.default.PropTypes.bool,
-    style: _react2.default.PropTypes.object,
-    toggle: _react2.default.PropTypes.bool
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  statics: {
-    Types: Types
-  },
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      toggle: false,
-      disabled: false,
-      active: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    process.env.NODE_ENV !== "production" ? (0, _warning2.default)(false, 'This menu item component is deprecated use menus/menu-item instead.') : undefined;
-
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.menuItem;
-  },
-  getSpacing: function getSpacing() {
-    return this.state.muiTheme.rawTheme.spacing;
-  },
-  getStyles: function getStyles() {
-    var _data;
-
-    var isRtl = this.context.muiTheme.isRtl;
-
-    var right = isRtl ? 'left' : 'right';
-    var left = isRtl ? 'right' : 'left';
-
-    var marginRight = isRtl ? 'marginLeft' : 'marginRight';
-    var paddingLeft = isRtl ? 'paddingRight' : 'paddingLeft';
-
-    var styles = {
-      root: {
-        userSelect: 'none',
-        cursor: 'pointer',
-        lineHeight: this.getTheme().height + 'px',
-        paddingLeft: this.getTheme().padding,
-        paddingRight: this.getTheme().padding,
-        color: this.state.muiTheme.rawTheme.palette.textColor
-      },
-      number: {
-        float: right,
-        width: 24,
-        textAlign: 'center'
-      },
-      attribute: {
-        float: right
-      },
-      iconRight: {
-        lineHeight: this.getTheme().height + 'px',
-        float: right
-      },
-      icon: _defineProperty({
-        float: left,
-        lineHeight: this.getTheme().height + 'px'
-      }, marginRight, this.getSpacing().desktopGutter),
-      data: (_data = {
-        display: 'block'
-      }, _defineProperty(_data, paddingLeft, this.getSpacing().desktopGutter * 2), _defineProperty(_data, 'lineHeight', this.getTheme().dataHeight + 'px'), _defineProperty(_data, 'height', this.getTheme().dataHeight + 'px'), _defineProperty(_data, 'verticalAlign', 'top'), _defineProperty(_data, 'top', -12), _defineProperty(_data, 'position', 'relative'), _defineProperty(_data, 'fontWeight', 300), _defineProperty(_data, 'color', this.state.muiTheme.rawTheme.palette.textColor), _data),
-      toggle: {
-        marginTop: (this.getTheme().height - this.state.muiTheme.radioButton.size) / 2,
-        float: right,
-        width: 42
-      },
-      rootWhenHovered: {
-        backgroundColor: this.getTheme().hoverColor
-      },
-      rootWhenSelected: {
-        color: this.getTheme().selectedTextColor
-      },
-      rootWhenDisabled: {
-        cursor: 'default',
-        color: this.state.muiTheme.rawTheme.palette.disabledColor
-      }
-    };
-
-    return styles;
-  },
-  _handleTouchTap: function _handleTouchTap(e) {
-    if (!this.props.disabled && this.props.onTouchTap) this.props.onTouchTap(e, this.props.index);
-  },
-  _handleToggle: function _handleToggle(e, toggled) {
-    if (!this.props.disabled && this.props.onToggle) this.props.onToggle(e, this.props.index, toggled);
-  },
-  _handleMouseEnter: function _handleMouseEnter(e) {
-    if (!this.props.disabled && this.props.onMouseEnter) this.props.onMouseEnter(e, this.props.index);
-  },
-  _handleMouseLeave: function _handleMouseLeave(e) {
-    if (!this.props.disabled && this.props.onMouseLeave) this.props.onMouseLeave(e, this.props.index);
-  },
-  render: function render() {
-    var icon = undefined;
-    var data = undefined;
-    var iconRight = undefined;
-    var attribute = undefined;
-    var number = undefined;
-    var toggleElement = undefined;
-    var styles = this.getStyles();
-
-    if (this.props.iconClassName) {
-      icon = _react2.default.createElement(_fontIcon2.default, { style: this.mergeStyles(styles.icon, this.props.iconStyle, this.props.selected && styles.rootWhenSelected),
-        className: this.props.iconClassName });
-    }
-    if (this.props.iconRightClassName) {
-      iconRight = _react2.default.createElement(_fontIcon2.default, { style: this.mergeStyles(styles.iconRight, this.props.iconRightStyle),
-        className: this.props.iconRightClassName });
-    }
-    if (this.props.data) data = _react2.default.createElement(
-      'span',
-      { style: this.prepareStyles(styles.data) },
-      this.props.data
-    );
-    if (this.props.number !== undefined) {
-      number = _react2.default.createElement(
-        'span',
-        { style: this.prepareStyles(styles.number) },
-        this.props.number
-      );
-    }
-    if (this.props.attribute !== undefined) {
-      attribute = _react2.default.createElement(
-        'span',
-        { style: this.prepareStyles(styles.style) },
-        this.props.attribute
-      );
-    }
-    if (this.props.icon) icon = this.props.icon;
-
-    if (this.props.toggle) {
-      var _props = this.props;
-      var toggle = _props.toggle;
-      var onTouchTap = _props.onTouchTap;
-      var onToggle = _props.onToggle;
-      var onMouseEnter = _props.onMouseEnter;
-      var onMouseLeave = _props.onMouseLeave;
-      var children = _props.children;
-      var style = _props.style;
-
-      var other = _objectWithoutProperties(_props, ['toggle', 'onTouchTap', 'onToggle', 'onMouseEnter', 'onMouseLeave', 'children', 'style']);
-
-      toggleElement = _react2.default.createElement(_toggle2.default, _extends({}, other, { onToggle: this._handleToggle, style: styles.toggle }));
-    }
-
-    return _react2.default.createElement(
-      'div',
-      {
-        key: this.props.index,
-        className: this.props.className,
-        onTouchTap: this._handleTouchTap,
-        onMouseEnter: this._handleMouseEnter,
-        onMouseLeave: this._handleMouseLeave,
-        style: this.prepareStyles(styles.root, this.props.selected && styles.rootWhenSelected, this.props.active && !this.props.disabled && styles.rootWhenHovered, this.props.style, this.props.disabled && styles.rootWhenDisabled) },
-      icon,
-      this.props.children,
-      number,
-      attribute,
-      data,
-      toggleElement,
-      iconRight
-    );
-  }
-});
-
-exports.default = MenuItem;
-module.exports = exports['default'];
-}).call(this,require('_process'))
-},{"../font-icon":100,"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../toggle":155,"_process":178,"react":326,"warning":340}],108:[function(require,module,exports){
-(function (process){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _cssEvent = require('../utils/css-event');
-
-var _cssEvent2 = _interopRequireDefault(_cssEvent);
-
-var _keyLine = require('../utils/key-line');
-
-var _keyLine2 = _interopRequireDefault(_keyLine);
-
-var _keyCode = require('../utils/key-code');
-
-var _keyCode2 = _interopRequireDefault(_keyCode);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _transitions = require('../styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _clickAwayable = require('../mixins/click-awayable');
-
-var _clickAwayable2 = _interopRequireDefault(_clickAwayable);
-
-var _paper = require('../paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _menuItem2 = require('./menu-item');
-
-var _menuItem3 = _interopRequireDefault(_menuItem2);
-
-var _linkMenuItem = require('./link-menu-item');
-
-var _linkMenuItem2 = _interopRequireDefault(_linkMenuItem);
-
-var _subheaderMenuItem = require('./subheader-menu-item');
-
-var _subheaderMenuItem2 = _interopRequireDefault(_subheaderMenuItem);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _warning = require('warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-/***********************
-* Nested Menu Component
-***********************/
-var NestedMenuItem = _react2.default.createClass({
-  displayName: 'NestedMenuItem',
-
-  propTypes: {
-    active: _react2.default.PropTypes.bool,
-    disabled: _react2.default.PropTypes.bool,
-    index: _react2.default.PropTypes.number.isRequired,
-    menuItemStyle: _react2.default.PropTypes.object,
-    menuItems: _react2.default.PropTypes.array.isRequired,
-    onItemTap: _react2.default.PropTypes.func,
-    onMouseOut: _react2.default.PropTypes.func,
-    onMouseOver: _react2.default.PropTypes.func,
-    style: _react2.default.PropTypes.object,
-    text: _react2.default.PropTypes.string,
-    zDepth: _react2.default.PropTypes.number
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_clickAwayable2.default, _stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      disabled: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      open: false,
-      activeIndex: 0
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    this._positionNestedMenu();
-    _reactDom2.default.findDOMNode(this).focus();
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this._positionNestedMenu();
-  },
-  componentClickAway: function componentClickAway() {
-    this._closeNestedMenu();
-  },
-  getSpacing: function getSpacing() {
-    return this.state.muiTheme.rawTheme.spacing;
-  },
-  getStyles: function getStyles() {
-    var styles = {
-      root: {
-        userSelect: 'none',
-        cursor: 'pointer',
-        lineHeight: this.getTheme().height + 'px',
-        color: this.state.muiTheme.rawTheme.palette.textColor
-      },
-      icon: {
-        float: 'left',
-        lineHeight: this.getTheme().height + 'px',
-        marginRight: this.getSpacing().desktopGutter
-      },
-      toggle: {
-        marginTop: (this.getTheme().height - this.state.muiTheme.radioButton.size) / 2,
-        float: 'right',
-        width: 42
-      },
-      rootWhenHovered: {
-        backgroundColor: this.getTheme().hoverColor
-      },
-      rootWhenSelected: {
-        color: this.getTheme().selectedTextColor
-      },
-      rootWhenDisabled: {
-        cursor: 'default',
-        color: this.state.muiTheme.rawTheme.palette.disabledColor
-      }
-    };
-
-    return styles;
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.menuItem;
-  },
-  toggleNestedMenu: function toggleNestedMenu() {
-    if (!this.props.disabled) this.setState({ open: !this.state.open });
-  },
-  isOpen: function isOpen() {
-    return this.state.open;
-  },
-  _positionNestedMenu: function _positionNestedMenu() {
-    var el = _reactDom2.default.findDOMNode(this);
-    var nestedMenu = _reactDom2.default.findDOMNode(this.refs.nestedMenu);
-    nestedMenu.style.left = el.offsetWidth + 'px';
-  },
-  _openNestedMenu: function _openNestedMenu() {
-    if (!this.props.disabled) this.setState({ open: true });
-  },
-  _closeNestedMenu: function _closeNestedMenu() {
-    this.setState({ open: false });
-    _reactDom2.default.findDOMNode(this).focus();
-  },
-  _onParentItemTap: function _onParentItemTap() {
-    this.toggleNestedMenu();
-  },
-  _onMenuItemTap: function _onMenuItemTap(e, index, menuItem) {
-    if (this.props.onItemTap) this.props.onItemTap(e, index, menuItem);
-    this._closeNestedMenu();
-  },
-  _handleMouseOver: function _handleMouseOver(e) {
-    if (!this.props.disabled && this.props.onMouseOver) this.props.onMouseOver(e, this.props.index);
-  },
-  _handleMouseOut: function _handleMouseOut(e) {
-    if (!this.props.disabled && this.props.onMouseOut) this.props.onMouseOut(e, this.props.index);
-  },
-  render: function render() {
-    var styles = this.getStyles();
-    styles = this.prepareStyles(styles.root, this.props.active && !this.props.disabled && styles.rootWhenHovered, {
-      position: 'relative'
-    }, this.props.style);
-
-    var iconCustomArrowDropRight = {
-      marginRight: this.getSpacing().desktopGutterMini * -1,
-      color: this.state.muiTheme.dropDownMenu.accentColor
-    };
-
-    var _props = this.props;
-    var index = _props.index;
-    var menuItemStyle = _props.menuItemStyle;
-
-    var other = _objectWithoutProperties(_props, ['index', 'menuItemStyle']);
-
-    return _react2.default.createElement(
-      'div',
-      {
-        ref: 'root',
-        style: styles,
-        onMouseEnter: this._openNestedMenu,
-        onMouseLeave: this._closeNestedMenu,
-        onMouseOver: this._handleMouseOver,
-        onMouseOut: this._handleMouseOut },
-      _react2.default.createElement(
-        _menuItem3.default,
-        {
-          index: index,
-          style: menuItemStyle,
-          disabled: this.props.disabled,
-          iconRightStyle: iconCustomArrowDropRight,
-          iconRightClassName: 'muidocs-icon-custom-arrow-drop-right',
-          onTouchTap: this._onParentItemTap },
-        this.props.text
-      ),
-      _react2.default.createElement(Menu, _extends({}, other, {
-        ref: 'nestedMenu',
-        menuItems: this.props.menuItems,
-        menuItemStyle: menuItemStyle,
-        onItemTap: this._onMenuItemTap,
-        hideable: true,
-        visible: this.state.open,
-        onRequestClose: this._closeNestedMenu,
-        zDepth: this.props.zDepth + 1 }))
-    );
-  }
-});
-
-/****************
-* Menu Component
-****************/
-var Menu = _react2.default.createClass({
-  displayName: 'Menu',
-
-  propTypes: {
-    autoWidth: _react2.default.PropTypes.bool,
-    hideable: _react2.default.PropTypes.bool,
-    menuItemClassName: _react2.default.PropTypes.string,
-    menuItemClassNameLink: _react2.default.PropTypes.string,
-    menuItemClassNameSubheader: _react2.default.PropTypes.string,
-    menuItemStyle: _react2.default.PropTypes.object,
-    menuItemStyleLink: _react2.default.PropTypes.object,
-    menuItemStyleSubheader: _react2.default.PropTypes.object,
-    menuItems: _react2.default.PropTypes.array.isRequired,
-    onItemTap: _react2.default.PropTypes.func,
-    onItemToggle: _react2.default.PropTypes.func,
-    onRequestClose: _react2.default.PropTypes.func,
-    onToggle: _react2.default.PropTypes.func,
-    selectedIndex: _react2.default.PropTypes.number,
-    style: _react2.default.PropTypes.object,
-    visible: _react2.default.PropTypes.bool,
-    zDepth: _react2.default.PropTypes.number
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      autoWidth: true,
-      hideable: false,
-      visible: true,
-      zDepth: 1,
-      onRequestClose: function onRequestClose() {}
-    };
-  },
-  getInitialState: function getInitialState() {
-    process.env.NODE_ENV !== "production" ? (0, _warning2.default)(false, 'This menu component is deprecated use menus/menu instead.') : undefined;
-
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      nestedMenuShown: false,
-      activeIndex: 0
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    var el = _reactDom2.default.findDOMNode(this);
-
-    //Set the menu width
-    this._setKeyWidth(el);
-
-    //Show or Hide the menu according to visibility
-    this._renderVisibility();
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-
-    //Set the menu width
-    this._setKeyWidth(_reactDom2.default.findDOMNode(this));
-  },
-  componentDidUpdate: function componentDidUpdate(prevProps) {
-    if (this.props.visible !== prevProps.visible || this.props.menuItems.length !== prevProps.menuItems.length) {
-      this._renderVisibility();
-    }
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.menu;
-  },
-  getSpacing: function getSpacing() {
-    return this.state.muiTheme.rawTheme.spacing;
-  },
-  getStyles: function getStyles() {
-    var styles = {
-      root: {
-        backgroundColor: this.getTheme().containerBackgroundColor,
-        paddingTop: this.getSpacing().desktopGutterMini,
-        paddingBottom: this.getSpacing().desktopGutterMini,
-        transition: _transitions2.default.easeOut(null, 'height'),
-        outline: 'none !important'
-      },
-      subheader: {
-        paddingLeft: this.state.muiTheme.menuSubheader.padding,
-        paddingRight: this.state.muiTheme.menuSubheader.padding
-      },
-      hideable: {
-        overflow: 'hidden',
-        position: 'absolute',
-        top: 0,
-        zIndex: 1
-      },
-      item: {
-        height: 34
-      }
-    };
-
-    return styles;
-  },
-  _getChildren: function _getChildren() {
-    var menuItem = undefined,
-        itemComponent = undefined,
-        isDisabled = undefined;
-
-    var styles = this.getStyles();
-
-    this._children = [];
-    //This array is used to keep track of all nested menu refs
-    this._nestedChildren = [];
-
-    for (var i = 0; i < this.props.menuItems.length; i++) {
-      menuItem = this.props.menuItems[i];
-      isDisabled = menuItem.disabled === undefined ? false : menuItem.disabled;
-
-      var _menuItem = menuItem;
-      var icon = _menuItem.icon;
-      var data = _menuItem.data;
-      var attribute = _menuItem.attribute;
-      var number = _menuItem.number;
-      var toggle = _menuItem.toggle;
-      var onTouchTap = _menuItem.onTouchTap;
-
-      var other = _objectWithoutProperties(_menuItem, ['icon', 'data', 'attribute', 'number', 'toggle', 'onTouchTap']);
-
-      switch (menuItem.type) {
-
-        case _menuItem3.default.Types.LINK:
-          itemComponent = _react2.default.createElement(_linkMenuItem2.default, {
-            key: i,
-            index: i,
-            active: this.state.activeIndex === i,
-            text: menuItem.text,
-            disabled: isDisabled,
-            className: this.props.menuItemClassNameLink,
-            style: this.props.menuItemStyleLink,
-            payload: menuItem.payload,
-            target: menuItem.target });
-          break;
-
-        case _menuItem3.default.Types.SUBHEADER:
-          itemComponent = _react2.default.createElement(_subheaderMenuItem2.default, {
-            key: i,
-            index: i,
-            className: this.props.menuItemClassNameSubheader,
-            style: this.mergeStyles(styles.subheader, this.props.menuItemStyleSubheader),
-            firstChild: i === 0,
-            text: menuItem.text });
-          break;
-
-        case _menuItem3.default.Types.NESTED:
-          var _props2 = this.props;
-          var zDepth = _props2.zDepth;
-
-          var other = _objectWithoutProperties(_props2, ['zDepth']);
-
-          itemComponent = _react2.default.createElement(NestedMenuItem, _extends({}, other, {
-            ref: i,
-            key: i,
-            index: i,
-            nested: true,
-            active: this.state.activeIndex === i,
-            text: menuItem.text,
-            disabled: isDisabled,
-            menuItems: menuItem.items,
-            menuItemStyle: this.props.menuItemStyle,
-            zDepth: this.props.zDepth,
-            onMouseEnter: this._onItemActivated,
-            onMouseLeave: this._onItemDeactivated,
-            onItemTap: this._onNestedItemTap }));
-          this._nestedChildren.push(i);
-          break;
-
-        default:
-          itemComponent = _react2.default.createElement(
-            _menuItem3.default,
-            _extends({}, other, {
-              selected: this.props.selectedIndex === i,
-              key: i,
-              index: i,
-              active: this.state.activeIndex === i,
-              icon: menuItem.icon,
-              data: menuItem.data,
-              className: this.props.menuItemClassName,
-              style: this.props.menuItemStyle,
-              attribute: menuItem.attribute,
-              number: menuItem.number,
-              toggle: menuItem.toggle,
-              onToggle: this.props.onToggle,
-              disabled: isDisabled,
-              onTouchTap: this._onItemTap,
-              onMouseEnter: this._onItemActivated,
-              onMouseLeave: this._onItemDeactivated
-            }),
-            menuItem.text
-          );
-      }
-      this._children.push(itemComponent);
-    }
-
-    return this._children;
-  },
-  _setKeyWidth: function _setKeyWidth(el) {
-    //Update the menu width
-    var menuWidth = '100%';
-
-    if (this.props.autoWidth) {
-      el.style.width = 'auto';
-      menuWidth = _keyLine2.default.getIncrementalDim(el.offsetWidth) + 'px';
-    }
-
-    el.style.width = menuWidth;
-  },
-  _renderVisibility: function _renderVisibility() {
-    if (this.props.hideable) {
-      if (this.props.visible) this._expandHideableMenu();else this._collapseHideableMenu();
-    }
-  },
-  _expandHideableMenu: function _expandHideableMenu() {
-    var _this = this;
-
-    var el = _reactDom2.default.findDOMNode(this);
-    var container = _reactDom2.default.findDOMNode(this.refs.paperContainer);
-    var padding = this.getSpacing().desktopGutterMini;
-    var height = this._getHiddenMenuHeight(el, padding);
-
-    //Add transition
-    if (!el.style.transition) {
-      el.style.transition = _transitions2.default.easeOut();
-    }
-
-    this._nextAnimationFrame(function () {
-      container.style.overflow = 'hidden';
-
-      // Yeild to the DOM, then apply height and padding. This makes the transition smoother.
-      el.style.paddingTop = padding + 'px';
-      el.style.paddingBottom = padding + 'px';
-      el.style.height = height + 'px';
-      el.style.opacity = 1;
-
-      //Set the overflow to visible after the animation is done so
-      //that other nested menus can be shown
-      _cssEvent2.default.onTransitionEnd(el, function () {
-        //Make sure the menu is open before setting the overflow.
-        //This is to accout for fast clicks
-        if (_this.props.visible) container.style.overflow = 'visible';
-        el.style.transition = null;
-        el.focus();
-      });
-    });
-  },
-  _getHiddenMenuHeight: function _getHiddenMenuHeight(el, padding) {
-    //Add padding to the offset height, because it is not yet set in the style.
-    var height = padding * 2;
-
-    //Hide the element and allow the browser to automatically resize it.
-    el.style.visibility = 'hidden';
-    el.style.height = 'auto';
-
-    //Determine the height of the menu.
-    height += el.offsetHeight;
-
-    //Unhide the menu with the height set back to zero.
-    el.style.height = '0px';
-    el.style.visibility = 'visible';
-
-    return height;
-  },
-  _collapseHideableMenu: function _collapseHideableMenu() {
-    var el = _reactDom2.default.findDOMNode(this);
-    var container = _reactDom2.default.findDOMNode(this.refs.paperContainer);
-    var originalOpacity = el.style.opacity;
-
-    //Add transition
-    if (!el.style.transition && originalOpacity !== '') {
-      el.style.transition = _transitions2.default.easeOut();
-    }
-
-    this._nextAnimationFrame(function () {
-      //Set the overflow to hidden so that animation works properly
-      container.style.overflow = 'hidden';
-
-      //Close the menu
-      el.style.opacity = 0;
-      el.style.height = '0px';
-      el.style.paddingTop = '0px';
-      el.style.paddingBottom = '0px';
-
-      var end = function end() {
-        el.style.transition = null;
-      };
-
-      if (originalOpacity === '') end();else _cssEvent2.default.onTransitionEnd(el, end);
-    });
-  },
-  _nextAnimationFrame: function _nextAnimationFrame(func) {
-    if (window.requestAnimationFrame) {
-      return window.requestAnimationFrame(func);
-    }
-    return setTimeout(func, 16);
-  },
-  _onNestedItemTap: function _onNestedItemTap(e, index, menuItem) {
-    if (this.props.onItemTap) this.props.onItemTap(e, index, menuItem);
-  },
-  _onItemTap: function _onItemTap(e, index) {
-    if (this.props.onItemTap) this.props.onItemTap(e, index, this.props.menuItems[index]);
-  },
-  _onItemToggle: function _onItemToggle(e, index, toggled) {
-    if (this.props.onItemToggle) this.props.onItemToggle(e, index, this.props.menuItems[index], toggled);
-  },
-  _onItemActivated: function _onItemActivated(e, index) {
-    this.setState({ activeIndex: index });
-  },
-  _onItemDeactivated: function _onItemDeactivated(e, index) {
-    if (this.state.activeKey === index) this.setState({ activeIndex: 0 });
-  },
-  _onKeyDown: function _onKeyDown(e) {
-    if (!(this.state.open || this.props.visible)) return;
-
-    var nested = this._children[this.state.activeIndex];
-    if (nested && nested.props.nested && this.refs[this.state.activeIndex].isOpen()) return;
-
-    switch (e.which) {
-      case _keyCode2.default.UP:
-        this._activatePreviousItem();
-        break;
-      case _keyCode2.default.DOWN:
-        this._activateNextItem();
-        break;
-      case _keyCode2.default.RIGHT:
-        this._tryToggleNested(this.state.activeIndex);
-        break;
-      case _keyCode2.default.LEFT:
-        this._close();
-        break;
-      case _keyCode2.default.ESC:
-        this._close();
-        break;
-      case _keyCode2.default.TAB:
-        this._close();
-        return; // so the tab key can propagate
-      case _keyCode2.default.ENTER:
-      case _keyCode2.default.SPACE:
-        e.stopPropagation(); // needs called before the close
-        this._triggerSelection(e);
-        break;
-      default:
-        return; //important
-    }
-    e.preventDefault();
-    e.stopPropagation();
-  },
-  _activatePreviousItem: function _activatePreviousItem() {
-    var active = this.state.activeIndex || 0;
-    active = Math.max(active - 1, 0);
-    this.setState({ activeIndex: active });
-  },
-  _activateNextItem: function _activateNextItem() {
-    var active = this.state.activeIndex || 0;
-    active = Math.min(active + 1, this._children.length - 1);
-    this.setState({ activeIndex: active });
-  },
-  _triggerSelection: function _triggerSelection(e) {
-    var index = this.state.activeIndex || 0;
-    this._onItemTap(e, index);
-  },
-  _close: function _close() {
-    this.props.onRequestClose();
-  },
-  _tryToggleNested: function _tryToggleNested(index) {
-    var item = this.refs[index];
-    if (item && item.toggleNestedMenu) item.toggleNestedMenu();
-  },
-  render: function render() {
-    var styles = this.getStyles();
-    return _react2.default.createElement(
-      _paper2.default,
-      {
-        ref: 'paperContainer',
-        tabIndex: '0',
-        onKeyDown: this._onKeyDown,
-        zDepth: this.props.zDepth,
-        style: this.mergeStyles(styles.root, this.props.hideable && styles.hideable, this.props.style) },
-      this._getChildren()
-    );
-  }
-});
-
-exports.default = Menu;
-module.exports = exports['default'];
-}).call(this,require('_process'))
-},{"../mixins/click-awayable":112,"../mixins/style-propable":115,"../paper":118,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/transitions":136,"../utils/css-event":161,"../utils/key-code":167,"../utils/key-line":168,"./link-menu-item":106,"./menu-item":107,"./subheader-menu-item":109,"_process":178,"react":326,"react-dom":184,"warning":340}],109:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _typography = require('../styles/typography');
-
-var _typography2 = _interopRequireDefault(_typography);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SubheaderMenuItem = _react2.default.createClass({
-  displayName: 'SubheaderMenuItem',
-
-  propTypes: {
-    className: _react2.default.PropTypes.string,
-    firstChild: _react2.default.PropTypes.bool,
-    index: _react2.default.PropTypes.number.isRequired,
-    style: _react2.default.PropTypes.object,
-    text: _react2.default.PropTypes.string.isRequired
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.menuSubheader;
-  },
-  getSpacing: function getSpacing() {
-    return this.state.muiTheme.rawTheme.spacing;
-  },
-  getStyles: function getStyles() {
-    var gutterMini = this.getSpacing().desktopGutterMini;
-    var subheaderHeight = this.getSpacing().desktopSubheaderHeight;
-    var styles = {
-      root: {
-        boxSizing: 'border-box',
-        fontSize: '13px',
-        letterSpacing: 0,
-        fontWeight: _typography2.default.fontWeightMedium,
-        margin: 0,
-        height: subheaderHeight + gutterMini,
-        lineHeight: subheaderHeight + 'px',
-        color: this.getTheme().textColor,
-        borderTop: 'solid 1px ' + this.getTheme().borderColor,
-        paddingTop: gutterMini,
-        marginTop: gutterMini
-      },
-      rootWhenFirstChild: {
-        height: subheaderHeight,
-        borderTop: 'none',
-        paddingTop: 0,
-        marginTop: 0
-      }
-    };
-
-    return styles;
-  },
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      {
-        key: this.props.index,
-        className: this.props.className,
-        style: this.prepareStyles(this.getStyles().root, this.props.firstChild && this.getStyles().rootWhenFirstChild, this.props.style) },
-      this.props.text
-    );
-  }
-});
-
-exports.default = SubheaderMenuItem;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/typography":137,"react":326}],110:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _colors = require('../styles/colors');
-
-var _colors2 = _interopRequireDefault(_colors);
-
-var _popover = require('../popover/popover');
-
-var _popover2 = _interopRequireDefault(_popover);
-
-var _check = require('../svg-icons/navigation/check');
-
-var _check2 = _interopRequireDefault(_check);
-
-var _listItem = require('../lists/list-item');
-
-var _listItem2 = _interopRequireDefault(_listItem);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _menu = require('./menu');
-
-var _menu2 = _interopRequireDefault(_menu);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var nestedMenuStyle = {
-  position: 'relative'
-};
-
-var MenuItem = _react2.default.createClass({
-  displayName: 'MenuItem',
-
-  propTypes: {
-    /**
-     * If true, a left check mark will be rendered.
-     */
-    checked: _react2.default.PropTypes.bool,
-
-    /**
-     * Elements passed as children to inner ListItem.
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * Indicates if the menu should render with compact desktop styles.
-     */
-    desktop: _react2.default.PropTypes.bool,
-
-    /**
-     * Disables a menu item.
-     */
-    disabled: _react2.default.PropTypes.bool,
-
-    /**
-     * Prop passed down to ListItem that tells it what kind of focus it has.
-     */
-    focusState: _react2.default.PropTypes.oneOf(['none', 'focused', 'keyboard-focused']),
-
-    /**
-     * Style overrides for the inner div.
-     */
-    innerDivStyle: _react2.default.PropTypes.object,
-
-    /**
-     * If true, the children will be indented.
-     * Only needed when there is no leftIcon.
-     */
-    insetChildren: _react2.default.PropTypes.bool,
-
-    /**
-     * This is the SvgIcon or FontIcon to be displayed on the left side.
-     */
-    leftIcon: _react2.default.PropTypes.element,
-
-    /**
-     * Nested MenuItems for this MenuItem. Used to make nested menus.
-     */
-    menuItems: _react2.default.PropTypes.node,
-
-    /**
-     * Fired when the element is touchTapped.
-     */
-    onTouchTap: _react2.default.PropTypes.func,
-
-    /**
-     * This is the SvgIcon or FontIcon to be displayed on the right side.
-     */
-    rightIcon: _react2.default.PropTypes.element,
-
-    /**
-     * This is the block element that contains the secondary text.
-     * If a string is passed in, a div tag will be rendered.
-     */
-    secondaryText: _react2.default.PropTypes.node,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-
-    /**
-     * The value of the menu item.
-     */
-    value: _react2.default.PropTypes.any
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_reactAddonsPureRenderMixin2.default, _stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      checked: false,
-      desktop: false,
-      disabled: false,
-      focusState: 'none',
-      insetChildren: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      open: false
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    this._applyFocusState();
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-
-    if (this.state.open && nextProps.focusState === 'none') {
-      this._onRequestClose();
-    }
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this._applyFocusState();
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    if (this.state.open) {
-      this.setState({
-        open: false
-      });
-    }
-  },
-  _applyFocusState: function _applyFocusState() {
-    this.refs.listItem.applyFocusState(this.props.focusState);
-  },
-  _cloneMenuItem: function _cloneMenuItem(item) {
-    var _this = this;
-
-    return _react2.default.cloneElement(item, {
-      onTouchTap: function onTouchTap(event) {
-        if (!item.props.menuItems) {
-          _this._onRequestClose();
-        }
-
-        if (item.props.onTouchTap) {
-          item.props.onTouchTap(event);
-        }
-      },
-      onRequestClose: this._onRequestClose
-    });
-  },
-  _onTouchTap: function _onTouchTap(event) {
-    event.preventDefault();
-
-    this.setState({
-      open: true,
-      anchorEl: _reactDom2.default.findDOMNode(this)
-    });
-
-    if (this.props.onTouchTap) {
-      this.props.onTouchTap(event);
-    }
-  },
-  _onRequestClose: function _onRequestClose() {
-    this.setState({
-      open: false,
-      anchorEl: null
-    });
-  },
-  render: function render() {
-    var _props = this.props;
-    var checked = _props.checked;
-    var children = _props.children;
-    var desktop = _props.desktop;
-    var disabled = _props.disabled;
-    var focusState = _props.focusState;
-    var innerDivStyle = _props.innerDivStyle;
-    var insetChildren = _props.insetChildren;
-    var leftIcon = _props.leftIcon;
-    var menuItems = _props.menuItems;
-    var rightIcon = _props.rightIcon;
-    var secondaryText = _props.secondaryText;
-    var style = _props.style;
-    var value = _props.value;
-
-    var other = _objectWithoutProperties(_props, ['checked', 'children', 'desktop', 'disabled', 'focusState', 'innerDivStyle', 'insetChildren', 'leftIcon', 'menuItems', 'rightIcon', 'secondaryText', 'style', 'value']);
-
-    var disabledColor = this.state.muiTheme.rawTheme.palette.disabledColor;
-    var textColor = this.state.muiTheme.rawTheme.palette.textColor;
-    var leftIndent = desktop ? 64 : 72;
-    var sidePadding = desktop ? 24 : 16;
-
-    var styles = {
-      root: {
-        color: disabled ? disabledColor : textColor,
-        lineHeight: desktop ? '32px' : '48px',
-        fontSize: desktop ? 15 : 16,
-        whiteSpace: 'nowrap'
-      },
-
-      innerDivStyle: {
-        paddingLeft: leftIcon || insetChildren || checked ? leftIndent : sidePadding,
-        paddingRight: sidePadding,
-        paddingBottom: 0,
-        paddingTop: 0
-      },
-
-      secondaryText: {
-        float: 'right'
-      },
-
-      leftIconDesktop: {
-        margin: 0,
-        left: 24,
-        top: 4
-      },
-
-      rightIconDesktop: {
-        margin: 0,
-        right: 24,
-        top: 4,
-        fill: _colors2.default.grey600
-      }
-    };
-
-    var mergedRootStyles = this.mergeStyles(styles.root, style);
-    var mergedInnerDivStyles = this.mergeStyles(styles.innerDivStyle, innerDivStyle);
-
-    //Left Icon
-    var leftIconElement = leftIcon ? leftIcon : checked ? _react2.default.createElement(_check2.default, null) : null;
-    if (leftIconElement && desktop) {
-      var mergedLeftIconStyles = this.mergeStyles(styles.leftIconDesktop, leftIconElement.props.style);
-      leftIconElement = _react2.default.cloneElement(leftIconElement, { style: mergedLeftIconStyles });
-    }
-
-    //Right Icon
-    var rightIconElement = undefined;
-    if (rightIcon) {
-      var mergedRightIconStyles = desktop ? this.mergeStyles(styles.rightIconDesktop, rightIcon.props.style) : rightIcon.props.style;
-      rightIconElement = _react2.default.cloneElement(rightIcon, { style: mergedRightIconStyles });
-    }
-
-    //Secondary Text
-    var secondaryTextElement = undefined;
-    if (secondaryText) {
-      var secondaryTextIsAnElement = _react2.default.isValidElement(secondaryText);
-      var mergedSecondaryTextStyles = secondaryTextIsAnElement ? this.mergeStyles(styles.secondaryText, secondaryText.props.style) : null;
-
-      secondaryTextElement = secondaryTextIsAnElement ? _react2.default.cloneElement(secondaryText, { style: mergedSecondaryTextStyles }) : _react2.default.createElement(
-        'div',
-        { style: this.prepareStyles(styles.secondaryText) },
-        secondaryText
-      );
-    }
-    var childMenuPopover = undefined;
-    if (menuItems) {
-      childMenuPopover = _react2.default.createElement(
-        _popover2.default,
-        {
-          anchorOrigin: { horizontal: 'right', vertical: 'top' },
-          anchorEl: this.state.anchorEl,
-          open: this.state.open,
-          useLayerForClickAway: false,
-          onRequestClose: this._onRequestClose },
-        _react2.default.createElement(
-          _menu2.default,
-          { desktop: desktop, disabled: disabled, style: nestedMenuStyle },
-          _react2.default.Children.map(menuItems, this._cloneMenuItem)
-        )
-      );
-      other.onTouchTap = this._onTouchTap;
-    }
-
-    return _react2.default.createElement(
-      _listItem2.default,
-      _extends({}, other, {
-        disabled: disabled,
-        innerDivStyle: mergedInnerDivStyles,
-        insetChildren: insetChildren,
-        leftIcon: leftIconElement,
-        ref: 'listItem',
-        rightIcon: rightIconElement,
-        style: mergedRootStyles }),
-      children,
-      secondaryTextElement,
-      childMenuPopover
-    );
-  }
-});
-
-exports.default = MenuItem;
-module.exports = exports['default'];
-},{"../lists/list-item":103,"../mixins/style-propable":115,"../popover/popover":120,"../styles/colors":128,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../svg-icons/navigation/check":144,"./menu":111,"react":326,"react-addons-pure-render-mixin":181,"react-dom":184}],111:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactAddonsUpdate = require('react-addons-update');
-
-var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
-
-var _controllable = require('../mixins/controllable');
-
-var _controllable2 = _interopRequireDefault(_controllable);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _clickAwayable = require('../mixins/click-awayable');
-
-var _clickAwayable2 = _interopRequireDefault(_clickAwayable);
-
-var _autoPrefix = require('../styles/auto-prefix');
-
-var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
-
-var _transitions = require('../styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _keyCode = require('../utils/key-code');
-
-var _keyCode2 = _interopRequireDefault(_keyCode);
-
-var _propTypes = require('../utils/prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _list = require('../lists/list');
-
-var _list2 = _interopRequireDefault(_list);
-
-var _paper = require('../paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var Menu = _react2.default.createClass({
-  displayName: 'Menu',
-
-  propTypes: {
-    /**
-     * If true, the menu will apply transitions when added it
-     * gets added to the DOM. In order for transitions to
-     * work, wrap the menu inside a ReactTransitionGroup.
-     */
-    animated: _react2.default.PropTypes.bool,
-
-    /**
-     * If true, the width will automatically be
-     * set according to the items inside the menu
-     * using the proper keyline increment.
-     */
-    autoWidth: _react2.default.PropTypes.bool,
-
-    /**
-     * Children for the Menu. Usually MenuItems.
-     */
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * Indicates if the menu should render with compact desktop styles.
-     */
-    desktop: _react2.default.PropTypes.bool,
-
-    /**
-     * True if this item should be focused by the keyboard initially.
-     */
-    initiallyKeyboardFocused: _react2.default.PropTypes.bool,
-
-    /**
-     * The style object to use to override underlying list style.
-     */
-    listStyle: _react2.default.PropTypes.object,
-
-    /**
-     * The maxHeight of the menu in pixels. If
-     * specified, the menu will scroll if larger than the maxHeight.
-     */
-    maxHeight: _react2.default.PropTypes.number,
-
-    /**
-     * If true, the value can an array and allow the menu to be a multi-select.
-     */
-    multiple: _react2.default.PropTypes.bool,
-
-    /**
-     * Fired when a menu item is touchTapped and the menu item
-     * value is not equal to the current menu value.
-     */
-    onChange: _react2.default.PropTypes.func,
-
-    /**
-     * Fired when an Esc key is keyed down.
-     */
-    onEscKeyDown: _react2.default.PropTypes.func,
-
-    /**
-     * Fired when a menu item is touchTapped.
-     */
-    onItemTouchTap: _react2.default.PropTypes.func,
-
-    /**
-     * Fired when a key is pressed.
-     */
-    onKeyDown: _react2.default.PropTypes.func,
-
-    /**
-     * This is the placement of the menu relative to the IconButton.
-     */
-    openDirection: _propTypes2.default.corners,
-
-    /**
-     * Style for the selected Menu Item.
-     */
-    selectedMenuItemStyle: _react2.default.PropTypes.object,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-
-    /**
-     * The value of the selected menu item. If passed in,
-     * this will make the menu a controlled component.
-     * This component also supports valueLink.
-     */
-    value: _react2.default.PropTypes.any,
-
-    /**
-     * ValueLink for this component when controlled.
-     */
-    valueLink: _react2.default.PropTypes.object,
-
-    /**
-     * Sets the width of the menu. If not specified, the menu
-     * width will be dictated by its children. The rendered
-     * width will always be a keyline increment
-     * (64px for desktop, 56px otherwise).
-     */
-    width: _propTypes2.default.stringOrNumber,
-
-    /**
-     * Sets the width of the menu. If not specified,
-     * the menu width will be dictated by its children.
-     * The rendered width will always be a keyline increment
-     * (64px for desktop, 56px otherwise).
-     */
-    zDepth: _propTypes2.default.zDepth
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default, _controllable2.default, _clickAwayable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      animated: false,
-      autoWidth: true,
-      desktop: false,
-      initiallyKeyboardFocused: false,
-      maxHeight: null,
-      multiple: false,
-      onEscKeyDown: function onEscKeyDown() {},
-      onItemTouchTap: function onItemTouchTap() {},
-      onKeyDown: function onKeyDown() {},
-      openDirection: 'bottom-left',
-      zDepth: 1
-    };
-  },
-  getInitialState: function getInitialState() {
-    var filteredChildren = this._getFilteredChildren(this.props.children);
-    var selectedIndex = this._getSelectedIndex(this.props, filteredChildren);
-
-    return {
-      focusIndex: selectedIndex >= 0 ? selectedIndex : 0,
-      isKeyboardFocused: this.props.initiallyKeyboardFocused,
-      keyWidth: this.props.desktop ? 64 : 56,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    if (this.props.autoWidth) this._setWidth();
-    if (!this.props.animated) this._animateOpen();
-    this._setScollPosition();
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var filteredChildren = this._getFilteredChildren(nextProps.children);
-    var selectedIndex = this._getSelectedIndex(nextProps, filteredChildren);
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-
-    this.setState({
-      focusIndex: selectedIndex >= 0 ? selectedIndex : 0,
-      keyWidth: nextProps.desktop ? 64 : 56,
-      muiTheme: newMuiTheme
-    });
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    if (this.props.autoWidth) this._setWidth();
-  },
-  componentDidEnter: function componentDidEnter() {
-    this._animateOpen();
-  },
-  componentWillLeave: function componentWillLeave(callback) {
-    var _this = this;
-
-    var rootStyle = _reactDom2.default.findDOMNode(this).style;
-    rootStyle.transition = _transitions2.default.easeOut('250ms', ['opacity', 'transform']);
-    rootStyle.transform = 'translate3d(0,-8px,0)';
-    rootStyle.opacity = 0;
-    rootStyle = _autoPrefix2.default.all(rootStyle);
-    setTimeout(function () {
-      if (_this.isMounted()) callback();
-    }, 250);
-  },
-  componentClickAway: function componentClickAway(e) {
-    if (e.defaultPrevented) return;
-    this._setFocusIndex(-1, false);
-  },
-  setKeyboardFocused: function setKeyboardFocused(keyboardFocused) {
-    this.setState({
-      isKeyboardFocused: keyboardFocused
-    });
-  },
-  _getFilteredChildren: function _getFilteredChildren(children) {
-    var filteredChildren = [];
-    _react2.default.Children.forEach(children, function (child) {
-      if (child) {
-        filteredChildren.push(child);
-      }
-    });
-    return filteredChildren;
-  },
-  _animateOpen: function _animateOpen() {
-    var rootStyle = _reactDom2.default.findDOMNode(this).style;
-    var scrollContainerStyle = _reactDom2.default.findDOMNode(this.refs.scrollContainer).style;
-    var menuContainers = _reactDom2.default.findDOMNode(this.refs.list).childNodes;
-
-    _autoPrefix2.default.set(rootStyle, 'transform', 'scaleX(1)');
-    _autoPrefix2.default.set(scrollContainerStyle, 'transform', 'scaleY(1)');
-    scrollContainerStyle.opacity = 1;
-
-    for (var i = 0; i < menuContainers.length; ++i) {
-      menuContainers[i].style.opacity = 1;
-    }
-  },
-  _cloneMenuItem: function _cloneMenuItem(child, childIndex, styles) {
-    var _this2 = this;
-
-    var _props = this.props;
-    var desktop = _props.desktop;
-    var selectedMenuItemStyle = _props.selectedMenuItemStyle;
-
-    var selected = this._isChildSelected(child, this.props);
-    var selectedChildrenStyles = {};
-
-    if (selected) {
-      selectedChildrenStyles = this.mergeStyles(styles.selectedMenuItem, selectedMenuItemStyle);
-    }
-
-    var mergedChildrenStyles = this.mergeStyles(child.props.style || {}, selectedChildrenStyles);
-
-    var isFocused = childIndex === this.state.focusIndex;
-    var focusState = 'none';
-    if (isFocused) {
-      focusState = this.state.isKeyboardFocused ? 'keyboard-focused' : 'focused';
-    }
-
-    return _react2.default.cloneElement(child, {
-      desktop: desktop,
-      focusState: focusState,
-      onTouchTap: function onTouchTap(e) {
-        _this2._handleMenuItemTouchTap(e, child);
-        if (child.props.onTouchTap) child.props.onTouchTap(e);
-      },
-      ref: isFocused ? 'focusedMenuItem' : null,
-      style: mergedChildrenStyles
-    });
-  },
-  _decrementKeyboardFocusIndex: function _decrementKeyboardFocusIndex() {
-    var index = this.state.focusIndex;
-
-    index--;
-    if (index < 0) index = 0;
-
-    this._setFocusIndex(index, true);
-  },
-  _getCascadeChildrenCount: function _getCascadeChildrenCount(filteredChildren) {
-    var _props2 = this.props;
-    var desktop = _props2.desktop;
-    var maxHeight = _props2.maxHeight;
-
-    var count = 1;
-    var currentHeight = desktop ? 16 : 8;
-    var menuItemHeight = desktop ? 32 : 48;
-
-    //MaxHeight isn't set - cascade all of the children
-    if (!maxHeight) return filteredChildren.length;
-
-    //Count all the children that will fit inside the
-    //max menu height
-    filteredChildren.forEach(function (child) {
-      if (currentHeight < maxHeight) {
-        var childIsADivider = child.type && child.type.displayName === 'Divider';
-
-        currentHeight += childIsADivider ? 16 : menuItemHeight;
-        count++;
-      }
-    });
-
-    return count;
-  },
-  _getMenuItemCount: function _getMenuItemCount(filteredChildren) {
-    var menuItemCount = 0;
-    filteredChildren.forEach(function (child) {
-      var childIsADivider = child.type && child.type.displayName === 'Divider';
-      var childIsDisabled = child.props.disabled;
-      if (!childIsADivider && !childIsDisabled) menuItemCount++;
-    });
-    return menuItemCount;
-  },
-  _getSelectedIndex: function _getSelectedIndex(props, filteredChildren) {
-    var _this3 = this;
-
-    var selectedIndex = -1;
-    var menuItemIndex = 0;
-
-    filteredChildren.forEach(function (child) {
-      var childIsADivider = child.type && child.type.displayName === 'Divider';
-
-      if (_this3._isChildSelected(child, props)) selectedIndex = menuItemIndex;
-      if (!childIsADivider) menuItemIndex++;
-    });
-
-    return selectedIndex;
-  },
-  _handleKeyDown: function _handleKeyDown(e) {
-    var filteredChildren = this._getFilteredChildren(this.props.children);
-    switch (e.keyCode) {
-      case _keyCode2.default.DOWN:
-        e.preventDefault();
-        this._incrementKeyboardFocusIndex(filteredChildren);
-        break;
-      case _keyCode2.default.ESC:
-        this.props.onEscKeyDown(e);
-        break;
-      case _keyCode2.default.TAB:
-        e.preventDefault();
-        if (e.shiftKey) {
-          this._decrementKeyboardFocusIndex();
-        } else {
-          this._incrementKeyboardFocusIndex(filteredChildren);
-        }
-        break;
-      case _keyCode2.default.UP:
-        e.preventDefault();
-        this._decrementKeyboardFocusIndex();
-        break;
-    }
-    this.props.onKeyDown(e);
-  },
-  _handleMenuItemTouchTap: function _handleMenuItemTouchTap(e, item) {
-    var children = this.props.children;
-    var multiple = this.props.multiple;
-    var valueLink = this.getValueLink(this.props);
-    var menuValue = valueLink.value;
-    var itemValue = item.props.value;
-    var focusIndex = _react2.default.isValidElement(children) ? 0 : children.indexOf(item);
-
-    this._setFocusIndex(focusIndex, false);
-
-    if (multiple) {
-      var index = menuValue.indexOf(itemValue);
-      var newMenuValue = index === -1 ? (0, _reactAddonsUpdate2.default)(menuValue, { $push: [itemValue] }) : (0, _reactAddonsUpdate2.default)(menuValue, { $splice: [[index, 1]] });
-
-      valueLink.requestChange(e, newMenuValue);
-    } else if (!multiple && itemValue !== menuValue) {
-      valueLink.requestChange(e, itemValue);
-    }
-
-    this.props.onItemTouchTap(e, item);
-  },
-  _incrementKeyboardFocusIndex: function _incrementKeyboardFocusIndex(filteredChildren) {
-    var index = this.state.focusIndex;
-    var maxIndex = this._getMenuItemCount(filteredChildren) - 1;
-
-    index++;
-    if (index > maxIndex) index = maxIndex;
-
-    this._setFocusIndex(index, true);
-  },
-  _isChildSelected: function _isChildSelected(child, props) {
-    var multiple = props.multiple;
-    var menuValue = this.getValueLink(props).value;
-    var childValue = child.props.value;
-
-    return multiple && menuValue.length && menuValue.indexOf(childValue) !== -1 || !multiple && menuValue && menuValue === childValue;
-  },
-  _setFocusIndex: function _setFocusIndex(newIndex, isKeyboardFocused) {
-    this.setState({
-      focusIndex: newIndex,
-      isKeyboardFocused: isKeyboardFocused
-    });
-  },
-  _setScollPosition: function _setScollPosition() {
-    var desktop = this.props.desktop;
-    var focusedMenuItem = this.refs.focusedMenuItem;
-    var menuItemHeight = desktop ? 32 : 48;
-
-    if (focusedMenuItem) {
-      var selectedOffSet = _reactDom2.default.findDOMNode(focusedMenuItem).offsetTop;
-
-      //Make the focused item be the 2nd item in the list the
-      //user sees
-      var scrollTop = selectedOffSet - menuItemHeight;
-      if (scrollTop < menuItemHeight) scrollTop = 0;
-
-      _reactDom2.default.findDOMNode(this.refs.scrollContainer).scrollTop = scrollTop;
-    }
-  },
-  _setWidth: function _setWidth() {
-    var el = _reactDom2.default.findDOMNode(this);
-    var listEl = _reactDom2.default.findDOMNode(this.refs.list);
-    var elWidth = el.offsetWidth;
-    var keyWidth = this.state.keyWidth;
-    var minWidth = keyWidth * 1.5;
-    var keyIncrements = elWidth / keyWidth;
-    var newWidth = undefined;
-
-    keyIncrements = keyIncrements <= 1.5 ? 1.5 : Math.ceil(keyIncrements);
-    newWidth = keyIncrements * keyWidth;
-
-    if (newWidth < minWidth) newWidth = minWidth;
-
-    el.style.width = newWidth + 'px';
-    listEl.style.width = newWidth + 'px';
-  },
-  render: function render() {
-    var _this4 = this;
-
-    var _props3 = this.props;
-    var animated = _props3.animated;
-    var autoWidth = _props3.autoWidth;
-    var children = _props3.children;
-    var desktop = _props3.desktop;
-    var initiallyKeyboardFocused = _props3.initiallyKeyboardFocused;
-    var listStyle = _props3.listStyle;
-    var maxHeight = _props3.maxHeight;
-    var multiple = _props3.multiple;
-    var openDirection = _props3.openDirection;
-    var selectedMenuItemStyle = _props3.selectedMenuItemStyle;
-    var style = _props3.style;
-    var value = _props3.value;
-    var valueLink = _props3.valueLink;
-    var width = _props3.width;
-    var zDepth = _props3.zDepth;
-
-    var other = _objectWithoutProperties(_props3, ['animated', 'autoWidth', 'children', 'desktop', 'initiallyKeyboardFocused', 'listStyle', 'maxHeight', 'multiple', 'openDirection', 'selectedMenuItemStyle', 'style', 'value', 'valueLink', 'width', 'zDepth']);
-
-    var openDown = openDirection.split('-')[0] === 'bottom';
-    var openLeft = openDirection.split('-')[1] === 'left';
-
-    var muiTheme = this.state.muiTheme;
-    var rawTheme = muiTheme.rawTheme;
-
-    var styles = {
-      root: {
-        //Nested div bacause the List scales x faster than
-        //it scales y
-        transition: animated ? _transitions2.default.easeOut('250ms', 'transform') : null,
-        zIndex: muiTheme.zIndex.menu,
-        top: openDown ? 0 : null,
-        bottom: !openDown ? 0 : null,
-        left: !openLeft ? 0 : null,
-        right: openLeft ? 0 : null,
-        transform: 'scaleX(0)',
-        transformOrigin: openLeft ? 'right' : 'left'
-      },
-
-      divider: {
-        marginTop: 7,
-        marginBottom: 8
-      },
-
-      list: {
-        display: 'table-cell',
-        paddingBottom: desktop ? 16 : 8,
-        paddingTop: desktop ? 16 : 8,
-        userSelect: 'none',
-        width: width
-      },
-
-      menuItemContainer: {
-        transition: animated ? _transitions2.default.easeOut(null, 'opacity') : null,
-        opacity: 0
-      },
-
-      paper: {
-        transition: animated ? _transitions2.default.easeOut('500ms', ['transform', 'opacity']) : null,
-        transform: 'scaleY(0)',
-        transformOrigin: openDown ? 'top' : 'bottom',
-        opacity: 0,
-        maxHeight: maxHeight,
-        overflowY: maxHeight ? 'auto' : null
-      },
-
-      selectedMenuItem: {
-        color: rawTheme.palette.accent1Color
-      }
-    };
-
-    var mergedRootStyles = this.prepareStyles(styles.root, style);
-    var mergedListStyles = this.mergeStyles(styles.list, listStyle);
-
-    var filteredChildren = this._getFilteredChildren(children);
-
-    //Cascade children opacity
-    var cumulativeDelay = openDown ? 175 : 325;
-    var cascadeChildrenCount = this._getCascadeChildrenCount(filteredChildren);
-    var cumulativeDelayIncrement = Math.ceil(150 / cascadeChildrenCount);
-
-    var menuItemIndex = 0;
-    var newChildren = _react2.default.Children.map(filteredChildren, function (child) {
-      var childIsADivider = child.type && child.type.displayName === 'Divider';
-      var childIsDisabled = child.props.disabled;
-      var childrenContainerStyles = {};
-
-      if (animated) {
-        var focusIndex = _this4.state.focusIndex;
-        var transitionDelay = 0;
-
-        //Only cascade the visible menu items
-        if (menuItemIndex >= focusIndex - 1 && menuItemIndex <= focusIndex + cascadeChildrenCount - 1) {
-          cumulativeDelay = openDown ? cumulativeDelay + cumulativeDelayIncrement : cumulativeDelay - cumulativeDelayIncrement;
-          transitionDelay = cumulativeDelay;
-        }
-
-        childrenContainerStyles = _this4.prepareStyles(styles.menuItemContainer, {
-          transitionDelay: transitionDelay + 'ms'
-        });
-      }
-
-      var clonedChild = childIsADivider ? _react2.default.cloneElement(child, { style: styles.divider }) : childIsDisabled ? _react2.default.cloneElement(child, { desktop: desktop }) : _this4._cloneMenuItem(child, menuItemIndex, styles);
-
-      if (!childIsADivider && !childIsDisabled) menuItemIndex++;
-
-      return animated ? _react2.default.createElement(
-        'div',
-        { style: childrenContainerStyles },
-        clonedChild
-      ) : clonedChild;
-    });
-
-    return _react2.default.createElement(
-      'div',
-      {
-        onKeyDown: this._handleKeyDown,
-        style: mergedRootStyles },
-      _react2.default.createElement(
-        _paper2.default,
-        {
-          ref: 'scrollContainer',
-          style: styles.paper,
-          zDepth: zDepth },
-        _react2.default.createElement(
-          _list2.default,
-          _extends({}, other, {
-            ref: 'list',
-            style: mergedListStyles }),
-          newChildren
-        )
-      )
-    );
-  }
-});
-
-exports.default = Menu;
-module.exports = exports['default'];
-},{"../lists/list":104,"../mixins/click-awayable":112,"../mixins/controllable":114,"../mixins/style-propable":115,"../paper":118,"../styles/auto-prefix":125,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/transitions":136,"../utils/key-code":167,"../utils/prop-types":169,"react":326,"react-addons-update":183,"react-dom":184}],112:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _events = require('../utils/events');
-
-var _events2 = _interopRequireDefault(_events);
-
-var _dom = require('../utils/dom');
-
-var _dom2 = _interopRequireDefault(_dom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-
-  //When the component mounts, listen to click events and check if we need to
-  //Call the componentClickAway function.
-
-  componentDidMount: function componentDidMount() {
-    if (!this.manuallyBindClickAway) this._bindClickAway();
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    this._unbindClickAway();
-  },
-  _checkClickAway: function _checkClickAway(event) {
-    if (this.isMounted()) {
-      var el = _reactDom2.default.findDOMNode(this);
-
-      // Check if the target is inside the current component
-      if (event.target !== el && !_dom2.default.isDescendant(el, event.target) && document.documentElement.contains(event.target)) {
-        if (this.componentClickAway) this.componentClickAway(event);
-      }
-    }
-  },
-  _bindClickAway: function _bindClickAway() {
-    // On touch-enabled devices, both events fire, and the handler is called twice,
-    // but it's fine since all operations for which the mixin is used
-    // are idempotent.
-    _events2.default.on(document, 'mouseup', this._checkClickAway);
-    _events2.default.on(document, 'touchend', this._checkClickAway);
-  },
-  _unbindClickAway: function _unbindClickAway() {
-    _events2.default.off(document, 'mouseup', this._checkClickAway);
-    _events2.default.off(document, 'touchend', this._checkClickAway);
-  }
-};
-module.exports = exports['default'];
-},{"../utils/dom":163,"../utils/events":164,"react-dom":184}],113:[function(require,module,exports){
+},{"./enhanced-button":87,"./font-icon":88,"./mixins/context-pure":90,"./mixins/style-propable":91,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./styles/transitions":104,"./tooltip":109,"./utils/children":112,"./utils/prop-types":119,"react":270}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15116,44 +9349,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{"../utils/shallow-equal":170}],114:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-
-  propTypes: {
-    onChange: _react2.default.PropTypes.func,
-    value: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.array]),
-    valueLink: _react2.default.PropTypes.shape({
-      value: _react2.default.PropTypes.string.isRequired,
-      requestChange: _react2.default.PropTypes.func.isRequired
-    })
-  },
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      onChange: function onChange() {}
-    };
-  },
-  getValueLink: function getValueLink(props) {
-    return props.valueLink || {
-      value: props.value,
-      requestChange: props.onChange
-    };
-  }
-};
-module.exports = exports['default'];
-},{"react":326}],115:[function(require,module,exports){
+},{"../utils/shallow-equal":120}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15209,39 +9405,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{"../utils/immutability-helper":166,"../utils/styles":171,"react":326}],116:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _events = require('../utils/events');
-
-var _events2 = _interopRequireDefault(_events);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  componentDidMount: function componentDidMount() {
-    var listeners = this.windowListeners;
-
-    for (var eventName in listeners) {
-      var callbackName = listeners[eventName];
-      _events2.default.on(window, eventName, this[callbackName]);
-    }
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    var listeners = this.windowListeners;
-
-    for (var eventName in listeners) {
-      var callbackName = listeners[eventName];
-      _events2.default.off(window, eventName, this[callbackName]);
-    }
-  }
-};
-module.exports = exports['default'];
-},{"../utils/events":164}],117:[function(require,module,exports){
+},{"../utils/immutability-helper":117,"../utils/styles":121,"react":270}],92:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -15249,137 +9413,46 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = muiThemeable;
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
+var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
+var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
 
-var _stylePropable = require('./mixins/style-propable');
+var _themeManager = require('./styles/theme-manager');
 
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _transitions = require('./styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _colors = require('./styles/colors');
-
-var _colors2 = _interopRequireDefault(_colors);
+var _themeManager2 = _interopRequireDefault(_themeManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
 
-var Overlay = _react2.default.createClass({
-  displayName: 'Overlay',
+function muiThemeable(WrappedComponent) {
+  var MuiComponent = function MuiComponent(props, _ref) {
+    var _ref$muiTheme = _ref.muiTheme;
+    var muiTheme = _ref$muiTheme === undefined ? _themeManager2.default.getMuiTheme(_lightRawTheme2.default) : _ref$muiTheme;
 
-  propTypes: {
-    autoLockScrolling: _react2.default.PropTypes.bool,
-    show: _react2.default.PropTypes.bool.isRequired,
+    return _react2.default.createElement(WrappedComponent, _extends({}, props, { muiTheme: muiTheme }));
+  };
 
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    transitionEnabled: _react2.default.PropTypes.bool
-  },
-
-  contextTypes: {
+  MuiComponent.displayName = getDisplayName(WrappedComponent);
+  MuiComponent.contextTypes = {
     muiTheme: _react2.default.PropTypes.object
-  },
+  };
+  MuiComponent.childContextTypes = {
+    muiTheme: _react2.default.PropTypes.object
+  };
 
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      autoLockScrolling: true,
-      transitionEnabled: true,
-      style: {}
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    this._originalBodyOverflow = document.getElementsByTagName('body')[0].style.overflow;
-    if (this.props.show) {
-      this._applyAutoLockScrolling(this.props);
-    }
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    if (this.props.show !== nextProps.show) {
-      this._applyAutoLockScrolling(nextProps);
-    }
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    this._allowScrolling();
-  },
-
-  _originalBodyOverflow: '',
-
-  setOpacity: function setOpacity(opacity) {
-    var overlay = _reactDom2.default.findDOMNode(this);
-    overlay.style.opacity = opacity;
-  },
-  getStyles: function getStyles() {
-    return {
-      root: {
-        position: 'fixed',
-        height: '100%',
-        width: '100%',
-        top: 0,
-        left: '-100%',
-        opacity: 0,
-        backgroundColor: _colors2.default.lightBlack,
-        WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-
-        // Two ways to promote overlay to its own render layer
-        willChange: 'opacity',
-        transform: 'translateZ(0)',
-
-        transition: this.props.transitionEnabled && _transitions2.default.easeOut('0ms', 'left', '400ms') + ',' + _transitions2.default.easeOut('400ms', 'opacity')
-      },
-      rootWhenShown: {
-        left: '0',
-        opacity: 1,
-        transition: this.props.transitionEnabled && _transitions2.default.easeOut('0ms', 'left') + ',' + _transitions2.default.easeOut('400ms', 'opacity')
-      }
-    };
-  },
-  _applyAutoLockScrolling: function _applyAutoLockScrolling(props) {
-    if (props.autoLockScrolling) {
-      if (props.show) {
-        this._preventScrolling();
-      } else {
-        this._allowScrolling();
-      }
-    }
-  },
-  _preventScrolling: function _preventScrolling() {
-    var body = document.getElementsByTagName('body')[0];
-    body.style.overflow = 'hidden';
-  },
-  _allowScrolling: function _allowScrolling() {
-    var body = document.getElementsByTagName('body')[0];
-    body.style.overflow = this._originalBodyOverflow || '';
-  },
-  render: function render() {
-    var _props = this.props;
-    var show = _props.show;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['show', 'style']);
-
-    var styles = this.prepareStyles(this.getStyles().root, style, show && this.getStyles().rootWhenShown);
-
-    return _react2.default.createElement('div', _extends({}, other, { style: styles }));
-  }
-});
-
-exports.default = Overlay;
+  return MuiComponent;
+}
 module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/colors":128,"./styles/transitions":136,"react":326,"react-dom":184}],118:[function(require,module,exports){
+},{"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"react":270}],93:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -15528,728 +9601,7 @@ var Paper = _react2.default.createClass({
 
 exports.default = Paper;
 module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"./utils/prop-types":169,"react":326,"react-addons-pure-render-mixin":181}],119:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _transitions = require('../styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('../utils/prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _paper = require('../paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PopoverDefaultAnimation = _react2.default.createClass({
-  displayName: 'PopoverDefaultAnimation',
-
-  propTypes: {
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    open: _react2.default.PropTypes.bool.isRequired,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    targetOrigin: _propTypes2.default.origin,
-    zDepth: _propTypes2.default.zDepth
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      style: {},
-      zDepth: 1
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      open: false
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    this.setState({ open: true }); //eslint-disable-line react/no-did-mount-set-state
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-
-    this.setState({
-      open: nextProps.open,
-      muiTheme: newMuiTheme
-    });
-  },
-  getStyles: function getStyles() {
-    var targetOrigin = this.props.targetOrigin;
-
-    var horizontal = targetOrigin.horizontal.replace('middle', 'vertical');
-
-    return {
-      base: {
-        opacity: 0,
-        transform: 'scale(0, 0)',
-        transformOrigin: horizontal + ' ' + targetOrigin.vertical,
-        position: 'fixed',
-        zIndex: this.state.muiTheme.zIndex.popover,
-        transition: _transitions2.default.easeOut('250ms', ['transform', 'opacity']),
-        maxHeight: '100%'
-
-      },
-      horizontal: {
-        maxHeight: '100%',
-        overflowY: 'auto',
-        transform: 'scaleX(0)',
-        opacity: 0,
-        transformOrigin: horizontal + ' ' + targetOrigin.vertical,
-        transition: _transitions2.default.easeOut('250ms', ['transform', 'opacity'])
-      },
-      vertical: {
-        opacity: 0,
-        transform: 'scaleY(0)',
-        transformOrigin: horizontal + ' ' + targetOrigin.vertical,
-        transition: _transitions2.default.easeOut('500ms', ['transform', 'opacity'])
-      }
-    };
-  },
-  getOpenStyles: function getOpenStyles() {
-    return {
-      base: {
-        opacity: 1,
-        transform: 'scale(1, 1)'
-      },
-      horizontal: {
-        opacity: 1,
-        transform: 'scaleX(1)'
-      },
-      vertical: {
-        opacity: 1,
-        transform: 'scaleY(1)'
-      }
-    };
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var style = _props.style;
-    var zDepth = _props.zDepth;
-
-    var styles = this.getStyles();
-    var openStyles = {};
-    if (this.state.open) openStyles = this.getOpenStyles();
-
-    return _react2.default.createElement(
-      _paper2.default,
-      {
-        style: this.mergeStyles(styles.base, style, openStyles.base),
-        zDepth: zDepth,
-        className: className },
-      _react2.default.createElement(
-        'div',
-        { style: this.prepareStyles(styles.horizontal, openStyles.horizontal) },
-        _react2.default.createElement(
-          'div',
-          { style: this.prepareStyles(styles.vertical, openStyles.vertical) },
-          this.props.children
-        )
-      )
-    );
-  }
-});
-
-exports.default = PopoverDefaultAnimation;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../paper":118,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/transitions":136,"../utils/prop-types":169,"react":326}],120:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _windowListenable = require('../mixins/window-listenable');
-
-var _windowListenable2 = _interopRequireDefault(_windowListenable);
-
-var _renderToLayer = require('../render-to-layer');
-
-var _renderToLayer2 = _interopRequireDefault(_renderToLayer);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _propTypes = require('../utils/prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _paper = require('../paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _lodash = require('lodash.throttle');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _extend = require('../utils/extend');
-
-var _extend2 = _interopRequireDefault(_extend);
-
-var _popoverDefaultAnimation = require('./popover-default-animation');
-
-var _popoverDefaultAnimation2 = _interopRequireDefault(_popoverDefaultAnimation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var Popover = _react2.default.createClass({
-  displayName: 'Popover',
-
-  propTypes: {
-    anchorEl: _react2.default.PropTypes.object,
-    anchorOrigin: _propTypes2.default.origin,
-    animated: _react2.default.PropTypes.bool,
-    animation: _react2.default.PropTypes.func,
-    autoCloseWhenOffScreen: _react2.default.PropTypes.bool,
-    canAutoPosition: _react2.default.PropTypes.bool,
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    onRequestClose: _react2.default.PropTypes.func,
-    open: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    targetOrigin: _propTypes2.default.origin,
-    useLayerForClickAway: _react2.default.PropTypes.bool,
-    zDepth: _propTypes2.default.zDepth
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default, _windowListenable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'left'
-      },
-      animation: _popoverDefaultAnimation2.default,
-      animated: true,
-      autoCloseWhenOffScreen: true,
-      canAutoPosition: true,
-      onRequestClose: function onRequestClose() {},
-      open: false,
-      style: {
-        overflowY: 'auto'
-      },
-      targetOrigin: {
-        vertical: 'top',
-        horizontal: 'left'
-      },
-      useLayerForClickAway: true,
-      zDepth: 1
-    };
-  },
-  getInitialState: function getInitialState() {
-    this.setPlacementThrottled = (0, _lodash2.default)(this.setPlacement, 100);
-    this.setPlacementThrottledScrolled = (0, _lodash2.default)(this.setPlacement.bind(this, true), 100);
-
-    return {
-      open: this.props.open,
-      closing: false,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var _this = this;
-
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-
-    if (nextProps.open !== this.state.open) {
-      if (nextProps.open) {
-        this.anchorEl = nextProps.anchorEl || this.props.anchorEl;
-        this.setState({
-          open: true,
-          closing: false,
-          muiTheme: newMuiTheme
-        });
-      } else {
-        if (nextProps.animated) {
-          this.setState({ closing: true });
-          this._timeout = setTimeout(function () {
-            if (_this.isMounted()) {
-              _this.setState({
-                open: false,
-                muiTheme: newMuiTheme
-              });
-            }
-          }, 500);
-        } else {
-          this.setState({
-            open: false,
-            muiTheme: newMuiTheme
-          });
-        }
-      }
-    }
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this.setPlacement();
-  },
-
-  windowListeners: {
-    resize: 'setPlacementThrottled',
-    scroll: 'setPlacementThrottledScrolled'
-  },
-
-  renderLayer: function renderLayer() {
-    var _props = this.props;
-    var animated = _props.animated;
-    var animation = _props.animation;
-    var children = _props.children;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['animated', 'animation', 'children', 'style']);
-
-    var Animation = animation;
-
-    if (!animated) {
-      Animation = _paper2.default;
-      style = { position: 'fixed' };
-      if (!this.state.open) {
-        return null;
-      }
-    }
-
-    return _react2.default.createElement(
-      Animation,
-      _extends({}, other, { style: style, open: this.state.open && !this.state.closing }),
-      children
-    );
-  },
-  requestClose: function requestClose(reason) {
-    if (this.props.onRequestClose) {
-      this.props.onRequestClose(reason);
-    }
-  },
-  componentClickAway: function componentClickAway() {
-    this.requestClose('clickAway');
-  },
-  _resizeAutoPosition: function _resizeAutoPosition() {
-    this.setPlacement();
-  },
-  getAnchorPosition: function getAnchorPosition(el) {
-    if (!el) {
-      el = _reactDom2.default.findDOMNode(this);
-    }
-
-    var rect = el.getBoundingClientRect();
-    var a = {
-      top: rect.top,
-      left: rect.left,
-      width: el.offsetWidth,
-      height: el.offsetHeight
-    };
-
-    a.right = rect.right || a.left + a.width;
-    a.bottom = rect.bottom || a.top + a.height;
-    a.middle = a.left + (a.right - a.left) / 2;
-    a.center = a.top + (a.bottom - a.top) / 2;
-
-    return a;
-  },
-  getTargetPosition: function getTargetPosition(targetEl) {
-    return {
-      top: 0,
-      center: targetEl.offsetHeight / 2,
-      bottom: targetEl.offsetHeight,
-      left: 0,
-      middle: targetEl.offsetWidth / 2,
-      right: targetEl.offsetWidth
-    };
-  },
-  setPlacement: function setPlacement(scrolling) {
-    if (!this.state.open) {
-      return;
-    }
-
-    var anchorEl = this.props.anchorEl || this.anchorEl;
-
-    if (!this.refs.layer.getLayer()) {
-      return;
-    }
-
-    var targetEl = this.refs.layer.getLayer().children[0];
-    if (!targetEl) {
-      return;
-    }
-
-    var _props2 = this.props;
-    var targetOrigin = _props2.targetOrigin;
-    var anchorOrigin = _props2.anchorOrigin;
-
-    var anchor = this.getAnchorPosition(anchorEl);
-    var target = this.getTargetPosition(targetEl);
-
-    var targetPosition = {
-      top: anchor[anchorOrigin.vertical] - target[targetOrigin.vertical],
-      left: anchor[anchorOrigin.horizontal] - target[targetOrigin.horizontal]
-    };
-
-    if (scrolling && this.props.autoCloseWhenOffScreen) {
-      this.autoCloseWhenOffScreen(anchor);
-    }
-
-    if (this.props.canAutoPosition) {
-      target = this.getTargetPosition(targetEl); // update as height may have changed
-      targetPosition = this.applyAutoPositionIfNeeded(anchor, target, targetOrigin, anchorOrigin, targetPosition);
-    }
-
-    targetEl.style.top = Math.max(0, targetPosition.top) + 'px';
-    targetEl.style.left = Math.max(0, targetPosition.left) + 'px';
-    targetEl.style.maxHeight = window.innerHeight + 'px';
-  },
-  autoCloseWhenOffScreen: function autoCloseWhenOffScreen(anchorPosition) {
-    if (anchorPosition.top < 0 || anchorPosition.top > window.innerHeight || anchorPosition.left < 0 || anchorPosition.left > window.innerWith) {
-      this.requestClose('offScreen');
-    }
-  },
-  getOverlapMode: function getOverlapMode(anchor, target, median) {
-    if ([anchor, target].indexOf(median) >= 0) return 'auto';
-    if (anchor === target) return 'inclusive';
-    return 'exclusive';
-  },
-  getPositions: function getPositions(anchor, target) {
-    var a = (0, _extend2.default)(anchor, {});
-    var t = (0, _extend2.default)(target, {});
-
-    var positions = {
-      x: ['left', 'right'].filter(function (p) {
-        return p !== t.horizontal;
-      }),
-      y: ['top', 'bottom'].filter(function (p) {
-        return p !== t.vertical;
-      })
-    };
-
-    var overlap = {
-      x: this.getOverlapMode(a.horizontal, t.horizontal, 'middle'),
-      y: this.getOverlapMode(a.vertical, t.vertical, 'center')
-    };
-
-    positions.x.splice(overlap.x === 'auto' ? 0 : 1, 0, 'middle');
-    positions.y.splice(overlap.y === 'auto' ? 0 : 1, 0, 'center');
-
-    if (overlap.y !== 'auto') {
-      a.vertical = a.vertical === 'top' ? 'bottom' : 'top';
-      if (overlap.y === 'inclusive') {
-        t.vertical = t.vertical;
-      }
-    }
-
-    if (overlap.x !== 'auto') {
-      a.horizontal = a.horizontal === 'left' ? 'right' : 'left';
-      if (overlap.y === 'inclusive') {
-        t.horizontal = t.horizontal;
-      }
-    }
-
-    return {
-      positions: positions,
-      anchorPos: a
-    };
-  },
-  applyAutoPositionIfNeeded: function applyAutoPositionIfNeeded(anchor, target, targetOrigin, anchorOrigin, targetPosition) {
-    var _getPositions = this.getPositions(anchorOrigin, targetOrigin);
-
-    var positions = _getPositions.positions;
-    var anchorPos = _getPositions.anchorPos;
-
-    if (targetPosition.top < 0 || targetPosition.top + target.bottom > window.innerHeight) {
-      var newTop = anchor[anchorPos.vertical] - target[positions.y[0]];
-      if (newTop + target.bottom <= window.innerHeight) targetPosition.top = Math.max(0, newTop);else {
-        newTop = anchor[anchorPos.vertical] - target[positions.y[1]];
-        if (newTop + target.bottom <= window.innerHeight) targetPosition.top = Math.max(0, newTop);
-      }
-    }
-    if (targetPosition.left < 0 || targetPosition.left + target.right > window.innerWidth) {
-      var newLeft = anchor[anchorPos.horizontal] - target[positions.x[0]];
-      if (newLeft + target.right <= window.innerWidth) targetPosition.left = Math.max(0, newLeft);else {
-        newLeft = anchor[anchorPos.horizontal] - target[positions.x[1]];
-        if (newLeft + target.right <= window.innerWidth) targetPosition.left = Math.max(0, newLeft);
-      }
-    }
-    return targetPosition;
-  },
-  render: function render() {
-    return _react2.default.createElement(_renderToLayer2.default, {
-      ref: 'layer',
-      open: this.state.open,
-      componentClickAway: this.componentClickAway,
-      useLayerForClickAway: this.props.useLayerForClickAway,
-      render: this.renderLayer });
-  }
-});
-
-exports.default = Popover;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../mixins/window-listenable":116,"../paper":118,"../render-to-layer":121,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../utils/extend":165,"../utils/prop-types":169,"./popover-default-animation":119,"lodash.throttle":86,"react":326,"react-dom":184}],121:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _dom = require('./utils/dom');
-
-var _dom2 = _interopRequireDefault(_dom);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// heavily inspired by https://github.com/Khan/react-components/blob/master/js/layered-component-mixin.jsx
-var RenderToLayer = _react2.default.createClass({
-  displayName: 'RenderToLayer',
-
-  propTypes: {
-    componentClickAway: _react2.default.PropTypes.func,
-    open: _react2.default.PropTypes.bool.isRequired,
-    render: _react2.default.PropTypes.func.isRequired,
-    useLayerForClickAway: _react2.default.PropTypes.bool
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      useLayerForClickAway: true
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    this._renderLayer();
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({
-      muiTheme: newMuiTheme
-    });
-  },
-  componentDidUpdate: function componentDidUpdate() {
-    this._renderLayer();
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    if (this._layer) {
-      this._unrenderLayer();
-    }
-  },
-  onClickAway: function onClickAway(event) {
-    if (event.defaultPrevented) {
-      return;
-    }
-
-    if (!this.props.componentClickAway) {
-      return;
-    }
-
-    if (!this.props.open) {
-      return;
-    }
-
-    var el = this._layer;
-    if (event.target !== el && event.target === window || document.documentElement.contains(event.target) && !_dom2.default.isDescendant(el, event.target)) {
-      this.props.componentClickAway(event);
-    }
-  },
-  getLayer: function getLayer() {
-    return this._layer;
-  },
-
-  _unrenderLayer: function _unrenderLayer() {
-    _reactDom2.default.unmountComponentAtNode(this._layer);
-    document.body.removeChild(this._layer);
-    this._layer = null;
-  },
-
-  _renderLayer: function _renderLayer() {
-    var _this = this;
-
-    var _props = this.props;
-    var open = _props.open;
-    var render = _props.render;
-
-    if (open) {
-      if (!this._layer) {
-        this._layer = document.createElement('div');
-        document.body.appendChild(this._layer);
-
-        if (this.props.useLayerForClickAway) {
-          this._layer.addEventListener('touchstart', this.onClickAway);
-          this._layer.addEventListener('click', this.onClickAway);
-          this._layer.style.position = 'fixed';
-          this._layer.style.top = 0;
-          this._layer.style.bottom = 0;
-          this._layer.style.left = 0;
-          this._layer.style.right = 0;
-          this._layer.style.zIndex = this.state.muiTheme.zIndex.layer;
-        } else {
-          setTimeout(function () {
-            window.addEventListener('touchstart', _this.onClickAway);
-            window.addEventListener('click', _this.onClickAway);
-          }, 0);
-        }
-      }
-
-      // By calling this method in componentDidMount() and
-      // componentDidUpdate(), you're effectively creating a "wormhole" that
-      // funnels React's hierarchical updates through to a DOM node on an
-      // entirely different part of the page.
-
-      var layerElement = render();
-
-      if (layerElement === null) {
-        this.layerElement = _reactDom2.default.unstable_renderSubtreeIntoContainer(this, null, this._layer);
-      } else {
-        this.layerElement = _reactDom2.default.unstable_renderSubtreeIntoContainer(this, layerElement, this._layer);
-      }
-    } else {
-      if (this._layer) {
-        if (this.props.useLayerForClickAway) {
-          this._layer.style.position = 'relative';
-          this._layer.removeEventListener('touchstart', this.onClickAway);
-          this._layer.removeEventListener('click', this.onClickAway);
-        } else {
-          window.removeEventListener('touchstart', this.onClickAway);
-          window.removeEventListener('click', this.onClickAway);
-        }
-
-        this._unrenderLayer();
-      }
-    }
-  },
-  render: function render() {
-    return null;
-  }
-});
-
-exports.default = RenderToLayer;
-module.exports = exports['default'];
-},{"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./utils/dom":163,"react":326,"react-dom":184}],122:[function(require,module,exports){
+},{"./mixins/style-propable":91,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./styles/transitions":104,"./utils/prop-types":119,"react":270,"react-addons-pure-render-mixin":128}],94:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -16372,7 +9724,7 @@ var CircleRipple = _react2.default.createClass({
 
 exports.default = CircleRipple;
 module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/auto-prefix":125,"../styles/colors":128,"../styles/transitions":136,"react":326,"react-addons-pure-render-mixin":181,"react-dom":184}],123:[function(require,module,exports){
+},{"../mixins/style-propable":91,"../styles/auto-prefix":97,"../styles/colors":99,"../styles/transitions":104,"react":270,"react-addons-pure-render-mixin":128,"react-dom":131}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16526,7 +9878,7 @@ var FocusRipple = _react2.default.createClass({
 
 exports.default = FocusRipple;
 module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/auto-prefix":125,"../styles/colors":128,"../styles/transitions":136,"../transition-groups/scale-in":158,"react":326,"react-addons-pure-render-mixin":181,"react-dom":184}],124:[function(require,module,exports){
+},{"../mixins/style-propable":91,"../styles/auto-prefix":97,"../styles/colors":99,"../styles/transitions":104,"../transition-groups/scale-in":111,"react":270,"react-addons-pure-render-mixin":128,"react-dom":131}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16717,7 +10069,7 @@ var TouchRipple = _react2.default.createClass({
 
 exports.default = TouchRipple;
 module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../utils/dom":163,"../utils/immutability-helper":166,"./circle-ripple":122,"react":326,"react-addons-pure-render-mixin":181,"react-addons-transition-group":182,"react-dom":184}],125:[function(require,module,exports){
+},{"../mixins/style-propable":91,"../utils/dom":114,"../utils/immutability-helper":117,"./circle-ripple":94,"react":270,"react-addons-pure-render-mixin":128,"react-addons-transition-group":129,"react-dom":131}],97:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16793,48 +10145,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{"inline-style-prefixer":58}],126:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _colors = require('../colors');
-
-var _colors2 = _interopRequireDefault(_colors);
-
-var _colorManipulator = require('../../utils/color-manipulator');
-
-var _colorManipulator2 = _interopRequireDefault(_colorManipulator);
-
-var _spacing = require('../spacing');
-
-var _spacing2 = _interopRequireDefault(_spacing);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  spacing: _spacing2.default,
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
-    primary1Color: _colors2.default.cyan700,
-    primary2Color: _colors2.default.cyan700,
-    primary3Color: _colors2.default.grey600,
-    accent1Color: _colors2.default.pinkA200,
-    accent2Color: _colors2.default.pinkA400,
-    accent3Color: _colors2.default.pinkA100,
-    textColor: _colors2.default.fullWhite,
-    alternateTextColor: '#303030',
-    canvasColor: '#303030',
-    borderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
-    disabledColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
-    pickerHeaderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12),
-    clockCircleColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12)
-  }
-};
-module.exports = exports['default'];
-},{"../../utils/color-manipulator":160,"../colors":128,"../spacing":133}],127:[function(require,module,exports){
+},{"inline-style-prefixer":57}],98:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16881,7 +10192,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{"../../utils/color-manipulator":160,"../colors":128,"../spacing":133}],128:[function(require,module,exports){
+},{"../../utils/color-manipulator":113,"../colors":99,"../spacing":102}],99:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17175,7 +10486,7 @@ exports.default = {
   lightWhite: 'rgba(255, 255, 255, 0.54)'
 };
 module.exports = exports['default'];
-},{}],129:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17429,120 +10740,7 @@ function getMuiTheme(baseTheme, muiTheme) {
   }, muiTheme);
 }
 module.exports = exports['default'];
-},{"../utils/color-manipulator":160,"./baseThemes/lightBaseTheme":127,"./colors":128,"./zIndex":138,"lodash.merge":84}],130:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ZIndex = exports.getMuiTheme = exports.ThemeDecorator = exports.DarkRawTheme = exports.LightRawTheme = exports.lightBaseTheme = exports.Typography = exports.Transitions = exports.ThemeManager = exports.Spacing = exports.Colors = exports.AutoPrefix = undefined;
-
-var _autoPrefix = require('./auto-prefix');
-
-var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
-
-var _colors = require('./colors');
-
-var _colors2 = _interopRequireDefault(_colors);
-
-var _spacing = require('./spacing');
-
-var _spacing2 = _interopRequireDefault(_spacing);
-
-var _themeManager = require('./theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-var _transitions = require('./transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _typography = require('./typography');
-
-var _typography2 = _interopRequireDefault(_typography);
-
-var _lightRawTheme = require('./raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _lightBaseTheme = require('./baseThemes/lightBaseTheme');
-
-var _lightBaseTheme2 = _interopRequireDefault(_lightBaseTheme);
-
-var _darkRawTheme = require('./raw-themes/dark-raw-theme');
-
-var _darkRawTheme2 = _interopRequireDefault(_darkRawTheme);
-
-var _darkBaseTheme = require('./baseThemes/darkBaseTheme');
-
-var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
-
-var _themeDecorator = require('./theme-decorator');
-
-var _themeDecorator2 = _interopRequireDefault(_themeDecorator);
-
-var _getMuiTheme = require('./getMuiTheme');
-
-var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
-
-var _zIndex = require('./zIndex');
-
-var _zIndex2 = _interopRequireDefault(_zIndex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.AutoPrefix = _autoPrefix2.default;
-exports.Colors = _colors2.default;
-exports.Spacing = _spacing2.default;
-exports.ThemeManager = _themeManager2.default;
-exports.Transitions = _transitions2.default;
-exports.Typography = _typography2.default;
-exports.lightBaseTheme = _lightBaseTheme2.default;
-exports.LightRawTheme = _lightRawTheme2.default;
-exports.DarkRawTheme = _darkRawTheme2.default;
-exports.ThemeDecorator = _themeDecorator2.default;
-exports.getMuiTheme = _getMuiTheme2.default;
-exports.ZIndex = _zIndex2.default;
-exports.default = {
-  AutoPrefix: _autoPrefix2.default,
-  Colors: _colors2.default,
-  Spacing: _spacing2.default,
-  ThemeManager: _themeManager2.default,
-  Transitions: _transitions2.default,
-  Typography: _typography2.default,
-  lightBaseTheme: _lightBaseTheme2.default,
-  LightRawTheme: _lightRawTheme2.default,
-  darkBaseTheme: _darkBaseTheme2.default,
-  DarkRawTheme: _darkRawTheme2.default,
-  ThemeDecorator: _themeDecorator2.default,
-  getMuiTheme: _getMuiTheme2.default,
-  ZIndex: _zIndex2.default
-};
-},{"./auto-prefix":125,"./baseThemes/darkBaseTheme":126,"./baseThemes/lightBaseTheme":127,"./colors":128,"./getMuiTheme":129,"./raw-themes/dark-raw-theme":131,"./raw-themes/light-raw-theme":132,"./spacing":133,"./theme-decorator":134,"./theme-manager":135,"./transitions":136,"./typography":137,"./zIndex":138}],131:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _darkBaseTheme = require('../baseThemes/darkBaseTheme');
-
-var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _darkBaseTheme2.default;
-
-// import deprecatedExport from '../../utils/deprecatedExport';
-
-// export default deprecatedExport(
-//   darkBaseTheme,
-//   'material-ui/lib/styles/raw-themes/dark-raw-theme',
-//   'material-ui/lib/styles/baseThemes/darkBaseTheme'
-// );
-
-module.exports = exports['default'];
-},{"../baseThemes/darkBaseTheme":126}],132:[function(require,module,exports){
+},{"../utils/color-manipulator":113,"./baseThemes/lightBaseTheme":98,"./colors":99,"./zIndex":106,"lodash.merge":82}],101:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17566,7 +10764,7 @@ exports.default = _lightBaseTheme2.default;
 // );
 
 module.exports = exports['default'];
-},{"../baseThemes/lightBaseTheme":127}],133:[function(require,module,exports){
+},{"../baseThemes/lightBaseTheme":98}],102:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17587,43 +10785,7 @@ exports.default = {
   desktopToolbarHeight: 56
 };
 module.exports = exports['default'];
-},{}],134:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (customTheme) {
-
-  return function (Component) {
-
-    return _react2.default.createClass({
-
-      childContextTypes: {
-        muiTheme: _react2.default.PropTypes.object
-      },
-
-      getChildContext: function getChildContext() {
-        return {
-          muiTheme: customTheme
-        };
-      },
-      render: function render() {
-        return _react2.default.createElement(Component, this.props);
-      }
-    });
-  };
-};
-
-module.exports = exports['default'];
-},{"react":326}],135:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17665,7 +10827,7 @@ exports.default = // deprecatedExport(
 //);
 
 module.exports = exports['default'];
-},{"../utils/extend":165,"./getMuiTheme":129,"react-addons-update":183}],136:[function(require,module,exports){
+},{"../utils/extend":116,"./getMuiTheme":100,"react-addons-update":130}],104:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17702,7 +10864,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{}],137:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17739,7 +10901,7 @@ var Typography = function Typography() {
 
 exports.default = new Typography();
 module.exports = exports['default'];
-},{"./colors":128}],138:[function(require,module,exports){
+},{"./colors":99}],106:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17758,7 +10920,7 @@ exports.default = {
   tooltip: 3000
 };
 module.exports = exports['default'];
-},{}],139:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -17925,192 +11087,7 @@ var SvgIcon = _react2.default.createClass({
 
 exports.default = SvgIcon;
 module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"react":326}],140:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var HardwareKeyboardArrowDown = _react2.default.createClass({
-  displayName: 'HardwareKeyboardArrowDown',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
-    );
-  }
-});
-
-exports.default = HardwareKeyboardArrowDown;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],141:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var HardwareKeyboardArrowUp = _react2.default.createClass({
-  displayName: 'HardwareKeyboardArrowUp',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
-    );
-  }
-});
-
-exports.default = HardwareKeyboardArrowUp;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],142:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavigationArrowDropDown = _react2.default.createClass({
-  displayName: 'NavigationArrowDropDown',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M7 10l5 5 5-5z' })
-    );
-  }
-});
-
-exports.default = NavigationArrowDropDown;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],143:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavigationArrowDropUp = _react2.default.createClass({
-  displayName: 'NavigationArrowDropUp',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M7 14l5-5 5 5z' })
-    );
-  }
-});
-
-exports.default = NavigationArrowDropUp;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],144:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NavigationCheck = _react2.default.createClass({
-  displayName: 'NavigationCheck',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z' })
-    );
-  }
-});
-
-exports.default = NavigationCheck;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],145:[function(require,module,exports){
+},{"./mixins/style-propable":91,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./styles/transitions":104,"react":270}],108:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18147,1877 +11124,7 @@ var NavigationMenu = _react2.default.createClass({
 
 exports.default = NavigationMenu;
 module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],146:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ToggleCheckBoxOutlineBlank = _react2.default.createClass({
-  displayName: 'ToggleCheckBoxOutlineBlank',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z' })
-    );
-  }
-});
-
-exports.default = ToggleCheckBoxOutlineBlank;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],147:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-var _svgIcon = require('../../svg-icon');
-
-var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ToggleCheckBox = _react2.default.createClass({
-  displayName: 'ToggleCheckBox',
-
-  mixins: [_reactAddonsPureRenderMixin2.default],
-
-  render: function render() {
-    return _react2.default.createElement(
-      _svgIcon2.default,
-      this.props,
-      _react2.default.createElement('path', { d: 'M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z' })
-    );
-  }
-});
-
-exports.default = ToggleCheckBox;
-module.exports = exports['default'];
-},{"../../svg-icon":139,"react":326,"react-addons-pure-render-mixin":181}],148:[function(require,module,exports){
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _checkbox = require('../checkbox');
-
-var _checkbox2 = _interopRequireDefault(_checkbox);
-
-var _tableRowColumn = require('./table-row-column');
-
-var _tableRowColumn2 = _interopRequireDefault(_tableRowColumn);
-
-var _clickAwayable = require('../mixins/click-awayable');
-
-var _clickAwayable2 = _interopRequireDefault(_clickAwayable);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var TableBody = _react2.default.createClass({
-  displayName: 'TableBody',
-
-  propTypes: {
-    allRowsSelected: _react2.default.PropTypes.bool,
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    deselectOnClickaway: _react2.default.PropTypes.bool,
-    displayRowCheckbox: _react2.default.PropTypes.bool,
-    multiSelectable: _react2.default.PropTypes.bool,
-    onCellClick: _react2.default.PropTypes.func,
-    onCellHover: _react2.default.PropTypes.func,
-    onCellHoverExit: _react2.default.PropTypes.func,
-    onRowHover: _react2.default.PropTypes.func,
-    onRowHoverExit: _react2.default.PropTypes.func,
-    onRowSelection: _react2.default.PropTypes.func,
-    preScanRows: _react2.default.PropTypes.bool,
-    selectable: _react2.default.PropTypes.bool,
-    showRowHover: _react2.default.PropTypes.bool,
-    stripedRows: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_clickAwayable2.default, _stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      allRowsSelected: false,
-      deselectOnClickaway: true,
-      displayRowCheckbox: true,
-      multiSelectable: false,
-      preScanRows: true,
-      selectable: true,
-      style: {}
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      selectedRows: this._calculatePreselectedRows(this.props)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-
-    var newState = {};
-
-    if (this.props.allRowsSelected && !nextProps.allRowsSelected) {
-      newState.selectedRows = this.state.selectedRows.length > 0 ? [this.state.selectedRows[this.state.selectedRows.length - 1]] : [];
-    } else {
-      newState.selectedRows = this._calculatePreselectedRows(nextProps);
-    }
-
-    this.setState(newState);
-  },
-  componentClickAway: function componentClickAway() {
-    if (this.props.deselectOnClickaway && this.state.selectedRows.length) {
-      this.setState({ selectedRows: [] });
-      if (this.props.onRowSelection) this.props.onRowSelection([]);
-    }
-  },
-  _createRows: function _createRows() {
-    var _this = this;
-
-    var numChildren = _react2.default.Children.count(this.props.children);
-    var rowNumber = 0;
-    var handlers = {
-      onCellClick: this._onCellClick,
-      onCellHover: this._onCellHover,
-      onCellHoverExit: this._onCellHoverExit,
-      onRowHover: this._onRowHover,
-      onRowHoverExit: this._onRowHoverExit,
-      onRowClick: this._onRowClick
-    };
-
-    return _react2.default.Children.map(this.props.children, function (child) {
-      if (_react2.default.isValidElement(child)) {
-        var _ret = function () {
-          var props = {
-            displayRowCheckbox: _this.props.displayRowCheckbox,
-            hoverable: _this.props.showRowHover,
-            selected: _this._isRowSelected(rowNumber),
-            striped: _this.props.stripedRows && rowNumber % 2 === 0,
-            rowNumber: rowNumber++
-          };
-          var checkboxColumn = _this._createRowCheckboxColumn(props);
-
-          if (rowNumber === numChildren) {
-            props.displayBorder = false;
-          }
-
-          var children = [checkboxColumn];
-          _react2.default.Children.forEach(child.props.children, function (child) {
-            children.push(child);
-          });
-
-          return {
-            v: _react2.default.cloneElement(child, _extends({}, props, handlers), children)
-          };
-        }();
-
-        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-      }
-    });
-  },
-  _createRowCheckboxColumn: function _createRowCheckboxColumn(rowProps) {
-    if (!this.props.displayRowCheckbox) return null;
-
-    var key = rowProps.rowNumber + '-cb';
-    var checkbox = _react2.default.createElement(_checkbox2.default, {
-      ref: 'rowSelectCB',
-      name: key,
-      value: 'selected',
-      disabled: !this.props.selectable,
-      checked: rowProps.selected
-    });
-
-    return _react2.default.createElement(
-      _tableRowColumn2.default,
-      {
-        key: key,
-        columnNumber: 0,
-        style: { width: 24 } },
-      checkbox
-    );
-  },
-  _calculatePreselectedRows: function _calculatePreselectedRows(props) {
-    // Determine what rows are 'pre-selected'.
-    var preSelectedRows = [];
-
-    if (props.selectable && props.preScanRows) {
-      (function () {
-        var index = 0;
-        _react2.default.Children.forEach(props.children, function (child) {
-          if (_react2.default.isValidElement(child)) {
-            if (child.props.selected && (preSelectedRows.length === 0 || props.multiSelectable)) {
-              preSelectedRows.push(index);
-            }
-
-            index++;
-          }
-        });
-      })();
-    }
-
-    return preSelectedRows;
-  },
-  _isRowSelected: function _isRowSelected(rowNumber) {
-    if (this.props.allRowsSelected) {
-      return true;
-    }
-
-    for (var i = 0; i < this.state.selectedRows.length; i++) {
-      var selection = this.state.selectedRows[i];
-
-      if ((typeof selection === 'undefined' ? 'undefined' : _typeof(selection)) === 'object') {
-        if (this._isValueInRange(rowNumber, selection)) return true;
-      } else {
-        if (selection === rowNumber) return true;
-      }
-    }
-
-    return false;
-  },
-  _isValueInRange: function _isValueInRange(value, range) {
-    if (!range) return false;
-
-    if (range.start <= value && value <= range.end || range.end <= value && value <= range.start) {
-      return true;
-    }
-
-    return false;
-  },
-  _onRowClick: function _onRowClick(e, rowNumber) {
-    e.stopPropagation();
-
-    if (this.props.selectable) {
-      // Prevent text selection while selecting rows.
-      window.getSelection().removeAllRanges();
-      this._processRowSelection(e, rowNumber);
-    }
-  },
-  _processRowSelection: function _processRowSelection(e, rowNumber) {
-    var selectedRows = this.state.selectedRows;
-
-    if (e.shiftKey && this.props.multiSelectable && selectedRows.length) {
-      var lastIndex = selectedRows.length - 1;
-      var lastSelection = selectedRows[lastIndex];
-
-      if ((typeof lastSelection === 'undefined' ? 'undefined' : _typeof(lastSelection)) === 'object') {
-        lastSelection.end = rowNumber;
-      } else {
-        selectedRows.splice(lastIndex, 1, { start: lastSelection, end: rowNumber });
-      }
-    } else if ((e.ctrlKey && !e.metaKey || e.metaKey && !e.ctrlKey) && this.props.multiSelectable) {
-      var idx = selectedRows.indexOf(rowNumber);
-      if (idx < 0) {
-        var foundRange = false;
-        for (var i = 0; i < selectedRows.length; i++) {
-          var range = selectedRows[i];
-          if ((typeof range === 'undefined' ? 'undefined' : _typeof(range)) !== 'object') continue;
-
-          if (this._isValueInRange(rowNumber, range)) {
-            var _selectedRows;
-
-            foundRange = true;
-            var values = this._splitRange(range, rowNumber);
-            (_selectedRows = selectedRows).splice.apply(_selectedRows, [i, 1].concat(_toConsumableArray(values)));
-          }
-        }
-
-        if (!foundRange) selectedRows.push(rowNumber);
-      } else {
-        selectedRows.splice(idx, 1);
-      }
-    } else {
-      if (selectedRows.length === 1 && selectedRows[0] === rowNumber) {
-        selectedRows = [];
-      } else {
-        selectedRows = [rowNumber];
-      }
-    }
-
-    this.setState({ selectedRows: selectedRows });
-    if (this.props.onRowSelection) this.props.onRowSelection(this._flattenRanges(selectedRows));
-  },
-  _splitRange: function _splitRange(range, splitPoint) {
-    var splitValues = [];
-    var startOffset = range.start - splitPoint;
-    var endOffset = range.end - splitPoint;
-
-    // Process start half
-    splitValues.push.apply(splitValues, _toConsumableArray(this._genRangeOfValues(splitPoint, startOffset)));
-
-    // Process end half
-    splitValues.push.apply(splitValues, _toConsumableArray(this._genRangeOfValues(splitPoint, endOffset)));
-
-    return splitValues;
-  },
-  _genRangeOfValues: function _genRangeOfValues(start, offset) {
-    var values = [];
-    var dir = offset > 0 ? -1 : 1; // This forces offset to approach 0 from either direction.
-    while (offset !== 0) {
-      values.push(start + offset);
-      offset += dir;
-    }
-
-    return values;
-  },
-  _flattenRanges: function _flattenRanges(selectedRows) {
-    var rows = [];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = selectedRows[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var selection = _step.value;
-
-        if ((typeof selection === 'undefined' ? 'undefined' : _typeof(selection)) === 'object') {
-          var values = this._genRangeOfValues(selection.end, selection.start - selection.end);
-          rows.push.apply(rows, [selection.end].concat(_toConsumableArray(values)));
-        } else {
-          rows.push(selection);
-        }
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    return rows.sort();
-  },
-  _onCellClick: function _onCellClick(e, rowNumber, columnNumber) {
-    e.stopPropagation();
-    if (this.props.onCellClick) this.props.onCellClick(rowNumber, this._getColumnId(columnNumber));
-  },
-  _onCellHover: function _onCellHover(e, rowNumber, columnNumber) {
-    if (this.props.onCellHover) this.props.onCellHover(rowNumber, this._getColumnId(columnNumber));
-    this._onRowHover(e, rowNumber);
-  },
-  _onCellHoverExit: function _onCellHoverExit(e, rowNumber, columnNumber) {
-    if (this.props.onCellHoverExit) this.props.onCellHoverExit(rowNumber, this._getColumnId(columnNumber));
-    this._onRowHoverExit(e, rowNumber);
-  },
-  _onRowHover: function _onRowHover(e, rowNumber) {
-    if (this.props.onRowHover) this.props.onRowHover(rowNumber);
-  },
-  _onRowHoverExit: function _onRowHoverExit(e, rowNumber) {
-    if (this.props.onRowHoverExit) this.props.onRowHoverExit(rowNumber);
-  },
-  _getColumnId: function _getColumnId(columnNumber) {
-    var columnId = columnNumber;
-    if (this.props.displayRowCheckbox) columnId--;
-
-    return columnId;
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['className', 'style']);
-
-    var rows = this._createRows();
-
-    return _react2.default.createElement(
-      'tbody',
-      { className: className, style: this.prepareStyles(style) },
-      rows
-    );
-  }
-});
-
-exports.default = TableBody;
-module.exports = exports['default'];
-},{"../checkbox":96,"../mixins/click-awayable":112,"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"./table-row-column":152,"react":326}],149:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _tableRowColumn = require('./table-row-column');
-
-var _tableRowColumn2 = _interopRequireDefault(_tableRowColumn);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var TableFooter = _react2.default.createClass({
-  displayName: 'TableFooter',
-
-  propTypes: {
-    adjustForCheckbox: _react2.default.PropTypes.bool,
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      adjustForCheckbox: true,
-      style: {}
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.tableFooter;
-  },
-  getStyles: function getStyles() {
-    var styles = {
-      cell: {
-        borderTop: '1px solid ' + this.getTheme().borderColor,
-        verticalAlign: 'bottom',
-        padding: 20,
-        textAlign: 'left',
-        whiteSpace: 'nowrap'
-      }
-    };
-
-    return styles;
-  },
-  _createRows: function _createRows() {
-    var _this = this;
-
-    var rowNumber = 0;
-    return _react2.default.Children.map(this.props.children, function (child) {
-      return _this._createRow(child, rowNumber++);
-    });
-  },
-  _createRow: function _createRow(child, rowNumber) {
-    var styles = this.getStyles();
-    var props = {
-      displayBorder: false,
-      key: 'f-' + rowNumber,
-      rowNumber: rowNumber,
-      style: this.mergeAndPrefix(styles.cell, child.props.style)
-    };
-
-    var children = [this._getCheckboxPlaceholder(props)];
-    _react2.default.Children.forEach(child.props.children, function (child) {
-      children.push(child);
-    });
-
-    return _react2.default.cloneElement(child, props, children);
-  },
-  _getCheckboxPlaceholder: function _getCheckboxPlaceholder(props) {
-    if (!this.props.adjustForCheckbox) return null;
-
-    var key = 'fpcb' + props.rowNumber;
-    return _react2.default.createElement(_tableRowColumn2.default, { key: key, style: { width: 24 } });
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['className', 'style']);
-
-    var footerRows = this._createRows();
-
-    return _react2.default.createElement(
-      'tfoot',
-      _extends({ className: className, style: this.prepareStyles(style) }, other),
-      footerRows
-    );
-  }
-});
-
-exports.default = TableFooter;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"./table-row-column":152,"react":326}],150:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _tooltip = require('../tooltip');
-
-var _tooltip2 = _interopRequireDefault(_tooltip);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var TableHeaderColumn = _react2.default.createClass({
-  displayName: 'TableHeaderColumn',
-
-  propTypes: {
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    columnNumber: _react2.default.PropTypes.number,
-    key: _react2.default.PropTypes.string,
-    onClick: _react2.default.PropTypes.func,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    tooltip: _react2.default.PropTypes.string,
-    tooltipStyle: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      hovered: false
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.tableHeaderColumn;
-  },
-  getStyles: function getStyles() {
-    var theme = this.getTheme();
-    var styles = {
-      root: {
-        fontWeight: 'normal',
-        fontSize: 12,
-        paddingLeft: theme.spacing,
-        paddingRight: theme.spacing,
-        height: theme.height,
-        textAlign: 'left',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-        color: this.getTheme().textColor,
-        position: 'relative'
-      },
-      tooltip: {
-        boxSizing: 'border-box',
-        marginTop: theme.height / 2
-      }
-    };
-
-    return styles;
-  },
-  _onMouseEnter: function _onMouseEnter() {
-    if (this.props.tooltip !== undefined) this.setState({ hovered: true });
-  },
-  _onMouseLeave: function _onMouseLeave() {
-    if (this.props.tooltip !== undefined) this.setState({ hovered: false });
-  },
-  _onClick: function _onClick(e) {
-    if (this.props.onClick) this.props.onClick(e, this.props.columnNumber);
-  },
-  render: function render() {
-    var styles = this.getStyles();
-    var handlers = {
-      onMouseEnter: this._onMouseEnter,
-      onMouseLeave: this._onMouseLeave,
-      onClick: this._onClick
-    };
-    var _props = this.props;
-    var className = _props.className;
-    var columnNumber = _props.columnNumber;
-    var onClick = _props.onClick;
-    var style = _props.style;
-    var tooltip = _props.tooltip;
-    var tooltipStyle = _props.tooltipStyle;
-
-    var other = _objectWithoutProperties(_props, ['className', 'columnNumber', 'onClick', 'style', 'tooltip', 'tooltipStyle']);
-
-    if (this.props.tooltip !== undefined) {
-      tooltip = _react2.default.createElement(_tooltip2.default, {
-        label: this.props.tooltip,
-        show: this.state.hovered,
-        style: this.mergeStyles(styles.tooltip, tooltipStyle) });
-    }
-
-    return _react2.default.createElement(
-      'th',
-      _extends({
-        key: this.props.key,
-        className: className,
-        style: this.prepareStyles(styles.root, style)
-      }, handlers, other),
-      tooltip,
-      this.props.children
-    );
-  }
-});
-
-exports.default = TableHeaderColumn;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../tooltip":156,"react":326}],151:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _checkbox = require('../checkbox');
-
-var _checkbox2 = _interopRequireDefault(_checkbox);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _tableHeaderColumn = require('./table-header-column');
-
-var _tableHeaderColumn2 = _interopRequireDefault(_tableHeaderColumn);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var TableHeader = _react2.default.createClass({
-  displayName: 'TableHeader',
-
-  propTypes: {
-    adjustForCheckbox: _react2.default.PropTypes.bool,
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    displaySelectAll: _react2.default.PropTypes.bool,
-    enableSelectAll: _react2.default.PropTypes.bool,
-    onSelectAll: _react2.default.PropTypes.func,
-    selectAllSelected: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      adjustForCheckbox: true,
-      displaySelectAll: true,
-      enableSelectAll: true,
-      selectAllSelected: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.tableHeader;
-  },
-  getStyles: function getStyles() {
-    var styles = {
-      root: {
-        borderBottom: '1px solid ' + this.getTheme().borderColor
-      }
-    };
-
-    return styles;
-  },
-  _createSuperHeaderRows: function _createSuperHeaderRows() {
-    var numChildren = _react2.default.Children.count(this.props.children);
-    if (numChildren === 1) return undefined;
-
-    var superHeaders = [];
-    for (var index = 0; index < numChildren - 1; index++) {
-      var child = this.props.children[index];
-
-      if (!_react2.default.isValidElement(child)) continue;
-
-      var props = {
-        displayRowCheckbox: false,
-        key: 'sh' + index,
-        rowNumber: index
-      };
-      superHeaders.push(this._createSuperHeaderRow(child, props));
-    }
-
-    if (superHeaders.length) return superHeaders;
-  },
-  _createSuperHeaderRow: function _createSuperHeaderRow(child, props) {
-    var children = [];
-    if (this.props.adjustForCheckbox) {
-      children.push(this._getCheckboxPlaceholder(props));
-    }
-    _react2.default.Children.forEach(child.props.children, function (child) {
-      children.push(child);
-    });
-
-    return _react2.default.cloneElement(child, props, children);
-  },
-  _createBaseHeaderRow: function _createBaseHeaderRow() {
-    var numChildren = _react2.default.Children.count(this.props.children);
-    var child = numChildren === 1 ? this.props.children : this.props.children[numChildren - 1];
-    var props = {
-      key: 'h' + numChildren,
-      rowNumber: numChildren
-    };
-
-    var children = [this._getSelectAllCheckboxColumn(props)];
-    _react2.default.Children.forEach(child.props.children, function (child) {
-      children.push(child);
-    });
-
-    return _react2.default.cloneElement(child, props, children);
-  },
-  _getCheckboxPlaceholder: function _getCheckboxPlaceholder(props) {
-    if (!this.props.adjustForCheckbox) return null;
-
-    var key = 'hpcb' + props.rowNumber;
-    return _react2.default.createElement(_tableHeaderColumn2.default, { key: key, style: { width: 24 } });
-  },
-  _getSelectAllCheckboxColumn: function _getSelectAllCheckboxColumn(props) {
-    if (!this.props.displaySelectAll) return this._getCheckboxPlaceholder(props);
-
-    var checkbox = _react2.default.createElement(_checkbox2.default, {
-      key: 'selectallcb',
-      name: 'selectallcb',
-      value: 'selected',
-      disabled: !this.props.enableSelectAll,
-      checked: this.props.selectAllSelected,
-      onCheck: this._onSelectAll
-    });
-
-    var key = 'hpcb' + props.rowNumber;
-    return _react2.default.createElement(
-      _tableHeaderColumn2.default,
-      { key: key, style: { width: 24 } },
-      checkbox
-    );
-  },
-  _onSelectAll: function _onSelectAll(e, checked) {
-    if (this.props.onSelectAll) this.props.onSelectAll(checked);
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['className', 'style']);
-
-    var superHeaderRows = this._createSuperHeaderRows();
-    var baseHeaderRow = this._createBaseHeaderRow();
-
-    return _react2.default.createElement(
-      'thead',
-      { className: className, style: this.prepareStyles(this.getStyles().root, style) },
-      superHeaderRows,
-      baseHeaderRow
-    );
-  }
-});
-
-exports.default = TableHeader;
-module.exports = exports['default'];
-},{"../checkbox":96,"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"./table-header-column":150,"react":326}],152:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var TableRowColumn = _react2.default.createClass({
-  displayName: 'TableRowColumn',
-
-  propTypes: {
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    columnNumber: _react2.default.PropTypes.number,
-    hoverable: _react2.default.PropTypes.bool,
-    key: _react2.default.PropTypes.string,
-    onClick: _react2.default.PropTypes.func,
-    onHover: _react2.default.PropTypes.func,
-    onHoverExit: _react2.default.PropTypes.func,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      hoverable: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      hovered: false
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.tableRowColumn;
-  },
-  getStyles: function getStyles() {
-    var theme = this.getTheme();
-    var styles = {
-      root: {
-        paddingLeft: theme.spacing,
-        paddingRight: theme.spacing,
-        height: theme.height,
-        textAlign: 'left',
-        fontSize: 13,
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
-      }
-    };
-
-    if (_react2.default.Children.count(this.props.children) === 1 && !isNaN(this.props.children)) {
-      styles.textAlign = 'right';
-    }
-
-    return styles;
-  },
-  _onClick: function _onClick(e) {
-    if (this.props.onClick) this.props.onClick(e, this.props.columnNumber);
-  },
-  _onMouseEnter: function _onMouseEnter(e) {
-    if (this.props.hoverable) {
-      this.setState({ hovered: true });
-      if (this.props.onHover) this.props.onHover(e, this.props.columnNumber);
-    }
-  },
-  _onMouseLeave: function _onMouseLeave(e) {
-    if (this.props.hoverable) {
-      this.setState({ hovered: false });
-      if (this.props.onHoverExit) this.props.onHoverExit(e, this.props.columnNumber);
-    }
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var columnNumber = _props.columnNumber;
-    var hoverable = _props.hoverable;
-    var onClick = _props.onClick;
-    var onHover = _props.onHover;
-    var onHoverExit = _props.onHoverExit;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['className', 'columnNumber', 'hoverable', 'onClick', 'onHover', 'onHoverExit', 'style']);
-
-    var styles = this.getStyles();
-    var handlers = {
-      onClick: this._onClick,
-      onMouseEnter: this._onMouseEnter,
-      onMouseLeave: this._onMouseLeave
-    };
-
-    return _react2.default.createElement(
-      'td',
-      _extends({
-        key: this.props.key,
-        className: className,
-        style: this.prepareStyles(styles.root, style)
-      }, handlers, other),
-      this.props.children
-    );
-  }
-});
-
-exports.default = TableRowColumn;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326}],153:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var TableRow = _react2.default.createClass({
-  displayName: 'TableRow',
-
-  propTypes: {
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    displayBorder: _react2.default.PropTypes.bool,
-    hoverable: _react2.default.PropTypes.bool,
-    onCellClick: _react2.default.PropTypes.func,
-    onCellHover: _react2.default.PropTypes.func,
-    onCellHoverExit: _react2.default.PropTypes.func,
-    onRowClick: _react2.default.PropTypes.func,
-    onRowHover: _react2.default.PropTypes.func,
-    onRowHoverExit: _react2.default.PropTypes.func,
-    rowNumber: _react2.default.PropTypes.number,
-    selectable: _react2.default.PropTypes.bool,
-    selected: _react2.default.PropTypes.bool,
-    striped: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      displayBorder: true,
-      displayRowCheckbox: true,
-      hoverable: false,
-      selectable: true,
-      selected: false,
-      striped: false
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      hovered: false
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.tableRow;
-  },
-  getStyles: function getStyles() {
-    var theme = this.getTheme();
-    var cellBgColor = 'inherit';
-    if (this.state.hovered) {
-      cellBgColor = theme.hoverColor;
-    } else if (this.props.selected) {
-      cellBgColor = theme.selectedColor;
-    } else if (this.props.striped) {
-      cellBgColor = theme.stripeColor;
-    }
-
-    var styles = {
-      root: {
-        borderBottom: '1px solid ' + theme.borderColor,
-        color: theme.textColor,
-        height: theme.height
-      },
-      cell: {
-        backgroundColor: cellBgColor
-      }
-    };
-
-    if (!this.props.displayBorder) {
-      styles.root.borderBottom = '';
-    }
-
-    return styles;
-  },
-  _createColumns: function _createColumns() {
-    var _this = this;
-
-    var columnNumber = 1;
-    return _react2.default.Children.map(this.props.children, function (child) {
-      if (_react2.default.isValidElement(child)) {
-        return _this._createColumn(child, columnNumber++);
-      }
-    });
-  },
-  _createColumn: function _createColumn(child, columnNumber) {
-    var key = this.props.rowNumber + '-' + columnNumber;
-    var styles = this.getStyles();
-    var handlers = {
-      onClick: this._onCellClick,
-      onHover: this._onCellHover,
-      onHoverExit: this._onCellHoverExit
-    };
-
-    return _react2.default.cloneElement(child, _extends({
-      columnNumber: columnNumber,
-      hoverable: this.props.hoverable,
-      key: child.props.key || key,
-      style: this.mergeAndPrefix(styles.cell, child.props.style)
-    }, handlers));
-  },
-  _onRowClick: function _onRowClick(e) {
-    if (this.props.selectable && this.props.onRowClick) this.props.onRowClick(e, this.props.rowNumber);
-  },
-  _onRowHover: function _onRowHover(e) {
-    if (this.props.onRowHover) this.props.onRowHover(e, this.props.rowNumber);
-  },
-  _onRowHoverExit: function _onRowHoverExit(e) {
-    if (this.props.onRowHoverExit) this.props.onRowHoverExit(e, this.props.rowNumber);
-  },
-  _onCellClick: function _onCellClick(e, columnIndex) {
-    if (this.props.selectable && this.props.onCellClick) this.props.onCellClick(e, this.props.rowNumber, columnIndex);
-    e.ctrlKey = true;
-    this._onRowClick(e);
-  },
-  _onCellHover: function _onCellHover(e, columnIndex) {
-    if (this.props.hoverable) {
-      this.setState({ hovered: true });
-      if (this.props.onCellHover) this.props.onCellHover(e, this.props.rowNumber, columnIndex);
-      this._onRowHover(e);
-    }
-  },
-  _onCellHoverExit: function _onCellHoverExit(e, columnIndex) {
-    if (this.props.hoverable) {
-      this.setState({ hovered: false });
-      if (this.props.onCellHoverExit) this.props.onCellHoverExit(e, this.props.rowNumber, columnIndex);
-      this._onRowHoverExit(e);
-    }
-  },
-  render: function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var displayBorder = _props.displayBorder;
-    var hoverable = _props.hoverable;
-    var onCellClick = _props.onCellClick;
-    var onCellHover = _props.onCellHover;
-    var onCellHoverExit = _props.onCellHoverExit;
-    var onRowClick = _props.onRowClick;
-    var onRowHover = _props.onRowHover;
-    var onRowHoverExit = _props.onRowHoverExit;
-    var rowNumber = _props.rowNumber;
-    var selectable = _props.selectable;
-    var selected = _props.selected;
-    var striped = _props.striped;
-    var style = _props.style;
-
-    var other = _objectWithoutProperties(_props, ['className', 'displayBorder', 'hoverable', 'onCellClick', 'onCellHover', 'onCellHoverExit', 'onRowClick', 'onRowHover', 'onRowHoverExit', 'rowNumber', 'selectable', 'selected', 'striped', 'style']);
-
-    var rowColumns = this._createColumns();
-
-    return _react2.default.createElement(
-      'tr',
-      _extends({
-        className: className,
-        style: this.prepareStyles(this.getStyles().root, style)
-      }, other),
-      rowColumns
-    );
-  }
-});
-
-exports.default = TableRow;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326}],154:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _stylePropable = require('../mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _lightRawTheme = require('../styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('../styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var Table = _react2.default.createClass({
-  displayName: 'Table',
-
-  propTypes: {
-    allRowsSelected: _react2.default.PropTypes.bool,
-    bodyStyle: _react2.default.PropTypes.object,
-    children: _react2.default.PropTypes.node,
-
-    /**
-     * The css class name of the root element.
-     */
-    className: _react2.default.PropTypes.string,
-    fixedFooter: _react2.default.PropTypes.bool,
-    fixedHeader: _react2.default.PropTypes.bool,
-    footerStyle: _react2.default.PropTypes.object,
-    headerStyle: _react2.default.PropTypes.object,
-    height: _react2.default.PropTypes.string,
-    multiSelectable: _react2.default.PropTypes.bool,
-    onCellClick: _react2.default.PropTypes.func,
-    onCellHover: _react2.default.PropTypes.func,
-    onCellHoverExit: _react2.default.PropTypes.func,
-    onRowHover: _react2.default.PropTypes.func,
-    onRowHoverExit: _react2.default.PropTypes.func,
-    onRowSelection: _react2.default.PropTypes.func,
-    selectable: _react2.default.PropTypes.bool,
-
-    /**
-     * Override the inline-styles of the root element.
-     */
-    style: _react2.default.PropTypes.object,
-    wrapperStyle: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getDefaultProps: function getDefaultProps() {
-    return {
-      allRowsSelected: false,
-      fixedFooter: true,
-      fixedHeader: true,
-      height: 'inherit',
-      multiSelectable: false,
-      selectable: true
-    };
-  },
-  getInitialState: function getInitialState() {
-    return {
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default),
-      allRowsSelected: this.props.allRowsSelected
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.table;
-  },
-  getStyles: function getStyles() {
-    var styles = {
-      root: {
-        backgroundColor: this.getTheme().backgroundColor,
-        padding: '0 ' + this.state.muiTheme.rawTheme.spacing.desktopGutter + 'px',
-        width: '100%',
-        borderCollapse: 'collapse',
-        borderSpacing: 0,
-        tableLayout: 'fixed',
-        fontFamily: this.state.muiTheme.rawTheme.fontFamily
-      },
-      bodyTable: {
-        height: this.props.fixedHeader || this.props.fixedFooter ? this.props.height : 'auto',
-        overflowX: 'hidden',
-        overflowY: 'auto'
-      },
-      tableWrapper: {
-        height: this.props.fixedHeader || this.props.fixedFooter ? 'auto' : this.props.height,
-        overflow: 'auto'
-      }
-    };
-
-    return styles;
-  },
-  isScrollbarVisible: function isScrollbarVisible() {
-    var tableDivHeight = _reactDom2.default.findDOMNode(this.refs.tableDiv).clientHeight;
-    var tableBodyHeight = _reactDom2.default.findDOMNode(this.refs.tableBody).clientHeight;
-
-    return tableBodyHeight > tableDivHeight;
-  },
-  _createTableHeader: function _createTableHeader(base) {
-    return _react2.default.cloneElement(base, {
-      enableSelectAll: base.props.enableSelectAll && this.props.selectable && this.props.multiSelectable,
-      onSelectAll: this._onSelectAll,
-      selectAllSelected: this.state.allRowsSelected
-    });
-  },
-  _createTableBody: function _createTableBody(base) {
-    return _react2.default.cloneElement(base, {
-      allRowsSelected: this.state.allRowsSelected,
-      multiSelectable: this.props.multiSelectable,
-      onCellClick: this._onCellClick,
-      onCellHover: this._onCellHover,
-      onCellHoverExit: this._onCellHoverExit,
-      onRowHover: this._onRowHover,
-      onRowHoverExit: this._onRowHoverExit,
-      onRowSelection: this._onRowSelection,
-      selectable: this.props.selectable,
-      style: this.mergeAndPrefix({ height: this.props.height }, base.props.style)
-    });
-  },
-  _createTableFooter: function _createTableFooter(base) {
-    return base;
-  },
-  _onCellClick: function _onCellClick(rowNumber, columnNumber) {
-    if (this.props.onCellClick) this.props.onCellClick(rowNumber, columnNumber);
-  },
-  _onCellHover: function _onCellHover(rowNumber, columnNumber) {
-    if (this.props.onCellHover) this.props.onCellHover(rowNumber, columnNumber);
-  },
-  _onCellHoverExit: function _onCellHoverExit(rowNumber, columnNumber) {
-    if (this.props.onCellHoverExit) this.props.onCellHoverExit(rowNumber, columnNumber);
-  },
-  _onRowHover: function _onRowHover(rowNumber) {
-    if (this.props.onRowHover) this.props.onRowHover(rowNumber);
-  },
-  _onRowHoverExit: function _onRowHoverExit(rowNumber) {
-    if (this.props.onRowHoverExit) this.props.onRowHoverExit(rowNumber);
-  },
-  _onRowSelection: function _onRowSelection(selectedRows) {
-    if (this.state.allRowsSelected) this.setState({ allRowsSelected: false });
-    if (this.props.onRowSelection) this.props.onRowSelection(selectedRows);
-  },
-  _onSelectAll: function _onSelectAll() {
-    if (this.props.onRowSelection) {
-      if (!this.state.allRowsSelected) {
-        this.props.onRowSelection('all');
-      } else {
-        this.props.onRowSelection('none');
-      }
-    }
-
-    this.setState({ allRowsSelected: !this.state.allRowsSelected });
-  },
-  render: function render() {
-    var _props = this.props;
-    var children = _props.children;
-    var className = _props.className;
-    var fixedFooter = _props.fixedFooter;
-    var fixedHeader = _props.fixedHeader;
-    var style = _props.style;
-    var wrapperStyle = _props.wrapperStyle;
-    var headerStyle = _props.headerStyle;
-    var bodyStyle = _props.bodyStyle;
-    var footerStyle = _props.footerStyle;
-
-    var other = _objectWithoutProperties(_props, ['children', 'className', 'fixedFooter', 'fixedHeader', 'style', 'wrapperStyle', 'headerStyle', 'bodyStyle', 'footerStyle']);
-
-    var styles = this.getStyles();
-
-    var tHead = undefined,
-        tFoot = undefined,
-        tBody = undefined;
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var child = _step.value;
-
-        if (!_react2.default.isValidElement(child)) continue;
-
-        var displayName = child.type.displayName;
-        if (displayName === 'TableBody') {
-          tBody = this._createTableBody(child);
-        } else if (displayName === 'TableHeader') {
-          tHead = this._createTableHeader(child);
-        } else if (displayName === 'TableFooter') {
-          tFoot = this._createTableFooter(child);
-        }
-      }
-
-      // If we could not find a table-header and a table-body, do not attempt to display anything.
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    if (!tBody && !tHead) return null;
-
-    var mergedTableStyle = this.prepareStyles(styles.root, style);
-    var headerTable = undefined,
-        footerTable = undefined;
-    var inlineHeader = undefined,
-        inlineFooter = undefined;
-    if (fixedHeader) {
-      headerTable = _react2.default.createElement(
-        'div',
-        { style: this.prepareStyles(headerStyle) },
-        _react2.default.createElement(
-          'table',
-          { className: className, style: mergedTableStyle },
-          tHead
-        )
-      );
-    } else {
-      inlineHeader = tHead;
-    }
-    if (tFoot !== undefined) {
-      if (fixedFooter) {
-        footerTable = _react2.default.createElement(
-          'div',
-          { style: this.prepareStyles(footerStyle) },
-          _react2.default.createElement(
-            'table',
-            { className: className, style: mergedTableStyle },
-            tFoot
-          )
-        );
-      } else {
-        inlineFooter = tFoot;
-      }
-    }
-
-    return _react2.default.createElement(
-      'div',
-      { style: this.prepareStyles(styles.tableWrapper, wrapperStyle) },
-      headerTable,
-      _react2.default.createElement(
-        'div',
-        { style: this.prepareStyles(styles.bodyTable, bodyStyle), ref: 'tableDiv' },
-        _react2.default.createElement(
-          'table',
-          { className: className, style: mergedTableStyle, ref: 'tableBody' },
-          inlineHeader,
-          inlineFooter,
-          tBody
-        )
-      ),
-      footerTable
-    );
-  }
-});
-
-exports.default = Table;
-module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"react":326,"react-dom":184}],155:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _stylePropable = require('./mixins/style-propable');
-
-var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-var _transitions = require('./styles/transitions');
-
-var _transitions2 = _interopRequireDefault(_transitions);
-
-var _paper = require('./paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _enhancedSwitch = require('./enhanced-switch');
-
-var _enhancedSwitch2 = _interopRequireDefault(_enhancedSwitch);
-
-var _lightRawTheme = require('./styles/raw-themes/light-raw-theme');
-
-var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-var _themeManager = require('./styles/theme-manager');
-
-var _themeManager2 = _interopRequireDefault(_themeManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-var Toggle = _react2.default.createClass({
-  displayName: 'Toggle',
-
-  propTypes: {
-    defaultToggled: _react2.default.PropTypes.bool,
-    disabled: _react2.default.PropTypes.bool,
-    elementStyle: _react2.default.PropTypes.object,
-    iconStyle: _react2.default.PropTypes.object,
-    labelPosition: _react2.default.PropTypes.oneOf(['left', 'right']),
-    labelStyle: _react2.default.PropTypes.object,
-    onToggle: _react2.default.PropTypes.func,
-    rippleStyle: _react2.default.PropTypes.object,
-    thumbStyle: _react2.default.PropTypes.object,
-    toggled: _react2.default.PropTypes.bool,
-    trackStyle: _react2.default.PropTypes.object,
-    valueLink: _react2.default.PropTypes.object
-  },
-
-  contextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  //for passing default theme context to children
-  childContextTypes: {
-    muiTheme: _react2.default.PropTypes.object
-  },
-
-  mixins: [_stylePropable2.default],
-
-  getInitialState: function getInitialState() {
-    return {
-      switched: this.props.toggled || this.props.defaultToggled || this.props.valueLink && this.props.valueLink.value || false,
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-    };
-  },
-  getChildContext: function getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  },
-
-  //to update theme inside state whenever a new theme is passed down
-  //from the parent / owner using context
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({ muiTheme: newMuiTheme });
-  },
-  getTheme: function getTheme() {
-    return this.state.muiTheme.toggle;
-  },
-  getStyles: function getStyles() {
-    var toggleSize = 20;
-    var toggleTrackWidth = 36;
-    var styles = {
-      icon: {
-        width: 36,
-        padding: '4px 0px 6px 2px'
-      },
-      toggleElement: {
-        width: toggleTrackWidth
-      },
-      track: {
-        transition: _transitions2.default.easeOut(),
-        width: '100%',
-        height: 14,
-        borderRadius: 30,
-        backgroundColor: this.getTheme().trackOffColor
-      },
-      thumb: {
-        transition: _transitions2.default.easeOut(),
-        position: 'absolute',
-        top: 1,
-        left: 0,
-        width: toggleSize,
-        height: toggleSize,
-        lineHeight: '24px',
-        borderRadius: '50%',
-        backgroundColor: this.getTheme().thumbOffColor
-      },
-      trackWhenSwitched: {
-        backgroundColor: this.getTheme().trackOnColor
-      },
-      thumbWhenSwitched: {
-        backgroundColor: this.getTheme().thumbOnColor,
-        left: '100%'
-      },
-      trackWhenDisabled: {
-        backgroundColor: this.getTheme().trackDisabledColor
-      },
-      thumbWhenDisabled: {
-        backgroundColor: this.getTheme().thumbDisabledColor
-      },
-      label: {
-        color: this.props.disabled ? this.getTheme().labelDisabledColor : this.getTheme().labelColor,
-        width: 'calc(100% - ' + (toggleTrackWidth + 10) + 'px)'
-      }
-    };
-
-    return styles;
-  },
-  isToggled: function isToggled() {
-    return this.refs.enhancedSwitch.isSwitched();
-  },
-  setToggled: function setToggled(newToggledValue) {
-    this.refs.enhancedSwitch.setSwitched(newToggledValue);
-  },
-  _handleToggle: function _handleToggle(e, isInputChecked) {
-    if (this.props.onToggle) this.props.onToggle(e, isInputChecked);
-  },
-  _handleStateChange: function _handleStateChange(newSwitched) {
-    this.setState({ switched: newSwitched });
-  },
-  render: function render() {
-    var _props = this.props;
-    var onToggle = _props.onToggle;
-
-    var other = _objectWithoutProperties(_props, ['onToggle']);
-
-    var styles = this.getStyles();
-
-    var trackStyles = this.mergeStyles(styles.track, this.props.trackStyle, this.state.switched && styles.trackWhenSwitched, this.props.disabled && styles.trackWhenDisabled);
-
-    var thumbStyles = this.mergeStyles(styles.thumb, this.props.thumbStyle, this.state.switched && styles.thumbWhenSwitched, this.props.disabled && styles.thumbWhenDisabled);
-
-    if (this.state.switched) {
-      thumbStyles.marginLeft = '-' + thumbStyles.width;
-    }
-
-    var toggleElementStyles = this.mergeStyles(styles.toggleElement, this.props.elementStyle);
-
-    var toggleElement = _react2.default.createElement(
-      'div',
-      { style: this.prepareStyles(toggleElementStyles) },
-      _react2.default.createElement('div', { style: this.prepareStyles(trackStyles) }),
-      _react2.default.createElement(_paper2.default, { style: thumbStyles, circle: true, zDepth: 1 })
-    );
-
-    var customRippleStyle = this.mergeStyles({
-      top: -10,
-      left: -10
-    }, this.props.rippleStyle);
-
-    var rippleColor = this.state.switched ? this.getTheme().thumbOnColor : this.state.muiTheme.textColor;
-
-    var iconStyle = this.mergeStyles(styles.icon, this.props.iconStyle);
-
-    var labelStyle = this.mergeStyles(styles.label, this.props.labelStyle);
-
-    var enhancedSwitchProps = {
-      ref: 'enhancedSwitch',
-      inputType: 'checkbox',
-      switchElement: toggleElement,
-      rippleStyle: customRippleStyle,
-      rippleColor: rippleColor,
-      iconStyle: iconStyle,
-      trackStyle: trackStyles,
-      thumbStyle: thumbStyles,
-      labelStyle: labelStyle,
-      switched: this.state.switched,
-      onSwitch: this._handleToggle,
-      onParentShouldUpdate: this._handleStateChange,
-      defaultSwitched: this.props.defaultToggled,
-      labelPosition: this.props.labelPosition ? this.props.labelPosition : 'left'
-    };
-
-    if (this.props.hasOwnProperty('toggled')) enhancedSwitchProps.checked = this.props.toggled;
-
-    return _react2.default.createElement(_enhancedSwitch2.default, _extends({}, other, enhancedSwitchProps));
-  }
-});
-
-exports.default = Toggle;
-module.exports = exports['default'];
-},{"./enhanced-switch":99,"./mixins/style-propable":115,"./paper":118,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"react":326}],156:[function(require,module,exports){
+},{"../../svg-icon":107,"react":270,"react-addons-pure-render-mixin":128}],109:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -20222,7 +11329,7 @@ var Tooltip = _react2.default.createClass({
 
 exports.default = Tooltip;
 module.exports = exports['default'];
-},{"./mixins/style-propable":115,"./styles/colors":128,"./styles/raw-themes/light-raw-theme":132,"./styles/theme-manager":135,"./styles/transitions":136,"react":326,"react-dom":184}],157:[function(require,module,exports){
+},{"./mixins/style-propable":91,"./styles/colors":99,"./styles/raw-themes/light-raw-theme":101,"./styles/theme-manager":103,"./styles/transitions":104,"react":270,"react-dom":131}],110:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -20387,7 +11494,7 @@ var ScaleInChild = _react2.default.createClass({
 
 exports.default = ScaleInChild;
 module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/auto-prefix":125,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"../styles/transitions":136,"react":326,"react-addons-pure-render-mixin":181,"react-dom":184}],158:[function(require,module,exports){
+},{"../mixins/style-propable":91,"../styles/auto-prefix":97,"../styles/raw-themes/light-raw-theme":101,"../styles/theme-manager":103,"../styles/transitions":104,"react":270,"react-addons-pure-render-mixin":128,"react-dom":131}],111:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -20519,7 +11626,7 @@ var ScaleIn = _react2.default.createClass({
 
 exports.default = ScaleIn;
 module.exports = exports['default'];
-},{"../mixins/style-propable":115,"../styles/raw-themes/light-raw-theme":132,"../styles/theme-manager":135,"./scale-in-child":157,"react":326,"react-addons-pure-render-mixin":181,"react-addons-transition-group":182}],159:[function(require,module,exports){
+},{"../mixins/style-propable":91,"../styles/raw-themes/light-raw-theme":101,"../styles/theme-manager":103,"./scale-in-child":110,"react":270,"react-addons-pure-render-mixin":128,"react-addons-transition-group":129}],112:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -20570,7 +11677,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{"react":326,"react-addons-create-fragment":179}],160:[function(require,module,exports){
+},{"react":270,"react-addons-create-fragment":127}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -20749,91 +11856,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{}],161:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _events = require('./events');
-
-var _events2 = _interopRequireDefault(_events);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  _testSupportedProps: function _testSupportedProps(props) {
-    var i = undefined,
-        el = document.createElement('div');
-
-    for (i in props) {
-      if (props.hasOwnProperty(i) && el.style[i] !== undefined) {
-        return props[i];
-      }
-    }
-  },
-
-  //Returns the correct event name to use
-  transitionEndEventName: function transitionEndEventName() {
-    return this._testSupportedProps({
-      'transition': 'transitionend',
-      'OTransition': 'otransitionend',
-      'MozTransition': 'transitionend',
-      'WebkitTransition': 'webkitTransitionEnd'
-    });
-  },
-  animationEndEventName: function animationEndEventName() {
-    return this._testSupportedProps({
-      'animation': 'animationend',
-      '-o-animation': 'oAnimationEnd',
-      '-moz-animation': 'animationend',
-      '-webkit-animation': 'webkitAnimationEnd'
-    });
-  },
-  onTransitionEnd: function onTransitionEnd(el, callback) {
-    var transitionEnd = this.transitionEndEventName();
-
-    _events2.default.once(el, transitionEnd, function () {
-      return callback();
-    });
-  },
-  onAnimationEnd: function onAnimationEnd(el, callback) {
-    var animationEnd = this.animationEndEventName();
-
-    _events2.default.once(el, animationEnd, function () {
-      return callback();
-    });
-  }
-};
-module.exports = exports['default'];
-},{"./events":164}],162:[function(require,module,exports){
-(function (process){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = deprecated;
-
-var _warning = require('warning');
-
-var _warning2 = _interopRequireDefault(_warning);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function deprecated(propType, explanation) {
-  return function validate(props, propName, componentName) {
-    if (props[propName] != null) {
-      process.env.NODE_ENV !== "production" ? (0, _warning2.default)(false, '"' + propName + '" property of "' + componentName + '" has been deprecated.\n' + explanation) : undefined;
-    }
-
-    return propType(props, propName, componentName);
-  };
-}
-module.exports = exports['default'];
-}).call(this,require('_process'))
-},{"_process":178,"warning":340}],163:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -20906,7 +11929,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{}],164:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -20947,7 +11970,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{}],165:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -21003,7 +12026,7 @@ var extend = function extend(base, override) {
 
 exports.default = extend;
 module.exports = exports['default'];
-},{}],166:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21048,7 +12071,7 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-},{"react-addons-update":183}],167:[function(require,module,exports){
+},{"react-addons-update":130}],118:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21065,27 +12088,7 @@ exports.default = {
   UP: 38
 };
 module.exports = exports['default'];
-},{}],168:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-
-  Desktop: {
-    GUTTER: 24,
-    GUTTER_LESS: 16,
-    INCREMENT: 64,
-    MENU_ITEM_HEIGHT: 32
-  },
-
-  getIncrementalDim: function getIncrementalDim(dim) {
-    return Math.ceil(dim / this.Desktop.INCREMENT) * this.Desktop.INCREMENT;
-  }
-};
-module.exports = exports['default'];
-},{}],169:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21122,7 +12125,7 @@ exports.default = {
 
 };
 module.exports = exports['default'];
-},{"react":326}],170:[function(require,module,exports){
+},{"react":270}],120:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -21158,7 +12161,7 @@ function shallowEqual(objA, objB) {
   return true;
 }
 module.exports = exports['default'];
-},{}],171:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21277,3628 +12280,7 @@ exports.default = {
 };
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"../styles/auto-prefix":125,"../utils/immutability-helper":166,"_process":178}],172:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var index = 0;
-
-exports.default = {
-  generate: function generate() {
-    return 'mui-id-' + index++;
-  }
-};
-module.exports = exports['default'];
-},{}],173:[function(require,module,exports){
-//! moment.js
-//! version : 2.11.1
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-//! license : MIT
-//! momentjs.com
-
-;(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    global.moment = factory()
-}(this, function () { 'use strict';
-
-    var hookCallback;
-
-    function utils_hooks__hooks () {
-        return hookCallback.apply(null, arguments);
-    }
-
-    // This is done to register the method called with moment()
-    // without creating circular dependencies.
-    function setHookCallback (callback) {
-        hookCallback = callback;
-    }
-
-    function isArray(input) {
-        return Object.prototype.toString.call(input) === '[object Array]';
-    }
-
-    function isDate(input) {
-        return input instanceof Date || Object.prototype.toString.call(input) === '[object Date]';
-    }
-
-    function map(arr, fn) {
-        var res = [], i;
-        for (i = 0; i < arr.length; ++i) {
-            res.push(fn(arr[i], i));
-        }
-        return res;
-    }
-
-    function hasOwnProp(a, b) {
-        return Object.prototype.hasOwnProperty.call(a, b);
-    }
-
-    function extend(a, b) {
-        for (var i in b) {
-            if (hasOwnProp(b, i)) {
-                a[i] = b[i];
-            }
-        }
-
-        if (hasOwnProp(b, 'toString')) {
-            a.toString = b.toString;
-        }
-
-        if (hasOwnProp(b, 'valueOf')) {
-            a.valueOf = b.valueOf;
-        }
-
-        return a;
-    }
-
-    function create_utc__createUTC (input, format, locale, strict) {
-        return createLocalOrUTC(input, format, locale, strict, true).utc();
-    }
-
-    function defaultParsingFlags() {
-        // We need to deep clone this object.
-        return {
-            empty           : false,
-            unusedTokens    : [],
-            unusedInput     : [],
-            overflow        : -2,
-            charsLeftOver   : 0,
-            nullInput       : false,
-            invalidMonth    : null,
-            invalidFormat   : false,
-            userInvalidated : false,
-            iso             : false
-        };
-    }
-
-    function getParsingFlags(m) {
-        if (m._pf == null) {
-            m._pf = defaultParsingFlags();
-        }
-        return m._pf;
-    }
-
-    function valid__isValid(m) {
-        if (m._isValid == null) {
-            var flags = getParsingFlags(m);
-            m._isValid = !isNaN(m._d.getTime()) &&
-                flags.overflow < 0 &&
-                !flags.empty &&
-                !flags.invalidMonth &&
-                !flags.invalidWeekday &&
-                !flags.nullInput &&
-                !flags.invalidFormat &&
-                !flags.userInvalidated;
-
-            if (m._strict) {
-                m._isValid = m._isValid &&
-                    flags.charsLeftOver === 0 &&
-                    flags.unusedTokens.length === 0 &&
-                    flags.bigHour === undefined;
-            }
-        }
-        return m._isValid;
-    }
-
-    function valid__createInvalid (flags) {
-        var m = create_utc__createUTC(NaN);
-        if (flags != null) {
-            extend(getParsingFlags(m), flags);
-        }
-        else {
-            getParsingFlags(m).userInvalidated = true;
-        }
-
-        return m;
-    }
-
-    function isUndefined(input) {
-        return input === void 0;
-    }
-
-    // Plugins that add properties should also add the key here (null value),
-    // so we can properly clone ourselves.
-    var momentProperties = utils_hooks__hooks.momentProperties = [];
-
-    function copyConfig(to, from) {
-        var i, prop, val;
-
-        if (!isUndefined(from._isAMomentObject)) {
-            to._isAMomentObject = from._isAMomentObject;
-        }
-        if (!isUndefined(from._i)) {
-            to._i = from._i;
-        }
-        if (!isUndefined(from._f)) {
-            to._f = from._f;
-        }
-        if (!isUndefined(from._l)) {
-            to._l = from._l;
-        }
-        if (!isUndefined(from._strict)) {
-            to._strict = from._strict;
-        }
-        if (!isUndefined(from._tzm)) {
-            to._tzm = from._tzm;
-        }
-        if (!isUndefined(from._isUTC)) {
-            to._isUTC = from._isUTC;
-        }
-        if (!isUndefined(from._offset)) {
-            to._offset = from._offset;
-        }
-        if (!isUndefined(from._pf)) {
-            to._pf = getParsingFlags(from);
-        }
-        if (!isUndefined(from._locale)) {
-            to._locale = from._locale;
-        }
-
-        if (momentProperties.length > 0) {
-            for (i in momentProperties) {
-                prop = momentProperties[i];
-                val = from[prop];
-                if (!isUndefined(val)) {
-                    to[prop] = val;
-                }
-            }
-        }
-
-        return to;
-    }
-
-    var updateInProgress = false;
-
-    // Moment prototype object
-    function Moment(config) {
-        copyConfig(this, config);
-        this._d = new Date(config._d != null ? config._d.getTime() : NaN);
-        // Prevent infinite loop in case updateOffset creates new moment
-        // objects.
-        if (updateInProgress === false) {
-            updateInProgress = true;
-            utils_hooks__hooks.updateOffset(this);
-            updateInProgress = false;
-        }
-    }
-
-    function isMoment (obj) {
-        return obj instanceof Moment || (obj != null && obj._isAMomentObject != null);
-    }
-
-    function absFloor (number) {
-        if (number < 0) {
-            return Math.ceil(number);
-        } else {
-            return Math.floor(number);
-        }
-    }
-
-    function toInt(argumentForCoercion) {
-        var coercedNumber = +argumentForCoercion,
-            value = 0;
-
-        if (coercedNumber !== 0 && isFinite(coercedNumber)) {
-            value = absFloor(coercedNumber);
-        }
-
-        return value;
-    }
-
-    // compare two arrays, return the number of differences
-    function compareArrays(array1, array2, dontConvert) {
-        var len = Math.min(array1.length, array2.length),
-            lengthDiff = Math.abs(array1.length - array2.length),
-            diffs = 0,
-            i;
-        for (i = 0; i < len; i++) {
-            if ((dontConvert && array1[i] !== array2[i]) ||
-                (!dontConvert && toInt(array1[i]) !== toInt(array2[i]))) {
-                diffs++;
-            }
-        }
-        return diffs + lengthDiff;
-    }
-
-    function Locale() {
-    }
-
-    // internal storage for locale config files
-    var locales = {};
-    var globalLocale;
-
-    function normalizeLocale(key) {
-        return key ? key.toLowerCase().replace('_', '-') : key;
-    }
-
-    // pick the locale from the array
-    // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-    // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
-    function chooseLocale(names) {
-        var i = 0, j, next, locale, split;
-
-        while (i < names.length) {
-            split = normalizeLocale(names[i]).split('-');
-            j = split.length;
-            next = normalizeLocale(names[i + 1]);
-            next = next ? next.split('-') : null;
-            while (j > 0) {
-                locale = loadLocale(split.slice(0, j).join('-'));
-                if (locale) {
-                    return locale;
-                }
-                if (next && next.length >= j && compareArrays(split, next, true) >= j - 1) {
-                    //the next array item is better than a shallower substring of this one
-                    break;
-                }
-                j--;
-            }
-            i++;
-        }
-        return null;
-    }
-
-    function loadLocale(name) {
-        var oldLocale = null;
-        // TODO: Find a better way to register and load all the locales in Node
-        if (!locales[name] && (typeof module !== 'undefined') &&
-                module && module.exports) {
-            try {
-                oldLocale = globalLocale._abbr;
-                require('./locale/' + name);
-                // because defineLocale currently also sets the global locale, we
-                // want to undo that for lazy loaded locales
-                locale_locales__getSetGlobalLocale(oldLocale);
-            } catch (e) { }
-        }
-        return locales[name];
-    }
-
-    // This function will load locale and then set the global locale.  If
-    // no arguments are passed in, it will simply return the current global
-    // locale key.
-    function locale_locales__getSetGlobalLocale (key, values) {
-        var data;
-        if (key) {
-            if (isUndefined(values)) {
-                data = locale_locales__getLocale(key);
-            }
-            else {
-                data = defineLocale(key, values);
-            }
-
-            if (data) {
-                // moment.duration._locale = moment._locale = data;
-                globalLocale = data;
-            }
-        }
-
-        return globalLocale._abbr;
-    }
-
-    function defineLocale (name, values) {
-        if (values !== null) {
-            values.abbr = name;
-            locales[name] = locales[name] || new Locale();
-            locales[name].set(values);
-
-            // backwards compat for now: also set the locale
-            locale_locales__getSetGlobalLocale(name);
-
-            return locales[name];
-        } else {
-            // useful for testing
-            delete locales[name];
-            return null;
-        }
-    }
-
-    // returns locale data
-    function locale_locales__getLocale (key) {
-        var locale;
-
-        if (key && key._locale && key._locale._abbr) {
-            key = key._locale._abbr;
-        }
-
-        if (!key) {
-            return globalLocale;
-        }
-
-        if (!isArray(key)) {
-            //short-circuit everything else
-            locale = loadLocale(key);
-            if (locale) {
-                return locale;
-            }
-            key = [key];
-        }
-
-        return chooseLocale(key);
-    }
-
-    var aliases = {};
-
-    function addUnitAlias (unit, shorthand) {
-        var lowerCase = unit.toLowerCase();
-        aliases[lowerCase] = aliases[lowerCase + 's'] = aliases[shorthand] = unit;
-    }
-
-    function normalizeUnits(units) {
-        return typeof units === 'string' ? aliases[units] || aliases[units.toLowerCase()] : undefined;
-    }
-
-    function normalizeObjectUnits(inputObject) {
-        var normalizedInput = {},
-            normalizedProp,
-            prop;
-
-        for (prop in inputObject) {
-            if (hasOwnProp(inputObject, prop)) {
-                normalizedProp = normalizeUnits(prop);
-                if (normalizedProp) {
-                    normalizedInput[normalizedProp] = inputObject[prop];
-                }
-            }
-        }
-
-        return normalizedInput;
-    }
-
-    function isFunction(input) {
-        return input instanceof Function || Object.prototype.toString.call(input) === '[object Function]';
-    }
-
-    function makeGetSet (unit, keepTime) {
-        return function (value) {
-            if (value != null) {
-                get_set__set(this, unit, value);
-                utils_hooks__hooks.updateOffset(this, keepTime);
-                return this;
-            } else {
-                return get_set__get(this, unit);
-            }
-        };
-    }
-
-    function get_set__get (mom, unit) {
-        return mom.isValid() ?
-            mom._d['get' + (mom._isUTC ? 'UTC' : '') + unit]() : NaN;
-    }
-
-    function get_set__set (mom, unit, value) {
-        if (mom.isValid()) {
-            mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value);
-        }
-    }
-
-    // MOMENTS
-
-    function getSet (units, value) {
-        var unit;
-        if (typeof units === 'object') {
-            for (unit in units) {
-                this.set(unit, units[unit]);
-            }
-        } else {
-            units = normalizeUnits(units);
-            if (isFunction(this[units])) {
-                return this[units](value);
-            }
-        }
-        return this;
-    }
-
-    function zeroFill(number, targetLength, forceSign) {
-        var absNumber = '' + Math.abs(number),
-            zerosToFill = targetLength - absNumber.length,
-            sign = number >= 0;
-        return (sign ? (forceSign ? '+' : '') : '-') +
-            Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
-    }
-
-    var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g;
-
-    var localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
-
-    var formatFunctions = {};
-
-    var formatTokenFunctions = {};
-
-    // token:    'M'
-    // padded:   ['MM', 2]
-    // ordinal:  'Mo'
-    // callback: function () { this.month() + 1 }
-    function addFormatToken (token, padded, ordinal, callback) {
-        var func = callback;
-        if (typeof callback === 'string') {
-            func = function () {
-                return this[callback]();
-            };
-        }
-        if (token) {
-            formatTokenFunctions[token] = func;
-        }
-        if (padded) {
-            formatTokenFunctions[padded[0]] = function () {
-                return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
-            };
-        }
-        if (ordinal) {
-            formatTokenFunctions[ordinal] = function () {
-                return this.localeData().ordinal(func.apply(this, arguments), token);
-            };
-        }
-    }
-
-    function removeFormattingTokens(input) {
-        if (input.match(/\[[\s\S]/)) {
-            return input.replace(/^\[|\]$/g, '');
-        }
-        return input.replace(/\\/g, '');
-    }
-
-    function makeFormatFunction(format) {
-        var array = format.match(formattingTokens), i, length;
-
-        for (i = 0, length = array.length; i < length; i++) {
-            if (formatTokenFunctions[array[i]]) {
-                array[i] = formatTokenFunctions[array[i]];
-            } else {
-                array[i] = removeFormattingTokens(array[i]);
-            }
-        }
-
-        return function (mom) {
-            var output = '';
-            for (i = 0; i < length; i++) {
-                output += array[i] instanceof Function ? array[i].call(mom, format) : array[i];
-            }
-            return output;
-        };
-    }
-
-    // format date using native date object
-    function formatMoment(m, format) {
-        if (!m.isValid()) {
-            return m.localeData().invalidDate();
-        }
-
-        format = expandFormat(format, m.localeData());
-        formatFunctions[format] = formatFunctions[format] || makeFormatFunction(format);
-
-        return formatFunctions[format](m);
-    }
-
-    function expandFormat(format, locale) {
-        var i = 5;
-
-        function replaceLongDateFormatTokens(input) {
-            return locale.longDateFormat(input) || input;
-        }
-
-        localFormattingTokens.lastIndex = 0;
-        while (i >= 0 && localFormattingTokens.test(format)) {
-            format = format.replace(localFormattingTokens, replaceLongDateFormatTokens);
-            localFormattingTokens.lastIndex = 0;
-            i -= 1;
-        }
-
-        return format;
-    }
-
-    var match1         = /\d/;            //       0 - 9
-    var match2         = /\d\d/;          //      00 - 99
-    var match3         = /\d{3}/;         //     000 - 999
-    var match4         = /\d{4}/;         //    0000 - 9999
-    var match6         = /[+-]?\d{6}/;    // -999999 - 999999
-    var match1to2      = /\d\d?/;         //       0 - 99
-    var match3to4      = /\d\d\d\d?/;     //     999 - 9999
-    var match5to6      = /\d\d\d\d\d\d?/; //   99999 - 999999
-    var match1to3      = /\d{1,3}/;       //       0 - 999
-    var match1to4      = /\d{1,4}/;       //       0 - 9999
-    var match1to6      = /[+-]?\d{1,6}/;  // -999999 - 999999
-
-    var matchUnsigned  = /\d+/;           //       0 - inf
-    var matchSigned    = /[+-]?\d+/;      //    -inf - inf
-
-    var matchOffset    = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
-    var matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi; // +00 -00 +00:00 -00:00 +0000 -0000 or Z
-
-    var matchTimestamp = /[+-]?\d+(\.\d{1,3})?/; // 123456789 123456789.123
-
-    // any word (or two) characters or numbers including two/three word month in arabic.
-    // includes scottish gaelic two word and hyphenated months
-    var matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
-
-
-    var regexes = {};
-
-    function addRegexToken (token, regex, strictRegex) {
-        regexes[token] = isFunction(regex) ? regex : function (isStrict, localeData) {
-            return (isStrict && strictRegex) ? strictRegex : regex;
-        };
-    }
-
-    function getParseRegexForToken (token, config) {
-        if (!hasOwnProp(regexes, token)) {
-            return new RegExp(unescapeFormat(token));
-        }
-
-        return regexes[token](config._strict, config._locale);
-    }
-
-    // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
-    function unescapeFormat(s) {
-        return regexEscape(s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
-            return p1 || p2 || p3 || p4;
-        }));
-    }
-
-    function regexEscape(s) {
-        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    }
-
-    var tokens = {};
-
-    function addParseToken (token, callback) {
-        var i, func = callback;
-        if (typeof token === 'string') {
-            token = [token];
-        }
-        if (typeof callback === 'number') {
-            func = function (input, array) {
-                array[callback] = toInt(input);
-            };
-        }
-        for (i = 0; i < token.length; i++) {
-            tokens[token[i]] = func;
-        }
-    }
-
-    function addWeekParseToken (token, callback) {
-        addParseToken(token, function (input, array, config, token) {
-            config._w = config._w || {};
-            callback(input, config._w, config, token);
-        });
-    }
-
-    function addTimeToArrayFromToken(token, input, config) {
-        if (input != null && hasOwnProp(tokens, token)) {
-            tokens[token](input, config._a, config, token);
-        }
-    }
-
-    var YEAR = 0;
-    var MONTH = 1;
-    var DATE = 2;
-    var HOUR = 3;
-    var MINUTE = 4;
-    var SECOND = 5;
-    var MILLISECOND = 6;
-    var WEEK = 7;
-    var WEEKDAY = 8;
-
-    function daysInMonth(year, month) {
-        return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
-    }
-
-    // FORMATTING
-
-    addFormatToken('M', ['MM', 2], 'Mo', function () {
-        return this.month() + 1;
-    });
-
-    addFormatToken('MMM', 0, 0, function (format) {
-        return this.localeData().monthsShort(this, format);
-    });
-
-    addFormatToken('MMMM', 0, 0, function (format) {
-        return this.localeData().months(this, format);
-    });
-
-    // ALIASES
-
-    addUnitAlias('month', 'M');
-
-    // PARSING
-
-    addRegexToken('M',    match1to2);
-    addRegexToken('MM',   match1to2, match2);
-    addRegexToken('MMM',  function (isStrict, locale) {
-        return locale.monthsShortRegex(isStrict);
-    });
-    addRegexToken('MMMM', function (isStrict, locale) {
-        return locale.monthsRegex(isStrict);
-    });
-
-    addParseToken(['M', 'MM'], function (input, array) {
-        array[MONTH] = toInt(input) - 1;
-    });
-
-    addParseToken(['MMM', 'MMMM'], function (input, array, config, token) {
-        var month = config._locale.monthsParse(input, token, config._strict);
-        // if we didn't find a month name, mark the date as invalid.
-        if (month != null) {
-            array[MONTH] = month;
-        } else {
-            getParsingFlags(config).invalidMonth = input;
-        }
-    });
-
-    // LOCALES
-
-    var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/;
-    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
-    function localeMonths (m, format) {
-        return isArray(this._months) ? this._months[m.month()] :
-            this._months[MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone'][m.month()];
-    }
-
-    var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
-    function localeMonthsShort (m, format) {
-        return isArray(this._monthsShort) ? this._monthsShort[m.month()] :
-            this._monthsShort[MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone'][m.month()];
-    }
-
-    function localeMonthsParse (monthName, format, strict) {
-        var i, mom, regex;
-
-        if (!this._monthsParse) {
-            this._monthsParse = [];
-            this._longMonthsParse = [];
-            this._shortMonthsParse = [];
-        }
-
-        for (i = 0; i < 12; i++) {
-            // make the regex if we don't have it already
-            mom = create_utc__createUTC([2000, i]);
-            if (strict && !this._longMonthsParse[i]) {
-                this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
-                this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i');
-            }
-            if (!strict && !this._monthsParse[i]) {
-                regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
-                this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
-            }
-            // test the regex
-            if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
-                return i;
-            } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
-                return i;
-            } else if (!strict && this._monthsParse[i].test(monthName)) {
-                return i;
-            }
-        }
-    }
-
-    // MOMENTS
-
-    function setMonth (mom, value) {
-        var dayOfMonth;
-
-        if (!mom.isValid()) {
-            // No op
-            return mom;
-        }
-
-        // TODO: Move this out of here!
-        if (typeof value === 'string') {
-            value = mom.localeData().monthsParse(value);
-            // TODO: Another silent failure?
-            if (typeof value !== 'number') {
-                return mom;
-            }
-        }
-
-        dayOfMonth = Math.min(mom.date(), daysInMonth(mom.year(), value));
-        mom._d['set' + (mom._isUTC ? 'UTC' : '') + 'Month'](value, dayOfMonth);
-        return mom;
-    }
-
-    function getSetMonth (value) {
-        if (value != null) {
-            setMonth(this, value);
-            utils_hooks__hooks.updateOffset(this, true);
-            return this;
-        } else {
-            return get_set__get(this, 'Month');
-        }
-    }
-
-    function getDaysInMonth () {
-        return daysInMonth(this.year(), this.month());
-    }
-
-    var defaultMonthsShortRegex = matchWord;
-    function monthsShortRegex (isStrict) {
-        if (this._monthsParseExact) {
-            if (!hasOwnProp(this, '_monthsRegex')) {
-                computeMonthsParse.call(this);
-            }
-            if (isStrict) {
-                return this._monthsShortStrictRegex;
-            } else {
-                return this._monthsShortRegex;
-            }
-        } else {
-            return this._monthsShortStrictRegex && isStrict ?
-                this._monthsShortStrictRegex : this._monthsShortRegex;
-        }
-    }
-
-    var defaultMonthsRegex = matchWord;
-    function monthsRegex (isStrict) {
-        if (this._monthsParseExact) {
-            if (!hasOwnProp(this, '_monthsRegex')) {
-                computeMonthsParse.call(this);
-            }
-            if (isStrict) {
-                return this._monthsStrictRegex;
-            } else {
-                return this._monthsRegex;
-            }
-        } else {
-            return this._monthsStrictRegex && isStrict ?
-                this._monthsStrictRegex : this._monthsRegex;
-        }
-    }
-
-    function computeMonthsParse () {
-        function cmpLenRev(a, b) {
-            return b.length - a.length;
-        }
-
-        var shortPieces = [], longPieces = [], mixedPieces = [],
-            i, mom;
-        for (i = 0; i < 12; i++) {
-            // make the regex if we don't have it already
-            mom = create_utc__createUTC([2000, i]);
-            shortPieces.push(this.monthsShort(mom, ''));
-            longPieces.push(this.months(mom, ''));
-            mixedPieces.push(this.months(mom, ''));
-            mixedPieces.push(this.monthsShort(mom, ''));
-        }
-        // Sorting makes sure if one month (or abbr) is a prefix of another it
-        // will match the longer piece.
-        shortPieces.sort(cmpLenRev);
-        longPieces.sort(cmpLenRev);
-        mixedPieces.sort(cmpLenRev);
-        for (i = 0; i < 12; i++) {
-            shortPieces[i] = regexEscape(shortPieces[i]);
-            longPieces[i] = regexEscape(longPieces[i]);
-            mixedPieces[i] = regexEscape(mixedPieces[i]);
-        }
-
-        this._monthsRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i');
-        this._monthsShortRegex = this._monthsRegex;
-        this._monthsStrictRegex = new RegExp('^(' + longPieces.join('|') + ')$', 'i');
-        this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')$', 'i');
-    }
-
-    function checkOverflow (m) {
-        var overflow;
-        var a = m._a;
-
-        if (a && getParsingFlags(m).overflow === -2) {
-            overflow =
-                a[MONTH]       < 0 || a[MONTH]       > 11  ? MONTH :
-                a[DATE]        < 1 || a[DATE]        > daysInMonth(a[YEAR], a[MONTH]) ? DATE :
-                a[HOUR]        < 0 || a[HOUR]        > 24 || (a[HOUR] === 24 && (a[MINUTE] !== 0 || a[SECOND] !== 0 || a[MILLISECOND] !== 0)) ? HOUR :
-                a[MINUTE]      < 0 || a[MINUTE]      > 59  ? MINUTE :
-                a[SECOND]      < 0 || a[SECOND]      > 59  ? SECOND :
-                a[MILLISECOND] < 0 || a[MILLISECOND] > 999 ? MILLISECOND :
-                -1;
-
-            if (getParsingFlags(m)._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
-                overflow = DATE;
-            }
-            if (getParsingFlags(m)._overflowWeeks && overflow === -1) {
-                overflow = WEEK;
-            }
-            if (getParsingFlags(m)._overflowWeekday && overflow === -1) {
-                overflow = WEEKDAY;
-            }
-
-            getParsingFlags(m).overflow = overflow;
-        }
-
-        return m;
-    }
-
-    function warn(msg) {
-        if (utils_hooks__hooks.suppressDeprecationWarnings === false &&
-                (typeof console !==  'undefined') && console.warn) {
-            console.warn('Deprecation warning: ' + msg);
-        }
-    }
-
-    function deprecate(msg, fn) {
-        var firstTime = true;
-
-        return extend(function () {
-            if (firstTime) {
-                warn(msg + '\nArguments: ' + Array.prototype.slice.call(arguments).join(', ') + '\n' + (new Error()).stack);
-                firstTime = false;
-            }
-            return fn.apply(this, arguments);
-        }, fn);
-    }
-
-    var deprecations = {};
-
-    function deprecateSimple(name, msg) {
-        if (!deprecations[name]) {
-            warn(msg);
-            deprecations[name] = true;
-        }
-    }
-
-    utils_hooks__hooks.suppressDeprecationWarnings = false;
-
-    // iso 8601 regex
-    // 0000-00-00 0000-W00 or 0000-W00-0 + T + 00 or 00:00 or 00:00:00 or 00:00:00.000 + +00:00 or +0000 or +00)
-    var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?/;
-    var basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?/;
-
-    var tzRegex = /Z|[+-]\d\d(?::?\d\d)?/;
-
-    var isoDates = [
-        ['YYYYYY-MM-DD', /[+-]\d{6}-\d\d-\d\d/],
-        ['YYYY-MM-DD', /\d{4}-\d\d-\d\d/],
-        ['GGGG-[W]WW-E', /\d{4}-W\d\d-\d/],
-        ['GGGG-[W]WW', /\d{4}-W\d\d/, false],
-        ['YYYY-DDD', /\d{4}-\d{3}/],
-        ['YYYY-MM', /\d{4}-\d\d/, false],
-        ['YYYYYYMMDD', /[+-]\d{10}/],
-        ['YYYYMMDD', /\d{8}/],
-        // YYYYMM is NOT allowed by the standard
-        ['GGGG[W]WWE', /\d{4}W\d{3}/],
-        ['GGGG[W]WW', /\d{4}W\d{2}/, false],
-        ['YYYYDDD', /\d{7}/]
-    ];
-
-    // iso time formats and regexes
-    var isoTimes = [
-        ['HH:mm:ss.SSSS', /\d\d:\d\d:\d\d\.\d+/],
-        ['HH:mm:ss,SSSS', /\d\d:\d\d:\d\d,\d+/],
-        ['HH:mm:ss', /\d\d:\d\d:\d\d/],
-        ['HH:mm', /\d\d:\d\d/],
-        ['HHmmss.SSSS', /\d\d\d\d\d\d\.\d+/],
-        ['HHmmss,SSSS', /\d\d\d\d\d\d,\d+/],
-        ['HHmmss', /\d\d\d\d\d\d/],
-        ['HHmm', /\d\d\d\d/],
-        ['HH', /\d\d/]
-    ];
-
-    var aspNetJsonRegex = /^\/?Date\((\-?\d+)/i;
-
-    // date from iso format
-    function configFromISO(config) {
-        var i, l,
-            string = config._i,
-            match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string),
-            allowTime, dateFormat, timeFormat, tzFormat;
-
-        if (match) {
-            getParsingFlags(config).iso = true;
-
-            for (i = 0, l = isoDates.length; i < l; i++) {
-                if (isoDates[i][1].exec(match[1])) {
-                    dateFormat = isoDates[i][0];
-                    allowTime = isoDates[i][2] !== false;
-                    break;
-                }
-            }
-            if (dateFormat == null) {
-                config._isValid = false;
-                return;
-            }
-            if (match[3]) {
-                for (i = 0, l = isoTimes.length; i < l; i++) {
-                    if (isoTimes[i][1].exec(match[3])) {
-                        // match[2] should be 'T' or space
-                        timeFormat = (match[2] || ' ') + isoTimes[i][0];
-                        break;
-                    }
-                }
-                if (timeFormat == null) {
-                    config._isValid = false;
-                    return;
-                }
-            }
-            if (!allowTime && timeFormat != null) {
-                config._isValid = false;
-                return;
-            }
-            if (match[4]) {
-                if (tzRegex.exec(match[4])) {
-                    tzFormat = 'Z';
-                } else {
-                    config._isValid = false;
-                    return;
-                }
-            }
-            config._f = dateFormat + (timeFormat || '') + (tzFormat || '');
-            configFromStringAndFormat(config);
-        } else {
-            config._isValid = false;
-        }
-    }
-
-    // date from iso format or fallback
-    function configFromString(config) {
-        var matched = aspNetJsonRegex.exec(config._i);
-
-        if (matched !== null) {
-            config._d = new Date(+matched[1]);
-            return;
-        }
-
-        configFromISO(config);
-        if (config._isValid === false) {
-            delete config._isValid;
-            utils_hooks__hooks.createFromInputFallback(config);
-        }
-    }
-
-    utils_hooks__hooks.createFromInputFallback = deprecate(
-        'moment construction falls back to js Date. This is ' +
-        'discouraged and will be removed in upcoming major ' +
-        'release. Please refer to ' +
-        'https://github.com/moment/moment/issues/1407 for more info.',
-        function (config) {
-            config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
-        }
-    );
-
-    function createDate (y, m, d, h, M, s, ms) {
-        //can't just apply() to create a date:
-        //http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
-        var date = new Date(y, m, d, h, M, s, ms);
-
-        //the date constructor remaps years 0-99 to 1900-1999
-        if (y < 100 && y >= 0 && isFinite(date.getFullYear())) {
-            date.setFullYear(y);
-        }
-        return date;
-    }
-
-    function createUTCDate (y) {
-        var date = new Date(Date.UTC.apply(null, arguments));
-
-        //the Date.UTC function remaps years 0-99 to 1900-1999
-        if (y < 100 && y >= 0 && isFinite(date.getUTCFullYear())) {
-            date.setUTCFullYear(y);
-        }
-        return date;
-    }
-
-    // FORMATTING
-
-    addFormatToken('Y', 0, 0, function () {
-        var y = this.year();
-        return y <= 9999 ? '' + y : '+' + y;
-    });
-
-    addFormatToken(0, ['YY', 2], 0, function () {
-        return this.year() % 100;
-    });
-
-    addFormatToken(0, ['YYYY',   4],       0, 'year');
-    addFormatToken(0, ['YYYYY',  5],       0, 'year');
-    addFormatToken(0, ['YYYYYY', 6, true], 0, 'year');
-
-    // ALIASES
-
-    addUnitAlias('year', 'y');
-
-    // PARSING
-
-    addRegexToken('Y',      matchSigned);
-    addRegexToken('YY',     match1to2, match2);
-    addRegexToken('YYYY',   match1to4, match4);
-    addRegexToken('YYYYY',  match1to6, match6);
-    addRegexToken('YYYYYY', match1to6, match6);
-
-    addParseToken(['YYYYY', 'YYYYYY'], YEAR);
-    addParseToken('YYYY', function (input, array) {
-        array[YEAR] = input.length === 2 ? utils_hooks__hooks.parseTwoDigitYear(input) : toInt(input);
-    });
-    addParseToken('YY', function (input, array) {
-        array[YEAR] = utils_hooks__hooks.parseTwoDigitYear(input);
-    });
-    addParseToken('Y', function (input, array) {
-        array[YEAR] = parseInt(input, 10);
-    });
-
-    // HELPERS
-
-    function daysInYear(year) {
-        return isLeapYear(year) ? 366 : 365;
-    }
-
-    function isLeapYear(year) {
-        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-    }
-
-    // HOOKS
-
-    utils_hooks__hooks.parseTwoDigitYear = function (input) {
-        return toInt(input) + (toInt(input) > 68 ? 1900 : 2000);
-    };
-
-    // MOMENTS
-
-    var getSetYear = makeGetSet('FullYear', false);
-
-    function getIsLeapYear () {
-        return isLeapYear(this.year());
-    }
-
-    // start-of-first-week - start-of-year
-    function firstWeekOffset(year, dow, doy) {
-        var // first-week day -- which january is always in the first week (4 for iso, 1 for other)
-            fwd = 7 + dow - doy,
-            // first-week day local weekday -- which local weekday is fwd
-            fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
-
-        return -fwdlw + fwd - 1;
-    }
-
-    //http://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
-    function dayOfYearFromWeeks(year, week, weekday, dow, doy) {
-        var localWeekday = (7 + weekday - dow) % 7,
-            weekOffset = firstWeekOffset(year, dow, doy),
-            dayOfYear = 1 + 7 * (week - 1) + localWeekday + weekOffset,
-            resYear, resDayOfYear;
-
-        if (dayOfYear <= 0) {
-            resYear = year - 1;
-            resDayOfYear = daysInYear(resYear) + dayOfYear;
-        } else if (dayOfYear > daysInYear(year)) {
-            resYear = year + 1;
-            resDayOfYear = dayOfYear - daysInYear(year);
-        } else {
-            resYear = year;
-            resDayOfYear = dayOfYear;
-        }
-
-        return {
-            year: resYear,
-            dayOfYear: resDayOfYear
-        };
-    }
-
-    function weekOfYear(mom, dow, doy) {
-        var weekOffset = firstWeekOffset(mom.year(), dow, doy),
-            week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1,
-            resWeek, resYear;
-
-        if (week < 1) {
-            resYear = mom.year() - 1;
-            resWeek = week + weeksInYear(resYear, dow, doy);
-        } else if (week > weeksInYear(mom.year(), dow, doy)) {
-            resWeek = week - weeksInYear(mom.year(), dow, doy);
-            resYear = mom.year() + 1;
-        } else {
-            resYear = mom.year();
-            resWeek = week;
-        }
-
-        return {
-            week: resWeek,
-            year: resYear
-        };
-    }
-
-    function weeksInYear(year, dow, doy) {
-        var weekOffset = firstWeekOffset(year, dow, doy),
-            weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
-        return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
-    }
-
-    // Pick the first defined of two or three arguments.
-    function defaults(a, b, c) {
-        if (a != null) {
-            return a;
-        }
-        if (b != null) {
-            return b;
-        }
-        return c;
-    }
-
-    function currentDateArray(config) {
-        // hooks is actually the exported moment object
-        var nowValue = new Date(utils_hooks__hooks.now());
-        if (config._useUTC) {
-            return [nowValue.getUTCFullYear(), nowValue.getUTCMonth(), nowValue.getUTCDate()];
-        }
-        return [nowValue.getFullYear(), nowValue.getMonth(), nowValue.getDate()];
-    }
-
-    // convert an array to a date.
-    // the array should mirror the parameters below
-    // note: all values past the year are optional and will default to the lowest possible value.
-    // [year, month, day , hour, minute, second, millisecond]
-    function configFromArray (config) {
-        var i, date, input = [], currentDate, yearToUse;
-
-        if (config._d) {
-            return;
-        }
-
-        currentDate = currentDateArray(config);
-
-        //compute day of the year from weeks and weekdays
-        if (config._w && config._a[DATE] == null && config._a[MONTH] == null) {
-            dayOfYearFromWeekInfo(config);
-        }
-
-        //if the day of the year is set, figure out what it is
-        if (config._dayOfYear) {
-            yearToUse = defaults(config._a[YEAR], currentDate[YEAR]);
-
-            if (config._dayOfYear > daysInYear(yearToUse)) {
-                getParsingFlags(config)._overflowDayOfYear = true;
-            }
-
-            date = createUTCDate(yearToUse, 0, config._dayOfYear);
-            config._a[MONTH] = date.getUTCMonth();
-            config._a[DATE] = date.getUTCDate();
-        }
-
-        // Default to current date.
-        // * if no year, month, day of month are given, default to today
-        // * if day of month is given, default month and year
-        // * if month is given, default only year
-        // * if year is given, don't default anything
-        for (i = 0; i < 3 && config._a[i] == null; ++i) {
-            config._a[i] = input[i] = currentDate[i];
-        }
-
-        // Zero out whatever was not defaulted, including time
-        for (; i < 7; i++) {
-            config._a[i] = input[i] = (config._a[i] == null) ? (i === 2 ? 1 : 0) : config._a[i];
-        }
-
-        // Check for 24:00:00.000
-        if (config._a[HOUR] === 24 &&
-                config._a[MINUTE] === 0 &&
-                config._a[SECOND] === 0 &&
-                config._a[MILLISECOND] === 0) {
-            config._nextDay = true;
-            config._a[HOUR] = 0;
-        }
-
-        config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input);
-        // Apply timezone offset from input. The actual utcOffset can be changed
-        // with parseZone.
-        if (config._tzm != null) {
-            config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm);
-        }
-
-        if (config._nextDay) {
-            config._a[HOUR] = 24;
-        }
-    }
-
-    function dayOfYearFromWeekInfo(config) {
-        var w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow;
-
-        w = config._w;
-        if (w.GG != null || w.W != null || w.E != null) {
-            dow = 1;
-            doy = 4;
-
-            // TODO: We need to take the current isoWeekYear, but that depends on
-            // how we interpret now (local, utc, fixed offset). So create
-            // a now version of current config (take local/utc/offset flags, and
-            // create now).
-            weekYear = defaults(w.GG, config._a[YEAR], weekOfYear(local__createLocal(), 1, 4).year);
-            week = defaults(w.W, 1);
-            weekday = defaults(w.E, 1);
-            if (weekday < 1 || weekday > 7) {
-                weekdayOverflow = true;
-            }
-        } else {
-            dow = config._locale._week.dow;
-            doy = config._locale._week.doy;
-
-            weekYear = defaults(w.gg, config._a[YEAR], weekOfYear(local__createLocal(), dow, doy).year);
-            week = defaults(w.w, 1);
-
-            if (w.d != null) {
-                // weekday -- low day numbers are considered next week
-                weekday = w.d;
-                if (weekday < 0 || weekday > 6) {
-                    weekdayOverflow = true;
-                }
-            } else if (w.e != null) {
-                // local weekday -- counting starts from begining of week
-                weekday = w.e + dow;
-                if (w.e < 0 || w.e > 6) {
-                    weekdayOverflow = true;
-                }
-            } else {
-                // default to begining of week
-                weekday = dow;
-            }
-        }
-        if (week < 1 || week > weeksInYear(weekYear, dow, doy)) {
-            getParsingFlags(config)._overflowWeeks = true;
-        } else if (weekdayOverflow != null) {
-            getParsingFlags(config)._overflowWeekday = true;
-        } else {
-            temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy);
-            config._a[YEAR] = temp.year;
-            config._dayOfYear = temp.dayOfYear;
-        }
-    }
-
-    // constant that refers to the ISO standard
-    utils_hooks__hooks.ISO_8601 = function () {};
-
-    // date from string and format string
-    function configFromStringAndFormat(config) {
-        // TODO: Move this to another part of the creation flow to prevent circular deps
-        if (config._f === utils_hooks__hooks.ISO_8601) {
-            configFromISO(config);
-            return;
-        }
-
-        config._a = [];
-        getParsingFlags(config).empty = true;
-
-        // This array is used to make a Date, either with `new Date` or `Date.UTC`
-        var string = '' + config._i,
-            i, parsedInput, tokens, token, skipped,
-            stringLength = string.length,
-            totalParsedInputLength = 0;
-
-        tokens = expandFormat(config._f, config._locale).match(formattingTokens) || [];
-
-        for (i = 0; i < tokens.length; i++) {
-            token = tokens[i];
-            parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0];
-            // console.log('token', token, 'parsedInput', parsedInput,
-            //         'regex', getParseRegexForToken(token, config));
-            if (parsedInput) {
-                skipped = string.substr(0, string.indexOf(parsedInput));
-                if (skipped.length > 0) {
-                    getParsingFlags(config).unusedInput.push(skipped);
-                }
-                string = string.slice(string.indexOf(parsedInput) + parsedInput.length);
-                totalParsedInputLength += parsedInput.length;
-            }
-            // don't parse if it's not a known token
-            if (formatTokenFunctions[token]) {
-                if (parsedInput) {
-                    getParsingFlags(config).empty = false;
-                }
-                else {
-                    getParsingFlags(config).unusedTokens.push(token);
-                }
-                addTimeToArrayFromToken(token, parsedInput, config);
-            }
-            else if (config._strict && !parsedInput) {
-                getParsingFlags(config).unusedTokens.push(token);
-            }
-        }
-
-        // add remaining unparsed input length to the string
-        getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength;
-        if (string.length > 0) {
-            getParsingFlags(config).unusedInput.push(string);
-        }
-
-        // clear _12h flag if hour is <= 12
-        if (getParsingFlags(config).bigHour === true &&
-                config._a[HOUR] <= 12 &&
-                config._a[HOUR] > 0) {
-            getParsingFlags(config).bigHour = undefined;
-        }
-        // handle meridiem
-        config._a[HOUR] = meridiemFixWrap(config._locale, config._a[HOUR], config._meridiem);
-
-        configFromArray(config);
-        checkOverflow(config);
-    }
-
-
-    function meridiemFixWrap (locale, hour, meridiem) {
-        var isPm;
-
-        if (meridiem == null) {
-            // nothing to do
-            return hour;
-        }
-        if (locale.meridiemHour != null) {
-            return locale.meridiemHour(hour, meridiem);
-        } else if (locale.isPM != null) {
-            // Fallback
-            isPm = locale.isPM(meridiem);
-            if (isPm && hour < 12) {
-                hour += 12;
-            }
-            if (!isPm && hour === 12) {
-                hour = 0;
-            }
-            return hour;
-        } else {
-            // this is not supposed to happen
-            return hour;
-        }
-    }
-
-    // date from string and array of format strings
-    function configFromStringAndArray(config) {
-        var tempConfig,
-            bestMoment,
-
-            scoreToBeat,
-            i,
-            currentScore;
-
-        if (config._f.length === 0) {
-            getParsingFlags(config).invalidFormat = true;
-            config._d = new Date(NaN);
-            return;
-        }
-
-        for (i = 0; i < config._f.length; i++) {
-            currentScore = 0;
-            tempConfig = copyConfig({}, config);
-            if (config._useUTC != null) {
-                tempConfig._useUTC = config._useUTC;
-            }
-            tempConfig._f = config._f[i];
-            configFromStringAndFormat(tempConfig);
-
-            if (!valid__isValid(tempConfig)) {
-                continue;
-            }
-
-            // if there is any input that was not parsed add a penalty for that format
-            currentScore += getParsingFlags(tempConfig).charsLeftOver;
-
-            //or tokens
-            currentScore += getParsingFlags(tempConfig).unusedTokens.length * 10;
-
-            getParsingFlags(tempConfig).score = currentScore;
-
-            if (scoreToBeat == null || currentScore < scoreToBeat) {
-                scoreToBeat = currentScore;
-                bestMoment = tempConfig;
-            }
-        }
-
-        extend(config, bestMoment || tempConfig);
-    }
-
-    function configFromObject(config) {
-        if (config._d) {
-            return;
-        }
-
-        var i = normalizeObjectUnits(config._i);
-        config._a = map([i.year, i.month, i.day || i.date, i.hour, i.minute, i.second, i.millisecond], function (obj) {
-            return obj && parseInt(obj, 10);
-        });
-
-        configFromArray(config);
-    }
-
-    function createFromConfig (config) {
-        var res = new Moment(checkOverflow(prepareConfig(config)));
-        if (res._nextDay) {
-            // Adding is smart enough around DST
-            res.add(1, 'd');
-            res._nextDay = undefined;
-        }
-
-        return res;
-    }
-
-    function prepareConfig (config) {
-        var input = config._i,
-            format = config._f;
-
-        config._locale = config._locale || locale_locales__getLocale(config._l);
-
-        if (input === null || (format === undefined && input === '')) {
-            return valid__createInvalid({nullInput: true});
-        }
-
-        if (typeof input === 'string') {
-            config._i = input = config._locale.preparse(input);
-        }
-
-        if (isMoment(input)) {
-            return new Moment(checkOverflow(input));
-        } else if (isArray(format)) {
-            configFromStringAndArray(config);
-        } else if (format) {
-            configFromStringAndFormat(config);
-        } else if (isDate(input)) {
-            config._d = input;
-        } else {
-            configFromInput(config);
-        }
-
-        if (!valid__isValid(config)) {
-            config._d = null;
-        }
-
-        return config;
-    }
-
-    function configFromInput(config) {
-        var input = config._i;
-        if (input === undefined) {
-            config._d = new Date(utils_hooks__hooks.now());
-        } else if (isDate(input)) {
-            config._d = new Date(+input);
-        } else if (typeof input === 'string') {
-            configFromString(config);
-        } else if (isArray(input)) {
-            config._a = map(input.slice(0), function (obj) {
-                return parseInt(obj, 10);
-            });
-            configFromArray(config);
-        } else if (typeof(input) === 'object') {
-            configFromObject(config);
-        } else if (typeof(input) === 'number') {
-            // from milliseconds
-            config._d = new Date(input);
-        } else {
-            utils_hooks__hooks.createFromInputFallback(config);
-        }
-    }
-
-    function createLocalOrUTC (input, format, locale, strict, isUTC) {
-        var c = {};
-
-        if (typeof(locale) === 'boolean') {
-            strict = locale;
-            locale = undefined;
-        }
-        // object construction must be done this way.
-        // https://github.com/moment/moment/issues/1423
-        c._isAMomentObject = true;
-        c._useUTC = c._isUTC = isUTC;
-        c._l = locale;
-        c._i = input;
-        c._f = format;
-        c._strict = strict;
-
-        return createFromConfig(c);
-    }
-
-    function local__createLocal (input, format, locale, strict) {
-        return createLocalOrUTC(input, format, locale, strict, false);
-    }
-
-    var prototypeMin = deprecate(
-         'moment().min is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548',
-         function () {
-             var other = local__createLocal.apply(null, arguments);
-             if (this.isValid() && other.isValid()) {
-                 return other < this ? this : other;
-             } else {
-                 return valid__createInvalid();
-             }
-         }
-     );
-
-    var prototypeMax = deprecate(
-        'moment().max is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548',
-        function () {
-            var other = local__createLocal.apply(null, arguments);
-            if (this.isValid() && other.isValid()) {
-                return other > this ? this : other;
-            } else {
-                return valid__createInvalid();
-            }
-        }
-    );
-
-    // Pick a moment m from moments so that m[fn](other) is true for all
-    // other. This relies on the function fn to be transitive.
-    //
-    // moments should either be an array of moment objects or an array, whose
-    // first element is an array of moment objects.
-    function pickBy(fn, moments) {
-        var res, i;
-        if (moments.length === 1 && isArray(moments[0])) {
-            moments = moments[0];
-        }
-        if (!moments.length) {
-            return local__createLocal();
-        }
-        res = moments[0];
-        for (i = 1; i < moments.length; ++i) {
-            if (!moments[i].isValid() || moments[i][fn](res)) {
-                res = moments[i];
-            }
-        }
-        return res;
-    }
-
-    // TODO: Use [].sort instead?
-    function min () {
-        var args = [].slice.call(arguments, 0);
-
-        return pickBy('isBefore', args);
-    }
-
-    function max () {
-        var args = [].slice.call(arguments, 0);
-
-        return pickBy('isAfter', args);
-    }
-
-    var now = function () {
-        return Date.now ? Date.now() : +(new Date());
-    };
-
-    function Duration (duration) {
-        var normalizedInput = normalizeObjectUnits(duration),
-            years = normalizedInput.year || 0,
-            quarters = normalizedInput.quarter || 0,
-            months = normalizedInput.month || 0,
-            weeks = normalizedInput.week || 0,
-            days = normalizedInput.day || 0,
-            hours = normalizedInput.hour || 0,
-            minutes = normalizedInput.minute || 0,
-            seconds = normalizedInput.second || 0,
-            milliseconds = normalizedInput.millisecond || 0;
-
-        // representation for dateAddRemove
-        this._milliseconds = +milliseconds +
-            seconds * 1e3 + // 1000
-            minutes * 6e4 + // 1000 * 60
-            hours * 36e5; // 1000 * 60 * 60
-        // Because of dateAddRemove treats 24 hours as different from a
-        // day when working around DST, we need to store them separately
-        this._days = +days +
-            weeks * 7;
-        // It is impossible translate months into days without knowing
-        // which months you are are talking about, so we have to store
-        // it separately.
-        this._months = +months +
-            quarters * 3 +
-            years * 12;
-
-        this._data = {};
-
-        this._locale = locale_locales__getLocale();
-
-        this._bubble();
-    }
-
-    function isDuration (obj) {
-        return obj instanceof Duration;
-    }
-
-    // FORMATTING
-
-    function offset (token, separator) {
-        addFormatToken(token, 0, 0, function () {
-            var offset = this.utcOffset();
-            var sign = '+';
-            if (offset < 0) {
-                offset = -offset;
-                sign = '-';
-            }
-            return sign + zeroFill(~~(offset / 60), 2) + separator + zeroFill(~~(offset) % 60, 2);
-        });
-    }
-
-    offset('Z', ':');
-    offset('ZZ', '');
-
-    // PARSING
-
-    addRegexToken('Z',  matchShortOffset);
-    addRegexToken('ZZ', matchShortOffset);
-    addParseToken(['Z', 'ZZ'], function (input, array, config) {
-        config._useUTC = true;
-        config._tzm = offsetFromString(matchShortOffset, input);
-    });
-
-    // HELPERS
-
-    // timezone chunker
-    // '+10:00' > ['10',  '00']
-    // '-1530'  > ['-15', '30']
-    var chunkOffset = /([\+\-]|\d\d)/gi;
-
-    function offsetFromString(matcher, string) {
-        var matches = ((string || '').match(matcher) || []);
-        var chunk   = matches[matches.length - 1] || [];
-        var parts   = (chunk + '').match(chunkOffset) || ['-', 0, 0];
-        var minutes = +(parts[1] * 60) + toInt(parts[2]);
-
-        return parts[0] === '+' ? minutes : -minutes;
-    }
-
-    // Return a moment from input, that is local/utc/zone equivalent to model.
-    function cloneWithOffset(input, model) {
-        var res, diff;
-        if (model._isUTC) {
-            res = model.clone();
-            diff = (isMoment(input) || isDate(input) ? +input : +local__createLocal(input)) - (+res);
-            // Use low-level api, because this fn is low-level api.
-            res._d.setTime(+res._d + diff);
-            utils_hooks__hooks.updateOffset(res, false);
-            return res;
-        } else {
-            return local__createLocal(input).local();
-        }
-    }
-
-    function getDateOffset (m) {
-        // On Firefox.24 Date#getTimezoneOffset returns a floating point.
-        // https://github.com/moment/moment/pull/1871
-        return -Math.round(m._d.getTimezoneOffset() / 15) * 15;
-    }
-
-    // HOOKS
-
-    // This function will be called whenever a moment is mutated.
-    // It is intended to keep the offset in sync with the timezone.
-    utils_hooks__hooks.updateOffset = function () {};
-
-    // MOMENTS
-
-    // keepLocalTime = true means only change the timezone, without
-    // affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]-->
-    // 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
-    // +0200, so we adjust the time as needed, to be valid.
-    //
-    // Keeping the time actually adds/subtracts (one hour)
-    // from the actual represented time. That is why we call updateOffset
-    // a second time. In case it wants us to change the offset again
-    // _changeInProgress == true case, then we have to adjust, because
-    // there is no such time in the given timezone.
-    function getSetOffset (input, keepLocalTime) {
-        var offset = this._offset || 0,
-            localAdjust;
-        if (!this.isValid()) {
-            return input != null ? this : NaN;
-        }
-        if (input != null) {
-            if (typeof input === 'string') {
-                input = offsetFromString(matchShortOffset, input);
-            } else if (Math.abs(input) < 16) {
-                input = input * 60;
-            }
-            if (!this._isUTC && keepLocalTime) {
-                localAdjust = getDateOffset(this);
-            }
-            this._offset = input;
-            this._isUTC = true;
-            if (localAdjust != null) {
-                this.add(localAdjust, 'm');
-            }
-            if (offset !== input) {
-                if (!keepLocalTime || this._changeInProgress) {
-                    add_subtract__addSubtract(this, create__createDuration(input - offset, 'm'), 1, false);
-                } else if (!this._changeInProgress) {
-                    this._changeInProgress = true;
-                    utils_hooks__hooks.updateOffset(this, true);
-                    this._changeInProgress = null;
-                }
-            }
-            return this;
-        } else {
-            return this._isUTC ? offset : getDateOffset(this);
-        }
-    }
-
-    function getSetZone (input, keepLocalTime) {
-        if (input != null) {
-            if (typeof input !== 'string') {
-                input = -input;
-            }
-
-            this.utcOffset(input, keepLocalTime);
-
-            return this;
-        } else {
-            return -this.utcOffset();
-        }
-    }
-
-    function setOffsetToUTC (keepLocalTime) {
-        return this.utcOffset(0, keepLocalTime);
-    }
-
-    function setOffsetToLocal (keepLocalTime) {
-        if (this._isUTC) {
-            this.utcOffset(0, keepLocalTime);
-            this._isUTC = false;
-
-            if (keepLocalTime) {
-                this.subtract(getDateOffset(this), 'm');
-            }
-        }
-        return this;
-    }
-
-    function setOffsetToParsedOffset () {
-        if (this._tzm) {
-            this.utcOffset(this._tzm);
-        } else if (typeof this._i === 'string') {
-            this.utcOffset(offsetFromString(matchOffset, this._i));
-        }
-        return this;
-    }
-
-    function hasAlignedHourOffset (input) {
-        if (!this.isValid()) {
-            return false;
-        }
-        input = input ? local__createLocal(input).utcOffset() : 0;
-
-        return (this.utcOffset() - input) % 60 === 0;
-    }
-
-    function isDaylightSavingTime () {
-        return (
-            this.utcOffset() > this.clone().month(0).utcOffset() ||
-            this.utcOffset() > this.clone().month(5).utcOffset()
-        );
-    }
-
-    function isDaylightSavingTimeShifted () {
-        if (!isUndefined(this._isDSTShifted)) {
-            return this._isDSTShifted;
-        }
-
-        var c = {};
-
-        copyConfig(c, this);
-        c = prepareConfig(c);
-
-        if (c._a) {
-            var other = c._isUTC ? create_utc__createUTC(c._a) : local__createLocal(c._a);
-            this._isDSTShifted = this.isValid() &&
-                compareArrays(c._a, other.toArray()) > 0;
-        } else {
-            this._isDSTShifted = false;
-        }
-
-        return this._isDSTShifted;
-    }
-
-    function isLocal () {
-        return this.isValid() ? !this._isUTC : false;
-    }
-
-    function isUtcOffset () {
-        return this.isValid() ? this._isUTC : false;
-    }
-
-    function isUtc () {
-        return this.isValid() ? this._isUTC && this._offset === 0 : false;
-    }
-
-    // ASP.NET json date format regex
-    var aspNetRegex = /(\-)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)\.?(\d{3})?)?/;
-
-    // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
-    // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
-    var isoRegex = /^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/;
-
-    function create__createDuration (input, key) {
-        var duration = input,
-            // matching against regexp is expensive, do it on demand
-            match = null,
-            sign,
-            ret,
-            diffRes;
-
-        if (isDuration(input)) {
-            duration = {
-                ms : input._milliseconds,
-                d  : input._days,
-                M  : input._months
-            };
-        } else if (typeof input === 'number') {
-            duration = {};
-            if (key) {
-                duration[key] = input;
-            } else {
-                duration.milliseconds = input;
-            }
-        } else if (!!(match = aspNetRegex.exec(input))) {
-            sign = (match[1] === '-') ? -1 : 1;
-            duration = {
-                y  : 0,
-                d  : toInt(match[DATE])        * sign,
-                h  : toInt(match[HOUR])        * sign,
-                m  : toInt(match[MINUTE])      * sign,
-                s  : toInt(match[SECOND])      * sign,
-                ms : toInt(match[MILLISECOND]) * sign
-            };
-        } else if (!!(match = isoRegex.exec(input))) {
-            sign = (match[1] === '-') ? -1 : 1;
-            duration = {
-                y : parseIso(match[2], sign),
-                M : parseIso(match[3], sign),
-                d : parseIso(match[4], sign),
-                h : parseIso(match[5], sign),
-                m : parseIso(match[6], sign),
-                s : parseIso(match[7], sign),
-                w : parseIso(match[8], sign)
-            };
-        } else if (duration == null) {// checks for null or undefined
-            duration = {};
-        } else if (typeof duration === 'object' && ('from' in duration || 'to' in duration)) {
-            diffRes = momentsDifference(local__createLocal(duration.from), local__createLocal(duration.to));
-
-            duration = {};
-            duration.ms = diffRes.milliseconds;
-            duration.M = diffRes.months;
-        }
-
-        ret = new Duration(duration);
-
-        if (isDuration(input) && hasOwnProp(input, '_locale')) {
-            ret._locale = input._locale;
-        }
-
-        return ret;
-    }
-
-    create__createDuration.fn = Duration.prototype;
-
-    function parseIso (inp, sign) {
-        // We'd normally use ~~inp for this, but unfortunately it also
-        // converts floats to ints.
-        // inp may be undefined, so careful calling replace on it.
-        var res = inp && parseFloat(inp.replace(',', '.'));
-        // apply sign while we're at it
-        return (isNaN(res) ? 0 : res) * sign;
-    }
-
-    function positiveMomentsDifference(base, other) {
-        var res = {milliseconds: 0, months: 0};
-
-        res.months = other.month() - base.month() +
-            (other.year() - base.year()) * 12;
-        if (base.clone().add(res.months, 'M').isAfter(other)) {
-            --res.months;
-        }
-
-        res.milliseconds = +other - +(base.clone().add(res.months, 'M'));
-
-        return res;
-    }
-
-    function momentsDifference(base, other) {
-        var res;
-        if (!(base.isValid() && other.isValid())) {
-            return {milliseconds: 0, months: 0};
-        }
-
-        other = cloneWithOffset(other, base);
-        if (base.isBefore(other)) {
-            res = positiveMomentsDifference(base, other);
-        } else {
-            res = positiveMomentsDifference(other, base);
-            res.milliseconds = -res.milliseconds;
-            res.months = -res.months;
-        }
-
-        return res;
-    }
-
-    // TODO: remove 'name' arg after deprecation is removed
-    function createAdder(direction, name) {
-        return function (val, period) {
-            var dur, tmp;
-            //invert the arguments, but complain about it
-            if (period !== null && !isNaN(+period)) {
-                deprecateSimple(name, 'moment().' + name  + '(period, number) is deprecated. Please use moment().' + name + '(number, period).');
-                tmp = val; val = period; period = tmp;
-            }
-
-            val = typeof val === 'string' ? +val : val;
-            dur = create__createDuration(val, period);
-            add_subtract__addSubtract(this, dur, direction);
-            return this;
-        };
-    }
-
-    function add_subtract__addSubtract (mom, duration, isAdding, updateOffset) {
-        var milliseconds = duration._milliseconds,
-            days = duration._days,
-            months = duration._months;
-
-        if (!mom.isValid()) {
-            // No op
-            return;
-        }
-
-        updateOffset = updateOffset == null ? true : updateOffset;
-
-        if (milliseconds) {
-            mom._d.setTime(+mom._d + milliseconds * isAdding);
-        }
-        if (days) {
-            get_set__set(mom, 'Date', get_set__get(mom, 'Date') + days * isAdding);
-        }
-        if (months) {
-            setMonth(mom, get_set__get(mom, 'Month') + months * isAdding);
-        }
-        if (updateOffset) {
-            utils_hooks__hooks.updateOffset(mom, days || months);
-        }
-    }
-
-    var add_subtract__add      = createAdder(1, 'add');
-    var add_subtract__subtract = createAdder(-1, 'subtract');
-
-    function moment_calendar__calendar (time, formats) {
-        // We want to compare the start of today, vs this.
-        // Getting start-of-today depends on whether we're local/utc/offset or not.
-        var now = time || local__createLocal(),
-            sod = cloneWithOffset(now, this).startOf('day'),
-            diff = this.diff(sod, 'days', true),
-            format = diff < -6 ? 'sameElse' :
-                diff < -1 ? 'lastWeek' :
-                diff < 0 ? 'lastDay' :
-                diff < 1 ? 'sameDay' :
-                diff < 2 ? 'nextDay' :
-                diff < 7 ? 'nextWeek' : 'sameElse';
-
-        var output = formats && (isFunction(formats[format]) ? formats[format]() : formats[format]);
-
-        return this.format(output || this.localeData().calendar(format, this, local__createLocal(now)));
-    }
-
-    function clone () {
-        return new Moment(this);
-    }
-
-    function isAfter (input, units) {
-        var localInput = isMoment(input) ? input : local__createLocal(input);
-        if (!(this.isValid() && localInput.isValid())) {
-            return false;
-        }
-        units = normalizeUnits(!isUndefined(units) ? units : 'millisecond');
-        if (units === 'millisecond') {
-            return +this > +localInput;
-        } else {
-            return +localInput < +this.clone().startOf(units);
-        }
-    }
-
-    function isBefore (input, units) {
-        var localInput = isMoment(input) ? input : local__createLocal(input);
-        if (!(this.isValid() && localInput.isValid())) {
-            return false;
-        }
-        units = normalizeUnits(!isUndefined(units) ? units : 'millisecond');
-        if (units === 'millisecond') {
-            return +this < +localInput;
-        } else {
-            return +this.clone().endOf(units) < +localInput;
-        }
-    }
-
-    function isBetween (from, to, units) {
-        return this.isAfter(from, units) && this.isBefore(to, units);
-    }
-
-    function isSame (input, units) {
-        var localInput = isMoment(input) ? input : local__createLocal(input),
-            inputMs;
-        if (!(this.isValid() && localInput.isValid())) {
-            return false;
-        }
-        units = normalizeUnits(units || 'millisecond');
-        if (units === 'millisecond') {
-            return +this === +localInput;
-        } else {
-            inputMs = +localInput;
-            return +(this.clone().startOf(units)) <= inputMs && inputMs <= +(this.clone().endOf(units));
-        }
-    }
-
-    function isSameOrAfter (input, units) {
-        return this.isSame(input, units) || this.isAfter(input,units);
-    }
-
-    function isSameOrBefore (input, units) {
-        return this.isSame(input, units) || this.isBefore(input,units);
-    }
-
-    function diff (input, units, asFloat) {
-        var that,
-            zoneDelta,
-            delta, output;
-
-        if (!this.isValid()) {
-            return NaN;
-        }
-
-        that = cloneWithOffset(input, this);
-
-        if (!that.isValid()) {
-            return NaN;
-        }
-
-        zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4;
-
-        units = normalizeUnits(units);
-
-        if (units === 'year' || units === 'month' || units === 'quarter') {
-            output = monthDiff(this, that);
-            if (units === 'quarter') {
-                output = output / 3;
-            } else if (units === 'year') {
-                output = output / 12;
-            }
-        } else {
-            delta = this - that;
-            output = units === 'second' ? delta / 1e3 : // 1000
-                units === 'minute' ? delta / 6e4 : // 1000 * 60
-                units === 'hour' ? delta / 36e5 : // 1000 * 60 * 60
-                units === 'day' ? (delta - zoneDelta) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
-                units === 'week' ? (delta - zoneDelta) / 6048e5 : // 1000 * 60 * 60 * 24 * 7, negate dst
-                delta;
-        }
-        return asFloat ? output : absFloor(output);
-    }
-
-    function monthDiff (a, b) {
-        // difference in months
-        var wholeMonthDiff = ((b.year() - a.year()) * 12) + (b.month() - a.month()),
-            // b is in (anchor - 1 month, anchor + 1 month)
-            anchor = a.clone().add(wholeMonthDiff, 'months'),
-            anchor2, adjust;
-
-        if (b - anchor < 0) {
-            anchor2 = a.clone().add(wholeMonthDiff - 1, 'months');
-            // linear across the month
-            adjust = (b - anchor) / (anchor - anchor2);
-        } else {
-            anchor2 = a.clone().add(wholeMonthDiff + 1, 'months');
-            // linear across the month
-            adjust = (b - anchor) / (anchor2 - anchor);
-        }
-
-        return -(wholeMonthDiff + adjust);
-    }
-
-    utils_hooks__hooks.defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
-
-    function toString () {
-        return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
-    }
-
-    function moment_format__toISOString () {
-        var m = this.clone().utc();
-        if (0 < m.year() && m.year() <= 9999) {
-            if (isFunction(Date.prototype.toISOString)) {
-                // native implementation is ~50x faster, use it when we can
-                return this.toDate().toISOString();
-            } else {
-                return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
-            }
-        } else {
-            return formatMoment(m, 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
-        }
-    }
-
-    function format (inputString) {
-        var output = formatMoment(this, inputString || utils_hooks__hooks.defaultFormat);
-        return this.localeData().postformat(output);
-    }
-
-    function from (time, withoutSuffix) {
-        if (this.isValid() &&
-                ((isMoment(time) && time.isValid()) ||
-                 local__createLocal(time).isValid())) {
-            return create__createDuration({to: this, from: time}).locale(this.locale()).humanize(!withoutSuffix);
-        } else {
-            return this.localeData().invalidDate();
-        }
-    }
-
-    function fromNow (withoutSuffix) {
-        return this.from(local__createLocal(), withoutSuffix);
-    }
-
-    function to (time, withoutSuffix) {
-        if (this.isValid() &&
-                ((isMoment(time) && time.isValid()) ||
-                 local__createLocal(time).isValid())) {
-            return create__createDuration({from: this, to: time}).locale(this.locale()).humanize(!withoutSuffix);
-        } else {
-            return this.localeData().invalidDate();
-        }
-    }
-
-    function toNow (withoutSuffix) {
-        return this.to(local__createLocal(), withoutSuffix);
-    }
-
-    // If passed a locale key, it will set the locale for this
-    // instance.  Otherwise, it will return the locale configuration
-    // variables for this instance.
-    function locale (key) {
-        var newLocaleData;
-
-        if (key === undefined) {
-            return this._locale._abbr;
-        } else {
-            newLocaleData = locale_locales__getLocale(key);
-            if (newLocaleData != null) {
-                this._locale = newLocaleData;
-            }
-            return this;
-        }
-    }
-
-    var lang = deprecate(
-        'moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.',
-        function (key) {
-            if (key === undefined) {
-                return this.localeData();
-            } else {
-                return this.locale(key);
-            }
-        }
-    );
-
-    function localeData () {
-        return this._locale;
-    }
-
-    function startOf (units) {
-        units = normalizeUnits(units);
-        // the following switch intentionally omits break keywords
-        // to utilize falling through the cases.
-        switch (units) {
-        case 'year':
-            this.month(0);
-            /* falls through */
-        case 'quarter':
-        case 'month':
-            this.date(1);
-            /* falls through */
-        case 'week':
-        case 'isoWeek':
-        case 'day':
-            this.hours(0);
-            /* falls through */
-        case 'hour':
-            this.minutes(0);
-            /* falls through */
-        case 'minute':
-            this.seconds(0);
-            /* falls through */
-        case 'second':
-            this.milliseconds(0);
-        }
-
-        // weeks are a special case
-        if (units === 'week') {
-            this.weekday(0);
-        }
-        if (units === 'isoWeek') {
-            this.isoWeekday(1);
-        }
-
-        // quarters are also special
-        if (units === 'quarter') {
-            this.month(Math.floor(this.month() / 3) * 3);
-        }
-
-        return this;
-    }
-
-    function endOf (units) {
-        units = normalizeUnits(units);
-        if (units === undefined || units === 'millisecond') {
-            return this;
-        }
-        return this.startOf(units).add(1, (units === 'isoWeek' ? 'week' : units)).subtract(1, 'ms');
-    }
-
-    function to_type__valueOf () {
-        return +this._d - ((this._offset || 0) * 60000);
-    }
-
-    function unix () {
-        return Math.floor(+this / 1000);
-    }
-
-    function toDate () {
-        return this._offset ? new Date(+this) : this._d;
-    }
-
-    function toArray () {
-        var m = this;
-        return [m.year(), m.month(), m.date(), m.hour(), m.minute(), m.second(), m.millisecond()];
-    }
-
-    function toObject () {
-        var m = this;
-        return {
-            years: m.year(),
-            months: m.month(),
-            date: m.date(),
-            hours: m.hours(),
-            minutes: m.minutes(),
-            seconds: m.seconds(),
-            milliseconds: m.milliseconds()
-        };
-    }
-
-    function toJSON () {
-        // JSON.stringify(new Date(NaN)) === 'null'
-        return this.isValid() ? this.toISOString() : 'null';
-    }
-
-    function moment_valid__isValid () {
-        return valid__isValid(this);
-    }
-
-    function parsingFlags () {
-        return extend({}, getParsingFlags(this));
-    }
-
-    function invalidAt () {
-        return getParsingFlags(this).overflow;
-    }
-
-    function creationData() {
-        return {
-            input: this._i,
-            format: this._f,
-            locale: this._locale,
-            isUTC: this._isUTC,
-            strict: this._strict
-        };
-    }
-
-    // FORMATTING
-
-    addFormatToken(0, ['gg', 2], 0, function () {
-        return this.weekYear() % 100;
-    });
-
-    addFormatToken(0, ['GG', 2], 0, function () {
-        return this.isoWeekYear() % 100;
-    });
-
-    function addWeekYearFormatToken (token, getter) {
-        addFormatToken(0, [token, token.length], 0, getter);
-    }
-
-    addWeekYearFormatToken('gggg',     'weekYear');
-    addWeekYearFormatToken('ggggg',    'weekYear');
-    addWeekYearFormatToken('GGGG',  'isoWeekYear');
-    addWeekYearFormatToken('GGGGG', 'isoWeekYear');
-
-    // ALIASES
-
-    addUnitAlias('weekYear', 'gg');
-    addUnitAlias('isoWeekYear', 'GG');
-
-    // PARSING
-
-    addRegexToken('G',      matchSigned);
-    addRegexToken('g',      matchSigned);
-    addRegexToken('GG',     match1to2, match2);
-    addRegexToken('gg',     match1to2, match2);
-    addRegexToken('GGGG',   match1to4, match4);
-    addRegexToken('gggg',   match1to4, match4);
-    addRegexToken('GGGGG',  match1to6, match6);
-    addRegexToken('ggggg',  match1to6, match6);
-
-    addWeekParseToken(['gggg', 'ggggg', 'GGGG', 'GGGGG'], function (input, week, config, token) {
-        week[token.substr(0, 2)] = toInt(input);
-    });
-
-    addWeekParseToken(['gg', 'GG'], function (input, week, config, token) {
-        week[token] = utils_hooks__hooks.parseTwoDigitYear(input);
-    });
-
-    // MOMENTS
-
-    function getSetWeekYear (input) {
-        return getSetWeekYearHelper.call(this,
-                input,
-                this.week(),
-                this.weekday(),
-                this.localeData()._week.dow,
-                this.localeData()._week.doy);
-    }
-
-    function getSetISOWeekYear (input) {
-        return getSetWeekYearHelper.call(this,
-                input, this.isoWeek(), this.isoWeekday(), 1, 4);
-    }
-
-    function getISOWeeksInYear () {
-        return weeksInYear(this.year(), 1, 4);
-    }
-
-    function getWeeksInYear () {
-        var weekInfo = this.localeData()._week;
-        return weeksInYear(this.year(), weekInfo.dow, weekInfo.doy);
-    }
-
-    function getSetWeekYearHelper(input, week, weekday, dow, doy) {
-        var weeksTarget;
-        if (input == null) {
-            return weekOfYear(this, dow, doy).year;
-        } else {
-            weeksTarget = weeksInYear(input, dow, doy);
-            if (week > weeksTarget) {
-                week = weeksTarget;
-            }
-            return setWeekAll.call(this, input, week, weekday, dow, doy);
-        }
-    }
-
-    function setWeekAll(weekYear, week, weekday, dow, doy) {
-        var dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy),
-            date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
-
-        // console.log("got", weekYear, week, weekday, "set", date.toISOString());
-        this.year(date.getUTCFullYear());
-        this.month(date.getUTCMonth());
-        this.date(date.getUTCDate());
-        return this;
-    }
-
-    // FORMATTING
-
-    addFormatToken('Q', 0, 'Qo', 'quarter');
-
-    // ALIASES
-
-    addUnitAlias('quarter', 'Q');
-
-    // PARSING
-
-    addRegexToken('Q', match1);
-    addParseToken('Q', function (input, array) {
-        array[MONTH] = (toInt(input) - 1) * 3;
-    });
-
-    // MOMENTS
-
-    function getSetQuarter (input) {
-        return input == null ? Math.ceil((this.month() + 1) / 3) : this.month((input - 1) * 3 + this.month() % 3);
-    }
-
-    // FORMATTING
-
-    addFormatToken('w', ['ww', 2], 'wo', 'week');
-    addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
-
-    // ALIASES
-
-    addUnitAlias('week', 'w');
-    addUnitAlias('isoWeek', 'W');
-
-    // PARSING
-
-    addRegexToken('w',  match1to2);
-    addRegexToken('ww', match1to2, match2);
-    addRegexToken('W',  match1to2);
-    addRegexToken('WW', match1to2, match2);
-
-    addWeekParseToken(['w', 'ww', 'W', 'WW'], function (input, week, config, token) {
-        week[token.substr(0, 1)] = toInt(input);
-    });
-
-    // HELPERS
-
-    // LOCALES
-
-    function localeWeek (mom) {
-        return weekOfYear(mom, this._week.dow, this._week.doy).week;
-    }
-
-    var defaultLocaleWeek = {
-        dow : 0, // Sunday is the first day of the week.
-        doy : 6  // The week that contains Jan 1st is the first week of the year.
-    };
-
-    function localeFirstDayOfWeek () {
-        return this._week.dow;
-    }
-
-    function localeFirstDayOfYear () {
-        return this._week.doy;
-    }
-
-    // MOMENTS
-
-    function getSetWeek (input) {
-        var week = this.localeData().week(this);
-        return input == null ? week : this.add((input - week) * 7, 'd');
-    }
-
-    function getSetISOWeek (input) {
-        var week = weekOfYear(this, 1, 4).week;
-        return input == null ? week : this.add((input - week) * 7, 'd');
-    }
-
-    // FORMATTING
-
-    addFormatToken('D', ['DD', 2], 'Do', 'date');
-
-    // ALIASES
-
-    addUnitAlias('date', 'D');
-
-    // PARSING
-
-    addRegexToken('D',  match1to2);
-    addRegexToken('DD', match1to2, match2);
-    addRegexToken('Do', function (isStrict, locale) {
-        return isStrict ? locale._ordinalParse : locale._ordinalParseLenient;
-    });
-
-    addParseToken(['D', 'DD'], DATE);
-    addParseToken('Do', function (input, array) {
-        array[DATE] = toInt(input.match(match1to2)[0], 10);
-    });
-
-    // MOMENTS
-
-    var getSetDayOfMonth = makeGetSet('Date', true);
-
-    // FORMATTING
-
-    addFormatToken('d', 0, 'do', 'day');
-
-    addFormatToken('dd', 0, 0, function (format) {
-        return this.localeData().weekdaysMin(this, format);
-    });
-
-    addFormatToken('ddd', 0, 0, function (format) {
-        return this.localeData().weekdaysShort(this, format);
-    });
-
-    addFormatToken('dddd', 0, 0, function (format) {
-        return this.localeData().weekdays(this, format);
-    });
-
-    addFormatToken('e', 0, 0, 'weekday');
-    addFormatToken('E', 0, 0, 'isoWeekday');
-
-    // ALIASES
-
-    addUnitAlias('day', 'd');
-    addUnitAlias('weekday', 'e');
-    addUnitAlias('isoWeekday', 'E');
-
-    // PARSING
-
-    addRegexToken('d',    match1to2);
-    addRegexToken('e',    match1to2);
-    addRegexToken('E',    match1to2);
-    addRegexToken('dd',   matchWord);
-    addRegexToken('ddd',  matchWord);
-    addRegexToken('dddd', matchWord);
-
-    addWeekParseToken(['dd', 'ddd', 'dddd'], function (input, week, config, token) {
-        var weekday = config._locale.weekdaysParse(input, token, config._strict);
-        // if we didn't get a weekday name, mark the date as invalid
-        if (weekday != null) {
-            week.d = weekday;
-        } else {
-            getParsingFlags(config).invalidWeekday = input;
-        }
-    });
-
-    addWeekParseToken(['d', 'e', 'E'], function (input, week, config, token) {
-        week[token] = toInt(input);
-    });
-
-    // HELPERS
-
-    function parseWeekday(input, locale) {
-        if (typeof input !== 'string') {
-            return input;
-        }
-
-        if (!isNaN(input)) {
-            return parseInt(input, 10);
-        }
-
-        input = locale.weekdaysParse(input);
-        if (typeof input === 'number') {
-            return input;
-        }
-
-        return null;
-    }
-
-    // LOCALES
-
-    var defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_');
-    function localeWeekdays (m, format) {
-        return isArray(this._weekdays) ? this._weekdays[m.day()] :
-            this._weekdays[this._weekdays.isFormat.test(format) ? 'format' : 'standalone'][m.day()];
-    }
-
-    var defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_');
-    function localeWeekdaysShort (m) {
-        return this._weekdaysShort[m.day()];
-    }
-
-    var defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_');
-    function localeWeekdaysMin (m) {
-        return this._weekdaysMin[m.day()];
-    }
-
-    function localeWeekdaysParse (weekdayName, format, strict) {
-        var i, mom, regex;
-
-        if (!this._weekdaysParse) {
-            this._weekdaysParse = [];
-            this._minWeekdaysParse = [];
-            this._shortWeekdaysParse = [];
-            this._fullWeekdaysParse = [];
-        }
-
-        for (i = 0; i < 7; i++) {
-            // make the regex if we don't have it already
-
-            mom = local__createLocal([2000, 1]).day(i);
-            if (strict && !this._fullWeekdaysParse[i]) {
-                this._fullWeekdaysParse[i] = new RegExp('^' + this.weekdays(mom, '').replace('.', '\.?') + '$', 'i');
-                this._shortWeekdaysParse[i] = new RegExp('^' + this.weekdaysShort(mom, '').replace('.', '\.?') + '$', 'i');
-                this._minWeekdaysParse[i] = new RegExp('^' + this.weekdaysMin(mom, '').replace('.', '\.?') + '$', 'i');
-            }
-            if (!this._weekdaysParse[i]) {
-                regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, '');
-                this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
-            }
-            // test the regex
-            if (strict && format === 'dddd' && this._fullWeekdaysParse[i].test(weekdayName)) {
-                return i;
-            } else if (strict && format === 'ddd' && this._shortWeekdaysParse[i].test(weekdayName)) {
-                return i;
-            } else if (strict && format === 'dd' && this._minWeekdaysParse[i].test(weekdayName)) {
-                return i;
-            } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
-                return i;
-            }
-        }
-    }
-
-    // MOMENTS
-
-    function getSetDayOfWeek (input) {
-        if (!this.isValid()) {
-            return input != null ? this : NaN;
-        }
-        var day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
-        if (input != null) {
-            input = parseWeekday(input, this.localeData());
-            return this.add(input - day, 'd');
-        } else {
-            return day;
-        }
-    }
-
-    function getSetLocaleDayOfWeek (input) {
-        if (!this.isValid()) {
-            return input != null ? this : NaN;
-        }
-        var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
-        return input == null ? weekday : this.add(input - weekday, 'd');
-    }
-
-    function getSetISODayOfWeek (input) {
-        if (!this.isValid()) {
-            return input != null ? this : NaN;
-        }
-        // behaves the same as moment#day except
-        // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
-        // as a setter, sunday should belong to the previous week.
-        return input == null ? this.day() || 7 : this.day(this.day() % 7 ? input : input - 7);
-    }
-
-    // FORMATTING
-
-    addFormatToken('DDD', ['DDDD', 3], 'DDDo', 'dayOfYear');
-
-    // ALIASES
-
-    addUnitAlias('dayOfYear', 'DDD');
-
-    // PARSING
-
-    addRegexToken('DDD',  match1to3);
-    addRegexToken('DDDD', match3);
-    addParseToken(['DDD', 'DDDD'], function (input, array, config) {
-        config._dayOfYear = toInt(input);
-    });
-
-    // HELPERS
-
-    // MOMENTS
-
-    function getSetDayOfYear (input) {
-        var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 864e5) + 1;
-        return input == null ? dayOfYear : this.add((input - dayOfYear), 'd');
-    }
-
-    // FORMATTING
-
-    function hFormat() {
-        return this.hours() % 12 || 12;
-    }
-
-    addFormatToken('H', ['HH', 2], 0, 'hour');
-    addFormatToken('h', ['hh', 2], 0, hFormat);
-
-    addFormatToken('hmm', 0, 0, function () {
-        return '' + hFormat.apply(this) + zeroFill(this.minutes(), 2);
-    });
-
-    addFormatToken('hmmss', 0, 0, function () {
-        return '' + hFormat.apply(this) + zeroFill(this.minutes(), 2) +
-            zeroFill(this.seconds(), 2);
-    });
-
-    addFormatToken('Hmm', 0, 0, function () {
-        return '' + this.hours() + zeroFill(this.minutes(), 2);
-    });
-
-    addFormatToken('Hmmss', 0, 0, function () {
-        return '' + this.hours() + zeroFill(this.minutes(), 2) +
-            zeroFill(this.seconds(), 2);
-    });
-
-    function meridiem (token, lowercase) {
-        addFormatToken(token, 0, 0, function () {
-            return this.localeData().meridiem(this.hours(), this.minutes(), lowercase);
-        });
-    }
-
-    meridiem('a', true);
-    meridiem('A', false);
-
-    // ALIASES
-
-    addUnitAlias('hour', 'h');
-
-    // PARSING
-
-    function matchMeridiem (isStrict, locale) {
-        return locale._meridiemParse;
-    }
-
-    addRegexToken('a',  matchMeridiem);
-    addRegexToken('A',  matchMeridiem);
-    addRegexToken('H',  match1to2);
-    addRegexToken('h',  match1to2);
-    addRegexToken('HH', match1to2, match2);
-    addRegexToken('hh', match1to2, match2);
-
-    addRegexToken('hmm', match3to4);
-    addRegexToken('hmmss', match5to6);
-    addRegexToken('Hmm', match3to4);
-    addRegexToken('Hmmss', match5to6);
-
-    addParseToken(['H', 'HH'], HOUR);
-    addParseToken(['a', 'A'], function (input, array, config) {
-        config._isPm = config._locale.isPM(input);
-        config._meridiem = input;
-    });
-    addParseToken(['h', 'hh'], function (input, array, config) {
-        array[HOUR] = toInt(input);
-        getParsingFlags(config).bigHour = true;
-    });
-    addParseToken('hmm', function (input, array, config) {
-        var pos = input.length - 2;
-        array[HOUR] = toInt(input.substr(0, pos));
-        array[MINUTE] = toInt(input.substr(pos));
-        getParsingFlags(config).bigHour = true;
-    });
-    addParseToken('hmmss', function (input, array, config) {
-        var pos1 = input.length - 4;
-        var pos2 = input.length - 2;
-        array[HOUR] = toInt(input.substr(0, pos1));
-        array[MINUTE] = toInt(input.substr(pos1, 2));
-        array[SECOND] = toInt(input.substr(pos2));
-        getParsingFlags(config).bigHour = true;
-    });
-    addParseToken('Hmm', function (input, array, config) {
-        var pos = input.length - 2;
-        array[HOUR] = toInt(input.substr(0, pos));
-        array[MINUTE] = toInt(input.substr(pos));
-    });
-    addParseToken('Hmmss', function (input, array, config) {
-        var pos1 = input.length - 4;
-        var pos2 = input.length - 2;
-        array[HOUR] = toInt(input.substr(0, pos1));
-        array[MINUTE] = toInt(input.substr(pos1, 2));
-        array[SECOND] = toInt(input.substr(pos2));
-    });
-
-    // LOCALES
-
-    function localeIsPM (input) {
-        // IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings like arrays
-        // Using charAt should be more compatible.
-        return ((input + '').toLowerCase().charAt(0) === 'p');
-    }
-
-    var defaultLocaleMeridiemParse = /[ap]\.?m?\.?/i;
-    function localeMeridiem (hours, minutes, isLower) {
-        if (hours > 11) {
-            return isLower ? 'pm' : 'PM';
-        } else {
-            return isLower ? 'am' : 'AM';
-        }
-    }
-
-
-    // MOMENTS
-
-    // Setting the hour should keep the time, because the user explicitly
-    // specified which hour he wants. So trying to maintain the same hour (in
-    // a new timezone) makes sense. Adding/subtracting hours does not follow
-    // this rule.
-    var getSetHour = makeGetSet('Hours', true);
-
-    // FORMATTING
-
-    addFormatToken('m', ['mm', 2], 0, 'minute');
-
-    // ALIASES
-
-    addUnitAlias('minute', 'm');
-
-    // PARSING
-
-    addRegexToken('m',  match1to2);
-    addRegexToken('mm', match1to2, match2);
-    addParseToken(['m', 'mm'], MINUTE);
-
-    // MOMENTS
-
-    var getSetMinute = makeGetSet('Minutes', false);
-
-    // FORMATTING
-
-    addFormatToken('s', ['ss', 2], 0, 'second');
-
-    // ALIASES
-
-    addUnitAlias('second', 's');
-
-    // PARSING
-
-    addRegexToken('s',  match1to2);
-    addRegexToken('ss', match1to2, match2);
-    addParseToken(['s', 'ss'], SECOND);
-
-    // MOMENTS
-
-    var getSetSecond = makeGetSet('Seconds', false);
-
-    // FORMATTING
-
-    addFormatToken('S', 0, 0, function () {
-        return ~~(this.millisecond() / 100);
-    });
-
-    addFormatToken(0, ['SS', 2], 0, function () {
-        return ~~(this.millisecond() / 10);
-    });
-
-    addFormatToken(0, ['SSS', 3], 0, 'millisecond');
-    addFormatToken(0, ['SSSS', 4], 0, function () {
-        return this.millisecond() * 10;
-    });
-    addFormatToken(0, ['SSSSS', 5], 0, function () {
-        return this.millisecond() * 100;
-    });
-    addFormatToken(0, ['SSSSSS', 6], 0, function () {
-        return this.millisecond() * 1000;
-    });
-    addFormatToken(0, ['SSSSSSS', 7], 0, function () {
-        return this.millisecond() * 10000;
-    });
-    addFormatToken(0, ['SSSSSSSS', 8], 0, function () {
-        return this.millisecond() * 100000;
-    });
-    addFormatToken(0, ['SSSSSSSSS', 9], 0, function () {
-        return this.millisecond() * 1000000;
-    });
-
-
-    // ALIASES
-
-    addUnitAlias('millisecond', 'ms');
-
-    // PARSING
-
-    addRegexToken('S',    match1to3, match1);
-    addRegexToken('SS',   match1to3, match2);
-    addRegexToken('SSS',  match1to3, match3);
-
-    var token;
-    for (token = 'SSSS'; token.length <= 9; token += 'S') {
-        addRegexToken(token, matchUnsigned);
-    }
-
-    function parseMs(input, array) {
-        array[MILLISECOND] = toInt(('0.' + input) * 1000);
-    }
-
-    for (token = 'S'; token.length <= 9; token += 'S') {
-        addParseToken(token, parseMs);
-    }
-    // MOMENTS
-
-    var getSetMillisecond = makeGetSet('Milliseconds', false);
-
-    // FORMATTING
-
-    addFormatToken('z',  0, 0, 'zoneAbbr');
-    addFormatToken('zz', 0, 0, 'zoneName');
-
-    // MOMENTS
-
-    function getZoneAbbr () {
-        return this._isUTC ? 'UTC' : '';
-    }
-
-    function getZoneName () {
-        return this._isUTC ? 'Coordinated Universal Time' : '';
-    }
-
-    var momentPrototype__proto = Moment.prototype;
-
-    momentPrototype__proto.add               = add_subtract__add;
-    momentPrototype__proto.calendar          = moment_calendar__calendar;
-    momentPrototype__proto.clone             = clone;
-    momentPrototype__proto.diff              = diff;
-    momentPrototype__proto.endOf             = endOf;
-    momentPrototype__proto.format            = format;
-    momentPrototype__proto.from              = from;
-    momentPrototype__proto.fromNow           = fromNow;
-    momentPrototype__proto.to                = to;
-    momentPrototype__proto.toNow             = toNow;
-    momentPrototype__proto.get               = getSet;
-    momentPrototype__proto.invalidAt         = invalidAt;
-    momentPrototype__proto.isAfter           = isAfter;
-    momentPrototype__proto.isBefore          = isBefore;
-    momentPrototype__proto.isBetween         = isBetween;
-    momentPrototype__proto.isSame            = isSame;
-    momentPrototype__proto.isSameOrAfter     = isSameOrAfter;
-    momentPrototype__proto.isSameOrBefore    = isSameOrBefore;
-    momentPrototype__proto.isValid           = moment_valid__isValid;
-    momentPrototype__proto.lang              = lang;
-    momentPrototype__proto.locale            = locale;
-    momentPrototype__proto.localeData        = localeData;
-    momentPrototype__proto.max               = prototypeMax;
-    momentPrototype__proto.min               = prototypeMin;
-    momentPrototype__proto.parsingFlags      = parsingFlags;
-    momentPrototype__proto.set               = getSet;
-    momentPrototype__proto.startOf           = startOf;
-    momentPrototype__proto.subtract          = add_subtract__subtract;
-    momentPrototype__proto.toArray           = toArray;
-    momentPrototype__proto.toObject          = toObject;
-    momentPrototype__proto.toDate            = toDate;
-    momentPrototype__proto.toISOString       = moment_format__toISOString;
-    momentPrototype__proto.toJSON            = toJSON;
-    momentPrototype__proto.toString          = toString;
-    momentPrototype__proto.unix              = unix;
-    momentPrototype__proto.valueOf           = to_type__valueOf;
-    momentPrototype__proto.creationData      = creationData;
-
-    // Year
-    momentPrototype__proto.year       = getSetYear;
-    momentPrototype__proto.isLeapYear = getIsLeapYear;
-
-    // Week Year
-    momentPrototype__proto.weekYear    = getSetWeekYear;
-    momentPrototype__proto.isoWeekYear = getSetISOWeekYear;
-
-    // Quarter
-    momentPrototype__proto.quarter = momentPrototype__proto.quarters = getSetQuarter;
-
-    // Month
-    momentPrototype__proto.month       = getSetMonth;
-    momentPrototype__proto.daysInMonth = getDaysInMonth;
-
-    // Week
-    momentPrototype__proto.week           = momentPrototype__proto.weeks        = getSetWeek;
-    momentPrototype__proto.isoWeek        = momentPrototype__proto.isoWeeks     = getSetISOWeek;
-    momentPrototype__proto.weeksInYear    = getWeeksInYear;
-    momentPrototype__proto.isoWeeksInYear = getISOWeeksInYear;
-
-    // Day
-    momentPrototype__proto.date       = getSetDayOfMonth;
-    momentPrototype__proto.day        = momentPrototype__proto.days             = getSetDayOfWeek;
-    momentPrototype__proto.weekday    = getSetLocaleDayOfWeek;
-    momentPrototype__proto.isoWeekday = getSetISODayOfWeek;
-    momentPrototype__proto.dayOfYear  = getSetDayOfYear;
-
-    // Hour
-    momentPrototype__proto.hour = momentPrototype__proto.hours = getSetHour;
-
-    // Minute
-    momentPrototype__proto.minute = momentPrototype__proto.minutes = getSetMinute;
-
-    // Second
-    momentPrototype__proto.second = momentPrototype__proto.seconds = getSetSecond;
-
-    // Millisecond
-    momentPrototype__proto.millisecond = momentPrototype__proto.milliseconds = getSetMillisecond;
-
-    // Offset
-    momentPrototype__proto.utcOffset            = getSetOffset;
-    momentPrototype__proto.utc                  = setOffsetToUTC;
-    momentPrototype__proto.local                = setOffsetToLocal;
-    momentPrototype__proto.parseZone            = setOffsetToParsedOffset;
-    momentPrototype__proto.hasAlignedHourOffset = hasAlignedHourOffset;
-    momentPrototype__proto.isDST                = isDaylightSavingTime;
-    momentPrototype__proto.isDSTShifted         = isDaylightSavingTimeShifted;
-    momentPrototype__proto.isLocal              = isLocal;
-    momentPrototype__proto.isUtcOffset          = isUtcOffset;
-    momentPrototype__proto.isUtc                = isUtc;
-    momentPrototype__proto.isUTC                = isUtc;
-
-    // Timezone
-    momentPrototype__proto.zoneAbbr = getZoneAbbr;
-    momentPrototype__proto.zoneName = getZoneName;
-
-    // Deprecations
-    momentPrototype__proto.dates  = deprecate('dates accessor is deprecated. Use date instead.', getSetDayOfMonth);
-    momentPrototype__proto.months = deprecate('months accessor is deprecated. Use month instead', getSetMonth);
-    momentPrototype__proto.years  = deprecate('years accessor is deprecated. Use year instead', getSetYear);
-    momentPrototype__proto.zone   = deprecate('moment().zone is deprecated, use moment().utcOffset instead. https://github.com/moment/moment/issues/1779', getSetZone);
-
-    var momentPrototype = momentPrototype__proto;
-
-    function moment__createUnix (input) {
-        return local__createLocal(input * 1000);
-    }
-
-    function moment__createInZone () {
-        return local__createLocal.apply(null, arguments).parseZone();
-    }
-
-    var defaultCalendar = {
-        sameDay : '[Today at] LT',
-        nextDay : '[Tomorrow at] LT',
-        nextWeek : 'dddd [at] LT',
-        lastDay : '[Yesterday at] LT',
-        lastWeek : '[Last] dddd [at] LT',
-        sameElse : 'L'
-    };
-
-    function locale_calendar__calendar (key, mom, now) {
-        var output = this._calendar[key];
-        return isFunction(output) ? output.call(mom, now) : output;
-    }
-
-    var defaultLongDateFormat = {
-        LTS  : 'h:mm:ss A',
-        LT   : 'h:mm A',
-        L    : 'MM/DD/YYYY',
-        LL   : 'MMMM D, YYYY',
-        LLL  : 'MMMM D, YYYY h:mm A',
-        LLLL : 'dddd, MMMM D, YYYY h:mm A'
-    };
-
-    function longDateFormat (key) {
-        var format = this._longDateFormat[key],
-            formatUpper = this._longDateFormat[key.toUpperCase()];
-
-        if (format || !formatUpper) {
-            return format;
-        }
-
-        this._longDateFormat[key] = formatUpper.replace(/MMMM|MM|DD|dddd/g, function (val) {
-            return val.slice(1);
-        });
-
-        return this._longDateFormat[key];
-    }
-
-    var defaultInvalidDate = 'Invalid date';
-
-    function invalidDate () {
-        return this._invalidDate;
-    }
-
-    var defaultOrdinal = '%d';
-    var defaultOrdinalParse = /\d{1,2}/;
-
-    function ordinal (number) {
-        return this._ordinal.replace('%d', number);
-    }
-
-    function preParsePostFormat (string) {
-        return string;
-    }
-
-    var defaultRelativeTime = {
-        future : 'in %s',
-        past   : '%s ago',
-        s  : 'a few seconds',
-        m  : 'a minute',
-        mm : '%d minutes',
-        h  : 'an hour',
-        hh : '%d hours',
-        d  : 'a day',
-        dd : '%d days',
-        M  : 'a month',
-        MM : '%d months',
-        y  : 'a year',
-        yy : '%d years'
-    };
-
-    function relative__relativeTime (number, withoutSuffix, string, isFuture) {
-        var output = this._relativeTime[string];
-        return (isFunction(output)) ?
-            output(number, withoutSuffix, string, isFuture) :
-            output.replace(/%d/i, number);
-    }
-
-    function pastFuture (diff, output) {
-        var format = this._relativeTime[diff > 0 ? 'future' : 'past'];
-        return isFunction(format) ? format(output) : format.replace(/%s/i, output);
-    }
-
-    function locale_set__set (config) {
-        var prop, i;
-        for (i in config) {
-            prop = config[i];
-            if (isFunction(prop)) {
-                this[i] = prop;
-            } else {
-                this['_' + i] = prop;
-            }
-        }
-        // Lenient ordinal parsing accepts just a number in addition to
-        // number + (possibly) stuff coming from _ordinalParseLenient.
-        this._ordinalParseLenient = new RegExp(this._ordinalParse.source + '|' + (/\d{1,2}/).source);
-    }
-
-    var prototype__proto = Locale.prototype;
-
-    prototype__proto._calendar       = defaultCalendar;
-    prototype__proto.calendar        = locale_calendar__calendar;
-    prototype__proto._longDateFormat = defaultLongDateFormat;
-    prototype__proto.longDateFormat  = longDateFormat;
-    prototype__proto._invalidDate    = defaultInvalidDate;
-    prototype__proto.invalidDate     = invalidDate;
-    prototype__proto._ordinal        = defaultOrdinal;
-    prototype__proto.ordinal         = ordinal;
-    prototype__proto._ordinalParse   = defaultOrdinalParse;
-    prototype__proto.preparse        = preParsePostFormat;
-    prototype__proto.postformat      = preParsePostFormat;
-    prototype__proto._relativeTime   = defaultRelativeTime;
-    prototype__proto.relativeTime    = relative__relativeTime;
-    prototype__proto.pastFuture      = pastFuture;
-    prototype__proto.set             = locale_set__set;
-
-    // Month
-    prototype__proto.months            =        localeMonths;
-    prototype__proto._months           = defaultLocaleMonths;
-    prototype__proto.monthsShort       =        localeMonthsShort;
-    prototype__proto._monthsShort      = defaultLocaleMonthsShort;
-    prototype__proto.monthsParse       =        localeMonthsParse;
-    prototype__proto._monthsRegex      = defaultMonthsRegex;
-    prototype__proto.monthsRegex       = monthsRegex;
-    prototype__proto._monthsShortRegex = defaultMonthsShortRegex;
-    prototype__proto.monthsShortRegex  = monthsShortRegex;
-
-    // Week
-    prototype__proto.week = localeWeek;
-    prototype__proto._week = defaultLocaleWeek;
-    prototype__proto.firstDayOfYear = localeFirstDayOfYear;
-    prototype__proto.firstDayOfWeek = localeFirstDayOfWeek;
-
-    // Day of Week
-    prototype__proto.weekdays       =        localeWeekdays;
-    prototype__proto._weekdays      = defaultLocaleWeekdays;
-    prototype__proto.weekdaysMin    =        localeWeekdaysMin;
-    prototype__proto._weekdaysMin   = defaultLocaleWeekdaysMin;
-    prototype__proto.weekdaysShort  =        localeWeekdaysShort;
-    prototype__proto._weekdaysShort = defaultLocaleWeekdaysShort;
-    prototype__proto.weekdaysParse  =        localeWeekdaysParse;
-
-    // Hours
-    prototype__proto.isPM = localeIsPM;
-    prototype__proto._meridiemParse = defaultLocaleMeridiemParse;
-    prototype__proto.meridiem = localeMeridiem;
-
-    function lists__get (format, index, field, setter) {
-        var locale = locale_locales__getLocale();
-        var utc = create_utc__createUTC().set(setter, index);
-        return locale[field](utc, format);
-    }
-
-    function list (format, index, field, count, setter) {
-        if (typeof format === 'number') {
-            index = format;
-            format = undefined;
-        }
-
-        format = format || '';
-
-        if (index != null) {
-            return lists__get(format, index, field, setter);
-        }
-
-        var i;
-        var out = [];
-        for (i = 0; i < count; i++) {
-            out[i] = lists__get(format, i, field, setter);
-        }
-        return out;
-    }
-
-    function lists__listMonths (format, index) {
-        return list(format, index, 'months', 12, 'month');
-    }
-
-    function lists__listMonthsShort (format, index) {
-        return list(format, index, 'monthsShort', 12, 'month');
-    }
-
-    function lists__listWeekdays (format, index) {
-        return list(format, index, 'weekdays', 7, 'day');
-    }
-
-    function lists__listWeekdaysShort (format, index) {
-        return list(format, index, 'weekdaysShort', 7, 'day');
-    }
-
-    function lists__listWeekdaysMin (format, index) {
-        return list(format, index, 'weekdaysMin', 7, 'day');
-    }
-
-    locale_locales__getSetGlobalLocale('en', {
-        ordinalParse: /\d{1,2}(th|st|nd|rd)/,
-        ordinal : function (number) {
-            var b = number % 10,
-                output = (toInt(number % 100 / 10) === 1) ? 'th' :
-                (b === 1) ? 'st' :
-                (b === 2) ? 'nd' :
-                (b === 3) ? 'rd' : 'th';
-            return number + output;
-        }
-    });
-
-    // Side effect imports
-    utils_hooks__hooks.lang = deprecate('moment.lang is deprecated. Use moment.locale instead.', locale_locales__getSetGlobalLocale);
-    utils_hooks__hooks.langData = deprecate('moment.langData is deprecated. Use moment.localeData instead.', locale_locales__getLocale);
-
-    var mathAbs = Math.abs;
-
-    function duration_abs__abs () {
-        var data           = this._data;
-
-        this._milliseconds = mathAbs(this._milliseconds);
-        this._days         = mathAbs(this._days);
-        this._months       = mathAbs(this._months);
-
-        data.milliseconds  = mathAbs(data.milliseconds);
-        data.seconds       = mathAbs(data.seconds);
-        data.minutes       = mathAbs(data.minutes);
-        data.hours         = mathAbs(data.hours);
-        data.months        = mathAbs(data.months);
-        data.years         = mathAbs(data.years);
-
-        return this;
-    }
-
-    function duration_add_subtract__addSubtract (duration, input, value, direction) {
-        var other = create__createDuration(input, value);
-
-        duration._milliseconds += direction * other._milliseconds;
-        duration._days         += direction * other._days;
-        duration._months       += direction * other._months;
-
-        return duration._bubble();
-    }
-
-    // supports only 2.0-style add(1, 's') or add(duration)
-    function duration_add_subtract__add (input, value) {
-        return duration_add_subtract__addSubtract(this, input, value, 1);
-    }
-
-    // supports only 2.0-style subtract(1, 's') or subtract(duration)
-    function duration_add_subtract__subtract (input, value) {
-        return duration_add_subtract__addSubtract(this, input, value, -1);
-    }
-
-    function absCeil (number) {
-        if (number < 0) {
-            return Math.floor(number);
-        } else {
-            return Math.ceil(number);
-        }
-    }
-
-    function bubble () {
-        var milliseconds = this._milliseconds;
-        var days         = this._days;
-        var months       = this._months;
-        var data         = this._data;
-        var seconds, minutes, hours, years, monthsFromDays;
-
-        // if we have a mix of positive and negative values, bubble down first
-        // check: https://github.com/moment/moment/issues/2166
-        if (!((milliseconds >= 0 && days >= 0 && months >= 0) ||
-                (milliseconds <= 0 && days <= 0 && months <= 0))) {
-            milliseconds += absCeil(monthsToDays(months) + days) * 864e5;
-            days = 0;
-            months = 0;
-        }
-
-        // The following code bubbles up values, see the tests for
-        // examples of what that means.
-        data.milliseconds = milliseconds % 1000;
-
-        seconds           = absFloor(milliseconds / 1000);
-        data.seconds      = seconds % 60;
-
-        minutes           = absFloor(seconds / 60);
-        data.minutes      = minutes % 60;
-
-        hours             = absFloor(minutes / 60);
-        data.hours        = hours % 24;
-
-        days += absFloor(hours / 24);
-
-        // convert days to months
-        monthsFromDays = absFloor(daysToMonths(days));
-        months += monthsFromDays;
-        days -= absCeil(monthsToDays(monthsFromDays));
-
-        // 12 months -> 1 year
-        years = absFloor(months / 12);
-        months %= 12;
-
-        data.days   = days;
-        data.months = months;
-        data.years  = years;
-
-        return this;
-    }
-
-    function daysToMonths (days) {
-        // 400 years have 146097 days (taking into account leap year rules)
-        // 400 years have 12 months === 4800
-        return days * 4800 / 146097;
-    }
-
-    function monthsToDays (months) {
-        // the reverse of daysToMonths
-        return months * 146097 / 4800;
-    }
-
-    function as (units) {
-        var days;
-        var months;
-        var milliseconds = this._milliseconds;
-
-        units = normalizeUnits(units);
-
-        if (units === 'month' || units === 'year') {
-            days   = this._days   + milliseconds / 864e5;
-            months = this._months + daysToMonths(days);
-            return units === 'month' ? months : months / 12;
-        } else {
-            // handle milliseconds separately because of floating point math errors (issue #1867)
-            days = this._days + Math.round(monthsToDays(this._months));
-            switch (units) {
-                case 'week'   : return days / 7     + milliseconds / 6048e5;
-                case 'day'    : return days         + milliseconds / 864e5;
-                case 'hour'   : return days * 24    + milliseconds / 36e5;
-                case 'minute' : return days * 1440  + milliseconds / 6e4;
-                case 'second' : return days * 86400 + milliseconds / 1000;
-                // Math.floor prevents floating point math errors here
-                case 'millisecond': return Math.floor(days * 864e5) + milliseconds;
-                default: throw new Error('Unknown unit ' + units);
-            }
-        }
-    }
-
-    // TODO: Use this.as('ms')?
-    function duration_as__valueOf () {
-        return (
-            this._milliseconds +
-            this._days * 864e5 +
-            (this._months % 12) * 2592e6 +
-            toInt(this._months / 12) * 31536e6
-        );
-    }
-
-    function makeAs (alias) {
-        return function () {
-            return this.as(alias);
-        };
-    }
-
-    var asMilliseconds = makeAs('ms');
-    var asSeconds      = makeAs('s');
-    var asMinutes      = makeAs('m');
-    var asHours        = makeAs('h');
-    var asDays         = makeAs('d');
-    var asWeeks        = makeAs('w');
-    var asMonths       = makeAs('M');
-    var asYears        = makeAs('y');
-
-    function duration_get__get (units) {
-        units = normalizeUnits(units);
-        return this[units + 's']();
-    }
-
-    function makeGetter(name) {
-        return function () {
-            return this._data[name];
-        };
-    }
-
-    var milliseconds = makeGetter('milliseconds');
-    var seconds      = makeGetter('seconds');
-    var minutes      = makeGetter('minutes');
-    var hours        = makeGetter('hours');
-    var days         = makeGetter('days');
-    var months       = makeGetter('months');
-    var years        = makeGetter('years');
-
-    function weeks () {
-        return absFloor(this.days() / 7);
-    }
-
-    var round = Math.round;
-    var thresholds = {
-        s: 45,  // seconds to minute
-        m: 45,  // minutes to hour
-        h: 22,  // hours to day
-        d: 26,  // days to month
-        M: 11   // months to year
-    };
-
-    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
-    function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
-        return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
-    }
-
-    function duration_humanize__relativeTime (posNegDuration, withoutSuffix, locale) {
-        var duration = create__createDuration(posNegDuration).abs();
-        var seconds  = round(duration.as('s'));
-        var minutes  = round(duration.as('m'));
-        var hours    = round(duration.as('h'));
-        var days     = round(duration.as('d'));
-        var months   = round(duration.as('M'));
-        var years    = round(duration.as('y'));
-
-        var a = seconds < thresholds.s && ['s', seconds]  ||
-                minutes <= 1           && ['m']           ||
-                minutes < thresholds.m && ['mm', minutes] ||
-                hours   <= 1           && ['h']           ||
-                hours   < thresholds.h && ['hh', hours]   ||
-                days    <= 1           && ['d']           ||
-                days    < thresholds.d && ['dd', days]    ||
-                months  <= 1           && ['M']           ||
-                months  < thresholds.M && ['MM', months]  ||
-                years   <= 1           && ['y']           || ['yy', years];
-
-        a[2] = withoutSuffix;
-        a[3] = +posNegDuration > 0;
-        a[4] = locale;
-        return substituteTimeAgo.apply(null, a);
-    }
-
-    // This function allows you to set a threshold for relative time strings
-    function duration_humanize__getSetRelativeTimeThreshold (threshold, limit) {
-        if (thresholds[threshold] === undefined) {
-            return false;
-        }
-        if (limit === undefined) {
-            return thresholds[threshold];
-        }
-        thresholds[threshold] = limit;
-        return true;
-    }
-
-    function humanize (withSuffix) {
-        var locale = this.localeData();
-        var output = duration_humanize__relativeTime(this, !withSuffix, locale);
-
-        if (withSuffix) {
-            output = locale.pastFuture(+this, output);
-        }
-
-        return locale.postformat(output);
-    }
-
-    var iso_string__abs = Math.abs;
-
-    function iso_string__toISOString() {
-        // for ISO strings we do not use the normal bubbling rules:
-        //  * milliseconds bubble up until they become hours
-        //  * days do not bubble at all
-        //  * months bubble up until they become years
-        // This is because there is no context-free conversion between hours and days
-        // (think of clock changes)
-        // and also not between days and months (28-31 days per month)
-        var seconds = iso_string__abs(this._milliseconds) / 1000;
-        var days         = iso_string__abs(this._days);
-        var months       = iso_string__abs(this._months);
-        var minutes, hours, years;
-
-        // 3600 seconds -> 60 minutes -> 1 hour
-        minutes           = absFloor(seconds / 60);
-        hours             = absFloor(minutes / 60);
-        seconds %= 60;
-        minutes %= 60;
-
-        // 12 months -> 1 year
-        years  = absFloor(months / 12);
-        months %= 12;
-
-
-        // inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
-        var Y = years;
-        var M = months;
-        var D = days;
-        var h = hours;
-        var m = minutes;
-        var s = seconds;
-        var total = this.asSeconds();
-
-        if (!total) {
-            // this is the same as C#'s (Noda) and python (isodate)...
-            // but not other JS (goog.date)
-            return 'P0D';
-        }
-
-        return (total < 0 ? '-' : '') +
-            'P' +
-            (Y ? Y + 'Y' : '') +
-            (M ? M + 'M' : '') +
-            (D ? D + 'D' : '') +
-            ((h || m || s) ? 'T' : '') +
-            (h ? h + 'H' : '') +
-            (m ? m + 'M' : '') +
-            (s ? s + 'S' : '');
-    }
-
-    var duration_prototype__proto = Duration.prototype;
-
-    duration_prototype__proto.abs            = duration_abs__abs;
-    duration_prototype__proto.add            = duration_add_subtract__add;
-    duration_prototype__proto.subtract       = duration_add_subtract__subtract;
-    duration_prototype__proto.as             = as;
-    duration_prototype__proto.asMilliseconds = asMilliseconds;
-    duration_prototype__proto.asSeconds      = asSeconds;
-    duration_prototype__proto.asMinutes      = asMinutes;
-    duration_prototype__proto.asHours        = asHours;
-    duration_prototype__proto.asDays         = asDays;
-    duration_prototype__proto.asWeeks        = asWeeks;
-    duration_prototype__proto.asMonths       = asMonths;
-    duration_prototype__proto.asYears        = asYears;
-    duration_prototype__proto.valueOf        = duration_as__valueOf;
-    duration_prototype__proto._bubble        = bubble;
-    duration_prototype__proto.get            = duration_get__get;
-    duration_prototype__proto.milliseconds   = milliseconds;
-    duration_prototype__proto.seconds        = seconds;
-    duration_prototype__proto.minutes        = minutes;
-    duration_prototype__proto.hours          = hours;
-    duration_prototype__proto.days           = days;
-    duration_prototype__proto.weeks          = weeks;
-    duration_prototype__proto.months         = months;
-    duration_prototype__proto.years          = years;
-    duration_prototype__proto.humanize       = humanize;
-    duration_prototype__proto.toISOString    = iso_string__toISOString;
-    duration_prototype__proto.toString       = iso_string__toISOString;
-    duration_prototype__proto.toJSON         = iso_string__toISOString;
-    duration_prototype__proto.locale         = locale;
-    duration_prototype__proto.localeData     = localeData;
-
-    // Deprecations
-    duration_prototype__proto.toIsoString = deprecate('toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)', iso_string__toISOString);
-    duration_prototype__proto.lang = lang;
-
-    // Side effect imports
-
-    // FORMATTING
-
-    addFormatToken('X', 0, 0, 'unix');
-    addFormatToken('x', 0, 0, 'valueOf');
-
-    // PARSING
-
-    addRegexToken('x', matchSigned);
-    addRegexToken('X', matchTimestamp);
-    addParseToken('X', function (input, array, config) {
-        config._d = new Date(parseFloat(input, 10) * 1000);
-    });
-    addParseToken('x', function (input, array, config) {
-        config._d = new Date(toInt(input));
-    });
-
-    // Side effect imports
-
-
-    utils_hooks__hooks.version = '2.11.1';
-
-    setHookCallback(local__createLocal);
-
-    utils_hooks__hooks.fn                    = momentPrototype;
-    utils_hooks__hooks.min                   = min;
-    utils_hooks__hooks.max                   = max;
-    utils_hooks__hooks.now                   = now;
-    utils_hooks__hooks.utc                   = create_utc__createUTC;
-    utils_hooks__hooks.unix                  = moment__createUnix;
-    utils_hooks__hooks.months                = lists__listMonths;
-    utils_hooks__hooks.isDate                = isDate;
-    utils_hooks__hooks.locale                = locale_locales__getSetGlobalLocale;
-    utils_hooks__hooks.invalid               = valid__createInvalid;
-    utils_hooks__hooks.duration              = create__createDuration;
-    utils_hooks__hooks.isMoment              = isMoment;
-    utils_hooks__hooks.weekdays              = lists__listWeekdays;
-    utils_hooks__hooks.parseZone             = moment__createInZone;
-    utils_hooks__hooks.localeData            = locale_locales__getLocale;
-    utils_hooks__hooks.isDuration            = isDuration;
-    utils_hooks__hooks.monthsShort           = lists__listMonthsShort;
-    utils_hooks__hooks.weekdaysMin           = lists__listWeekdaysMin;
-    utils_hooks__hooks.defineLocale          = defineLocale;
-    utils_hooks__hooks.weekdaysShort         = lists__listWeekdaysShort;
-    utils_hooks__hooks.normalizeUnits        = normalizeUnits;
-    utils_hooks__hooks.relativeTimeThreshold = duration_humanize__getSetRelativeTimeThreshold;
-    utils_hooks__hooks.prototype             = momentPrototype;
-
-    var _moment = utils_hooks__hooks;
-
-    return _moment;
-
-}));
-},{}],174:[function(require,module,exports){
+},{"../styles/auto-prefix":97,"../utils/immutability-helper":117,"_process":126}],122:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -25025,7 +12407,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],175:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 (function (global){
 /**
  * JSON parse.
@@ -25060,7 +12442,7 @@ module.exports = function parsejson(data) {
   }
 };
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],176:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /**
  * Compiles a querystring
  * Returns string representation of the object
@@ -25099,7 +12481,7 @@ exports.decode = function(qs){
   return qry;
 };
 
-},{}],177:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 /**
  * Parses an URI
  *
@@ -25140,7 +12522,7 @@ module.exports = function parseuri(str) {
     return uri;
 };
 
-},{}],178:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -25233,24 +12615,22 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],179:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 module.exports = require('react/lib/ReactFragment').create;
-},{"react/lib/ReactFragment":250}],180:[function(require,module,exports){
-module.exports = require('react/lib/ReactCSSTransitionGroup');
-},{"react/lib/ReactCSSTransitionGroup":215}],181:[function(require,module,exports){
+},{"react/lib/ReactFragment":195}],128:[function(require,module,exports){
 module.exports = require('react/lib/ReactComponentWithPureRenderMixin');
-},{"react/lib/ReactComponentWithPureRenderMixin":223}],182:[function(require,module,exports){
+},{"react/lib/ReactComponentWithPureRenderMixin":168}],129:[function(require,module,exports){
 module.exports = require('react/lib/ReactTransitionGroup');
-},{"react/lib/ReactTransitionGroup":276}],183:[function(require,module,exports){
+},{"react/lib/ReactTransitionGroup":220}],130:[function(require,module,exports){
 module.exports = require('react/lib/update');
-},{"react/lib/update":324}],184:[function(require,module,exports){
+},{"react/lib/update":268}],131:[function(require,module,exports){
 'use strict';
 
 module.exports = require('react/lib/ReactDOM');
 
-},{"react/lib/ReactDOM":226}],185:[function(require,module,exports){
-arguments[4][46][0].apply(exports,arguments)
-},{"dup":46}],186:[function(require,module,exports){
+},{"react/lib/ReactDOM":171}],132:[function(require,module,exports){
+arguments[4][45][0].apply(exports,arguments)
+},{"dup":45}],133:[function(require,module,exports){
 /**
  * Copyright 2013-2014 Facebook, Inc.
  *
@@ -25421,7 +12801,7 @@ var TapEventPlugin = {
 
 module.exports = TapEventPlugin;
 
-},{"./TouchEventUtils":187,"fbjs/lib/keyOf":185,"react/lib/EventConstants":202,"react/lib/EventPluginUtils":205,"react/lib/EventPropagators":206,"react/lib/SyntheticUIEvent":293,"react/lib/ViewportMetrics":296}],187:[function(require,module,exports){
+},{"./TouchEventUtils":134,"fbjs/lib/keyOf":132,"react/lib/EventConstants":149,"react/lib/EventPluginUtils":152,"react/lib/EventPropagators":153,"react/lib/SyntheticUIEvent":237,"react/lib/ViewportMetrics":240}],134:[function(require,module,exports){
 /**
  * Copyright 2013-2014 Facebook, Inc.
  *
@@ -25465,14 +12845,14 @@ var TouchEventUtils = {
 
 module.exports = TouchEventUtils;
 
-},{}],188:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 module.exports = function injectTapEventPlugin () {
   require('react/lib/EventPluginHub').injection.injectEventPluginsByName({
     "TapEventPlugin":       require('./TapEventPlugin.js')
   });
 };
 
-},{"./TapEventPlugin.js":186,"react/lib/EventPluginHub":203}],189:[function(require,module,exports){
+},{"./TapEventPlugin.js":133,"react/lib/EventPluginHub":150}],136:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25509,7 +12889,7 @@ var AutoFocusUtils = {
 };
 
 module.exports = AutoFocusUtils;
-},{"./ReactMount":257,"./findDOMNode":303,"fbjs/lib/focusNode":36}],190:[function(require,module,exports){
+},{"./ReactMount":202,"./findDOMNode":247,"fbjs/lib/focusNode":35}],137:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -25915,7 +13295,7 @@ var BeforeInputEventPlugin = {
 };
 
 module.exports = BeforeInputEventPlugin;
-},{"./EventConstants":202,"./EventPropagators":206,"./FallbackCompositionState":207,"./SyntheticCompositionEvent":285,"./SyntheticInputEvent":289,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/keyOf":46}],191:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPropagators":153,"./FallbackCompositionState":154,"./SyntheticCompositionEvent":229,"./SyntheticInputEvent":233,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/keyOf":45}],138:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26055,7 +13435,7 @@ var CSSProperty = {
 };
 
 module.exports = CSSProperty;
-},{}],192:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26233,7 +13613,7 @@ ReactPerf.measureMethods(CSSPropertyOperations, 'CSSPropertyOperations', {
 
 module.exports = CSSPropertyOperations;
 }).call(this,require('_process'))
-},{"./CSSProperty":191,"./ReactPerf":263,"./dangerousStyleValue":300,"_process":178,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/camelizeStyleName":30,"fbjs/lib/hyphenateStyleName":41,"fbjs/lib/memoizeStringOnly":48,"fbjs/lib/warning":53}],193:[function(require,module,exports){
+},{"./CSSProperty":138,"./ReactPerf":208,"./dangerousStyleValue":244,"_process":126,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/camelizeStyleName":29,"fbjs/lib/hyphenateStyleName":40,"fbjs/lib/memoizeStringOnly":47,"fbjs/lib/warning":52}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26329,7 +13709,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 
 module.exports = CallbackQueue;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./PooledClass":211,"_process":178,"fbjs/lib/invariant":42}],194:[function(require,module,exports){
+},{"./Object.assign":157,"./PooledClass":158,"_process":126,"fbjs/lib/invariant":41}],141:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26651,7 +14031,7 @@ var ChangeEventPlugin = {
 };
 
 module.exports = ChangeEventPlugin;
-},{"./EventConstants":202,"./EventPluginHub":203,"./EventPropagators":206,"./ReactUpdates":278,"./SyntheticEvent":287,"./getEventTarget":309,"./isEventSupported":314,"./isTextInputElement":315,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/keyOf":46}],195:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPluginHub":150,"./EventPropagators":153,"./ReactUpdates":222,"./SyntheticEvent":231,"./getEventTarget":253,"./isEventSupported":258,"./isTextInputElement":259,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/keyOf":45}],142:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26675,7 +14055,7 @@ var ClientReactRootIndex = {
 };
 
 module.exports = ClientReactRootIndex;
-},{}],196:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26807,7 +14187,7 @@ ReactPerf.measureMethods(DOMChildrenOperations, 'DOMChildrenOperations', {
 
 module.exports = DOMChildrenOperations;
 }).call(this,require('_process'))
-},{"./Danger":199,"./ReactMultiChildUpdateTypes":259,"./ReactPerf":263,"./setInnerHTML":319,"./setTextContent":320,"_process":178,"fbjs/lib/invariant":42}],197:[function(require,module,exports){
+},{"./Danger":146,"./ReactMultiChildUpdateTypes":204,"./ReactPerf":208,"./setInnerHTML":263,"./setTextContent":264,"_process":126,"fbjs/lib/invariant":41}],144:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27044,7 +14424,7 @@ var DOMProperty = {
 
 module.exports = DOMProperty;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],198:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],145:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27272,7 +14652,7 @@ ReactPerf.measureMethods(DOMPropertyOperations, 'DOMPropertyOperations', {
 
 module.exports = DOMPropertyOperations;
 }).call(this,require('_process'))
-},{"./DOMProperty":197,"./ReactPerf":263,"./quoteAttributeValueForBrowser":317,"_process":178,"fbjs/lib/warning":53}],199:[function(require,module,exports){
+},{"./DOMProperty":144,"./ReactPerf":208,"./quoteAttributeValueForBrowser":261,"_process":126,"fbjs/lib/warning":52}],146:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27420,7 +14800,7 @@ var Danger = {
 
 module.exports = Danger;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/createNodesFromMarkup":33,"fbjs/lib/emptyFunction":34,"fbjs/lib/getMarkupWrap":38,"fbjs/lib/invariant":42}],200:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/createNodesFromMarkup":32,"fbjs/lib/emptyFunction":33,"fbjs/lib/getMarkupWrap":37,"fbjs/lib/invariant":41}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27448,7 +14828,7 @@ var keyOf = require('fbjs/lib/keyOf');
 var DefaultEventPluginOrder = [keyOf({ ResponderEventPlugin: null }), keyOf({ SimpleEventPlugin: null }), keyOf({ TapEventPlugin: null }), keyOf({ EnterLeaveEventPlugin: null }), keyOf({ ChangeEventPlugin: null }), keyOf({ SelectEventPlugin: null }), keyOf({ BeforeInputEventPlugin: null })];
 
 module.exports = DefaultEventPluginOrder;
-},{"fbjs/lib/keyOf":46}],201:[function(require,module,exports){
+},{"fbjs/lib/keyOf":45}],148:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27573,7 +14953,7 @@ var EnterLeaveEventPlugin = {
 };
 
 module.exports = EnterLeaveEventPlugin;
-},{"./EventConstants":202,"./EventPropagators":206,"./ReactMount":257,"./SyntheticMouseEvent":291,"fbjs/lib/keyOf":46}],202:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPropagators":153,"./ReactMount":202,"./SyntheticMouseEvent":235,"fbjs/lib/keyOf":45}],149:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27666,7 +15046,7 @@ var EventConstants = {
 };
 
 module.exports = EventConstants;
-},{"fbjs/lib/keyMirror":45}],203:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":44}],150:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27948,7 +15328,7 @@ var EventPluginHub = {
 
 module.exports = EventPluginHub;
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":204,"./EventPluginUtils":205,"./ReactErrorUtils":247,"./accumulateInto":297,"./forEachAccumulated":305,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],204:[function(require,module,exports){
+},{"./EventPluginRegistry":151,"./EventPluginUtils":152,"./ReactErrorUtils":192,"./accumulateInto":241,"./forEachAccumulated":249,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],151:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28171,7 +15551,7 @@ var EventPluginRegistry = {
 
 module.exports = EventPluginRegistry;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],205:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],152:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28376,7 +15756,7 @@ var EventPluginUtils = {
 
 module.exports = EventPluginUtils;
 }).call(this,require('_process'))
-},{"./EventConstants":202,"./ReactErrorUtils":247,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],206:[function(require,module,exports){
+},{"./EventConstants":149,"./ReactErrorUtils":192,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],153:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28514,7 +15894,7 @@ var EventPropagators = {
 
 module.exports = EventPropagators;
 }).call(this,require('_process'))
-},{"./EventConstants":202,"./EventPluginHub":203,"./accumulateInto":297,"./forEachAccumulated":305,"_process":178,"fbjs/lib/warning":53}],207:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPluginHub":150,"./accumulateInto":241,"./forEachAccumulated":249,"_process":126,"fbjs/lib/warning":52}],154:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28610,7 +15990,7 @@ assign(FallbackCompositionState.prototype, {
 PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
-},{"./Object.assign":210,"./PooledClass":211,"./getTextContentAccessor":312}],208:[function(require,module,exports){
+},{"./Object.assign":157,"./PooledClass":158,"./getTextContentAccessor":256}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28841,7 +16221,7 @@ var HTMLDOMPropertyConfig = {
 };
 
 module.exports = HTMLDOMPropertyConfig;
-},{"./DOMProperty":197,"fbjs/lib/ExecutionEnvironment":28}],209:[function(require,module,exports){
+},{"./DOMProperty":144,"fbjs/lib/ExecutionEnvironment":27}],156:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28978,7 +16358,7 @@ var LinkedValueUtils = {
 
 module.exports = LinkedValueUtils;
 }).call(this,require('_process'))
-},{"./ReactPropTypeLocations":265,"./ReactPropTypes":266,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],210:[function(require,module,exports){
+},{"./ReactPropTypeLocations":210,"./ReactPropTypes":211,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],157:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -29026,7 +16406,7 @@ function assign(target, sources) {
 }
 
 module.exports = assign;
-},{}],211:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29148,7 +16528,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],212:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29189,7 +16569,7 @@ React.__SECRET_DOM_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOM;
 React.__SECRET_DOM_SERVER_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOMServer;
 
 module.exports = React;
-},{"./Object.assign":210,"./ReactDOM":226,"./ReactDOMServer":236,"./ReactIsomorphic":255,"./deprecated":301}],213:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactDOM":171,"./ReactDOMServer":181,"./ReactIsomorphic":200,"./deprecated":245}],160:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29228,7 +16608,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 }).call(this,require('_process'))
-},{"./ReactInstanceMap":254,"./findDOMNode":303,"_process":178,"fbjs/lib/warning":53}],214:[function(require,module,exports){
+},{"./ReactInstanceMap":199,"./findDOMNode":247,"_process":126,"fbjs/lib/warning":52}],161:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29553,257 +16933,7 @@ ReactPerf.measureMethods(ReactBrowserEventEmitter, 'ReactBrowserEventEmitter', {
 });
 
 module.exports = ReactBrowserEventEmitter;
-},{"./EventConstants":202,"./EventPluginHub":203,"./EventPluginRegistry":204,"./Object.assign":210,"./ReactEventEmitterMixin":248,"./ReactPerf":263,"./ViewportMetrics":296,"./isEventSupported":314}],215:[function(require,module,exports){
-/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks
- * @providesModule ReactCSSTransitionGroup
- */
-
-'use strict';
-
-var React = require('./React');
-
-var assign = require('./Object.assign');
-
-var ReactTransitionGroup = require('./ReactTransitionGroup');
-var ReactCSSTransitionGroupChild = require('./ReactCSSTransitionGroupChild');
-
-function createTransitionTimeoutPropValidator(transitionType) {
-  var timeoutPropName = 'transition' + transitionType + 'Timeout';
-  var enabledPropName = 'transition' + transitionType;
-
-  return function (props) {
-    // If the transition is enabled
-    if (props[enabledPropName]) {
-      // If no timeout duration is provided
-      if (props[timeoutPropName] == null) {
-        return new Error(timeoutPropName + ' wasn\'t supplied to ReactCSSTransitionGroup: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
-
-        // If the duration isn't a number
-      } else if (typeof props[timeoutPropName] !== 'number') {
-          return new Error(timeoutPropName + ' must be a number (in milliseconds)');
-        }
-    }
-  };
-}
-
-var ReactCSSTransitionGroup = React.createClass({
-  displayName: 'ReactCSSTransitionGroup',
-
-  propTypes: {
-    transitionName: ReactCSSTransitionGroupChild.propTypes.name,
-
-    transitionAppear: React.PropTypes.bool,
-    transitionEnter: React.PropTypes.bool,
-    transitionLeave: React.PropTypes.bool,
-    transitionAppearTimeout: createTransitionTimeoutPropValidator('Appear'),
-    transitionEnterTimeout: createTransitionTimeoutPropValidator('Enter'),
-    transitionLeaveTimeout: createTransitionTimeoutPropValidator('Leave')
-  },
-
-  getDefaultProps: function () {
-    return {
-      transitionAppear: false,
-      transitionEnter: true,
-      transitionLeave: true
-    };
-  },
-
-  _wrapChild: function (child) {
-    // We need to provide this childFactory so that
-    // ReactCSSTransitionGroupChild can receive updates to name, enter, and
-    // leave while it is leaving.
-    return React.createElement(ReactCSSTransitionGroupChild, {
-      name: this.props.transitionName,
-      appear: this.props.transitionAppear,
-      enter: this.props.transitionEnter,
-      leave: this.props.transitionLeave,
-      appearTimeout: this.props.transitionAppearTimeout,
-      enterTimeout: this.props.transitionEnterTimeout,
-      leaveTimeout: this.props.transitionLeaveTimeout
-    }, child);
-  },
-
-  render: function () {
-    return React.createElement(ReactTransitionGroup, assign({}, this.props, { childFactory: this._wrapChild }));
-  }
-});
-
-module.exports = ReactCSSTransitionGroup;
-},{"./Object.assign":210,"./React":212,"./ReactCSSTransitionGroupChild":216,"./ReactTransitionGroup":276}],216:[function(require,module,exports){
-/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks
- * @providesModule ReactCSSTransitionGroupChild
- */
-
-'use strict';
-
-var React = require('./React');
-var ReactDOM = require('./ReactDOM');
-
-var CSSCore = require('fbjs/lib/CSSCore');
-var ReactTransitionEvents = require('./ReactTransitionEvents');
-
-var onlyChild = require('./onlyChild');
-
-// We don't remove the element from the DOM until we receive an animationend or
-// transitionend event. If the user screws up and forgets to add an animation
-// their node will be stuck in the DOM forever, so we detect if an animation
-// does not start and if it doesn't, we just call the end listener immediately.
-var TICK = 17;
-
-var ReactCSSTransitionGroupChild = React.createClass({
-  displayName: 'ReactCSSTransitionGroupChild',
-
-  propTypes: {
-    name: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.shape({
-      enter: React.PropTypes.string,
-      leave: React.PropTypes.string,
-      active: React.PropTypes.string
-    }), React.PropTypes.shape({
-      enter: React.PropTypes.string,
-      enterActive: React.PropTypes.string,
-      leave: React.PropTypes.string,
-      leaveActive: React.PropTypes.string,
-      appear: React.PropTypes.string,
-      appearActive: React.PropTypes.string
-    })]).isRequired,
-
-    // Once we require timeouts to be specified, we can remove the
-    // boolean flags (appear etc.) and just accept a number
-    // or a bool for the timeout flags (appearTimeout etc.)
-    appear: React.PropTypes.bool,
-    enter: React.PropTypes.bool,
-    leave: React.PropTypes.bool,
-    appearTimeout: React.PropTypes.number,
-    enterTimeout: React.PropTypes.number,
-    leaveTimeout: React.PropTypes.number
-  },
-
-  transition: function (animationType, finishCallback, userSpecifiedDelay) {
-    var node = ReactDOM.findDOMNode(this);
-
-    if (!node) {
-      if (finishCallback) {
-        finishCallback();
-      }
-      return;
-    }
-
-    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
-    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
-    var timeout = null;
-
-    var endListener = function (e) {
-      if (e && e.target !== node) {
-        return;
-      }
-
-      clearTimeout(timeout);
-
-      CSSCore.removeClass(node, className);
-      CSSCore.removeClass(node, activeClassName);
-
-      ReactTransitionEvents.removeEndEventListener(node, endListener);
-
-      // Usually this optional callback is used for informing an owner of
-      // a leave animation and telling it to remove the child.
-      if (finishCallback) {
-        finishCallback();
-      }
-    };
-
-    CSSCore.addClass(node, className);
-
-    // Need to do this to actually trigger a transition.
-    this.queueClass(activeClassName);
-
-    // If the user specified a timeout delay.
-    if (userSpecifiedDelay) {
-      // Clean-up the animation after the specified delay
-      timeout = setTimeout(endListener, userSpecifiedDelay);
-      this.transitionTimeouts.push(timeout);
-    } else {
-      // DEPRECATED: this listener will be removed in a future version of react
-      ReactTransitionEvents.addEndEventListener(node, endListener);
-    }
-  },
-
-  queueClass: function (className) {
-    this.classNameQueue.push(className);
-
-    if (!this.timeout) {
-      this.timeout = setTimeout(this.flushClassNameQueue, TICK);
-    }
-  },
-
-  flushClassNameQueue: function () {
-    if (this.isMounted()) {
-      this.classNameQueue.forEach(CSSCore.addClass.bind(CSSCore, ReactDOM.findDOMNode(this)));
-    }
-    this.classNameQueue.length = 0;
-    this.timeout = null;
-  },
-
-  componentWillMount: function () {
-    this.classNameQueue = [];
-    this.transitionTimeouts = [];
-  },
-
-  componentWillUnmount: function () {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-    this.transitionTimeouts.forEach(function (timeout) {
-      clearTimeout(timeout);
-    });
-  },
-
-  componentWillAppear: function (done) {
-    if (this.props.appear) {
-      this.transition('appear', done, this.props.appearTimeout);
-    } else {
-      done();
-    }
-  },
-
-  componentWillEnter: function (done) {
-    if (this.props.enter) {
-      this.transition('enter', done, this.props.enterTimeout);
-    } else {
-      done();
-    }
-  },
-
-  componentWillLeave: function (done) {
-    if (this.props.leave) {
-      this.transition('leave', done, this.props.leaveTimeout);
-    } else {
-      done();
-    }
-  },
-
-  render: function () {
-    return onlyChild(this.props.children);
-  }
-});
-
-module.exports = ReactCSSTransitionGroupChild;
-},{"./React":212,"./ReactDOM":226,"./ReactTransitionEvents":275,"./onlyChild":316,"fbjs/lib/CSSCore":26}],217:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPluginHub":150,"./EventPluginRegistry":151,"./Object.assign":157,"./ReactEventEmitterMixin":193,"./ReactPerf":208,"./ViewportMetrics":240,"./isEventSupported":258}],162:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -29928,7 +17058,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 }).call(this,require('_process'))
-},{"./ReactReconciler":268,"./instantiateReactComponent":313,"./shouldUpdateReactComponent":322,"./traverseAllChildren":323,"_process":178,"fbjs/lib/warning":53}],218:[function(require,module,exports){
+},{"./ReactReconciler":213,"./instantiateReactComponent":257,"./shouldUpdateReactComponent":266,"./traverseAllChildren":267,"_process":126,"fbjs/lib/warning":52}],163:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -30111,7 +17241,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":211,"./ReactElement":243,"./traverseAllChildren":323,"fbjs/lib/emptyFunction":34}],219:[function(require,module,exports){
+},{"./PooledClass":158,"./ReactElement":188,"./traverseAllChildren":267,"fbjs/lib/emptyFunction":33}],164:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30885,7 +18015,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactComponent":220,"./ReactElement":243,"./ReactNoopUpdateQueue":261,"./ReactPropTypeLocationNames":264,"./ReactPropTypeLocations":265,"_process":178,"fbjs/lib/emptyObject":35,"fbjs/lib/invariant":42,"fbjs/lib/keyMirror":45,"fbjs/lib/keyOf":46,"fbjs/lib/warning":53}],220:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactComponent":165,"./ReactElement":188,"./ReactNoopUpdateQueue":206,"./ReactPropTypeLocationNames":209,"./ReactPropTypeLocations":210,"_process":126,"fbjs/lib/emptyObject":34,"fbjs/lib/invariant":41,"fbjs/lib/keyMirror":44,"fbjs/lib/keyOf":45,"fbjs/lib/warning":52}],165:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31010,7 +18140,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactNoopUpdateQueue":261,"./canDefineProperty":299,"_process":178,"fbjs/lib/emptyObject":35,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],221:[function(require,module,exports){
+},{"./ReactNoopUpdateQueue":206,"./canDefineProperty":243,"_process":126,"fbjs/lib/emptyObject":34,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],166:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31052,7 +18182,7 @@ var ReactComponentBrowserEnvironment = {
 };
 
 module.exports = ReactComponentBrowserEnvironment;
-},{"./ReactDOMIDOperations":231,"./ReactMount":257}],222:[function(require,module,exports){
+},{"./ReactDOMIDOperations":176,"./ReactMount":202}],167:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -31106,7 +18236,7 @@ var ReactComponentEnvironment = {
 
 module.exports = ReactComponentEnvironment;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],223:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],168:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31153,7 +18283,7 @@ var ReactComponentWithPureRenderMixin = {
 };
 
 module.exports = ReactComponentWithPureRenderMixin;
-},{"./shallowCompare":321}],224:[function(require,module,exports){
+},{"./shallowCompare":265}],169:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31850,7 +18980,7 @@ var ReactCompositeComponent = {
 
 module.exports = ReactCompositeComponent;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactComponentEnvironment":222,"./ReactCurrentOwner":225,"./ReactElement":243,"./ReactInstanceMap":254,"./ReactPerf":263,"./ReactPropTypeLocationNames":264,"./ReactPropTypeLocations":265,"./ReactReconciler":268,"./ReactUpdateQueue":277,"./shouldUpdateReactComponent":322,"_process":178,"fbjs/lib/emptyObject":35,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],225:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactComponentEnvironment":167,"./ReactCurrentOwner":170,"./ReactElement":188,"./ReactInstanceMap":199,"./ReactPerf":208,"./ReactPropTypeLocationNames":209,"./ReactPropTypeLocations":210,"./ReactReconciler":213,"./ReactUpdateQueue":221,"./shouldUpdateReactComponent":266,"_process":126,"fbjs/lib/emptyObject":34,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],170:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31881,7 +19011,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],226:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31976,7 +19106,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":225,"./ReactDOMTextComponent":237,"./ReactDefaultInjection":240,"./ReactInstanceHandles":253,"./ReactMount":257,"./ReactPerf":263,"./ReactReconciler":268,"./ReactUpdates":278,"./ReactVersion":279,"./findDOMNode":303,"./renderSubtreeIntoContainer":318,"_process":178,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/warning":53}],227:[function(require,module,exports){
+},{"./ReactCurrentOwner":170,"./ReactDOMTextComponent":182,"./ReactDefaultInjection":185,"./ReactInstanceHandles":198,"./ReactMount":202,"./ReactPerf":208,"./ReactReconciler":213,"./ReactUpdates":222,"./ReactVersion":223,"./findDOMNode":247,"./renderSubtreeIntoContainer":262,"_process":126,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/warning":52}],172:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -32027,7 +19157,7 @@ var ReactDOMButton = {
 };
 
 module.exports = ReactDOMButton;
-},{}],228:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32992,7 +20122,7 @@ assign(ReactDOMComponent.prototype, ReactDOMComponent.Mixin, ReactMultiChild.Mix
 
 module.exports = ReactDOMComponent;
 }).call(this,require('_process'))
-},{"./AutoFocusUtils":189,"./CSSPropertyOperations":192,"./DOMProperty":197,"./DOMPropertyOperations":198,"./EventConstants":202,"./Object.assign":210,"./ReactBrowserEventEmitter":214,"./ReactComponentBrowserEnvironment":221,"./ReactDOMButton":227,"./ReactDOMInput":232,"./ReactDOMOption":233,"./ReactDOMSelect":234,"./ReactDOMTextarea":238,"./ReactMount":257,"./ReactMultiChild":258,"./ReactPerf":263,"./ReactUpdateQueue":277,"./canDefineProperty":299,"./escapeTextContentForBrowser":302,"./isEventSupported":314,"./setInnerHTML":319,"./setTextContent":320,"./validateDOMNesting":325,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/keyOf":46,"fbjs/lib/shallowEqual":51,"fbjs/lib/warning":53}],229:[function(require,module,exports){
+},{"./AutoFocusUtils":136,"./CSSPropertyOperations":139,"./DOMProperty":144,"./DOMPropertyOperations":145,"./EventConstants":149,"./Object.assign":157,"./ReactBrowserEventEmitter":161,"./ReactComponentBrowserEnvironment":166,"./ReactDOMButton":172,"./ReactDOMInput":177,"./ReactDOMOption":178,"./ReactDOMSelect":179,"./ReactDOMTextarea":183,"./ReactMount":202,"./ReactMultiChild":203,"./ReactPerf":208,"./ReactUpdateQueue":221,"./canDefineProperty":243,"./escapeTextContentForBrowser":246,"./isEventSupported":258,"./setInnerHTML":263,"./setTextContent":264,"./validateDOMNesting":269,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/keyOf":45,"fbjs/lib/shallowEqual":50,"fbjs/lib/warning":52}],174:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33172,7 +20302,7 @@ var ReactDOMFactories = mapObject({
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":243,"./ReactElementValidator":244,"_process":178,"fbjs/lib/mapObject":47}],230:[function(require,module,exports){
+},{"./ReactElement":188,"./ReactElementValidator":189,"_process":126,"fbjs/lib/mapObject":46}],175:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33191,7 +20321,7 @@ var ReactDOMFeatureFlags = {
 };
 
 module.exports = ReactDOMFeatureFlags;
-},{}],231:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33288,7 +20418,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 
 module.exports = ReactDOMIDOperations;
 }).call(this,require('_process'))
-},{"./DOMChildrenOperations":196,"./DOMPropertyOperations":198,"./ReactMount":257,"./ReactPerf":263,"_process":178,"fbjs/lib/invariant":42}],232:[function(require,module,exports){
+},{"./DOMChildrenOperations":143,"./DOMPropertyOperations":145,"./ReactMount":202,"./ReactPerf":208,"_process":126,"fbjs/lib/invariant":41}],177:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33444,7 +20574,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMInput;
 }).call(this,require('_process'))
-},{"./LinkedValueUtils":209,"./Object.assign":210,"./ReactDOMIDOperations":231,"./ReactMount":257,"./ReactUpdates":278,"_process":178,"fbjs/lib/invariant":42}],233:[function(require,module,exports){
+},{"./LinkedValueUtils":156,"./Object.assign":157,"./ReactDOMIDOperations":176,"./ReactMount":202,"./ReactUpdates":222,"_process":126,"fbjs/lib/invariant":41}],178:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33533,7 +20663,7 @@ var ReactDOMOption = {
 
 module.exports = ReactDOMOption;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactChildren":218,"./ReactDOMSelect":234,"_process":178,"fbjs/lib/warning":53}],234:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactChildren":163,"./ReactDOMSelect":179,"_process":126,"fbjs/lib/warning":52}],179:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33724,7 +20854,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMSelect;
 }).call(this,require('_process'))
-},{"./LinkedValueUtils":209,"./Object.assign":210,"./ReactMount":257,"./ReactUpdates":278,"_process":178,"fbjs/lib/warning":53}],235:[function(require,module,exports){
+},{"./LinkedValueUtils":156,"./Object.assign":157,"./ReactMount":202,"./ReactUpdates":222,"_process":126,"fbjs/lib/warning":52}],180:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33937,7 +21067,7 @@ var ReactDOMSelection = {
 };
 
 module.exports = ReactDOMSelection;
-},{"./getNodeForCharacterOffset":311,"./getTextContentAccessor":312,"fbjs/lib/ExecutionEnvironment":28}],236:[function(require,module,exports){
+},{"./getNodeForCharacterOffset":255,"./getTextContentAccessor":256,"fbjs/lib/ExecutionEnvironment":27}],181:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33964,7 +21094,7 @@ var ReactDOMServer = {
 };
 
 module.exports = ReactDOMServer;
-},{"./ReactDefaultInjection":240,"./ReactServerRendering":272,"./ReactVersion":279}],237:[function(require,module,exports){
+},{"./ReactDefaultInjection":185,"./ReactServerRendering":217,"./ReactVersion":223}],182:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -34094,7 +21224,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 }).call(this,require('_process'))
-},{"./DOMChildrenOperations":196,"./DOMPropertyOperations":198,"./Object.assign":210,"./ReactComponentBrowserEnvironment":221,"./ReactMount":257,"./escapeTextContentForBrowser":302,"./setTextContent":320,"./validateDOMNesting":325,"_process":178}],238:[function(require,module,exports){
+},{"./DOMChildrenOperations":143,"./DOMPropertyOperations":145,"./Object.assign":157,"./ReactComponentBrowserEnvironment":166,"./ReactMount":202,"./escapeTextContentForBrowser":246,"./setTextContent":264,"./validateDOMNesting":269,"_process":126}],183:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -34210,7 +21340,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMTextarea;
 }).call(this,require('_process'))
-},{"./LinkedValueUtils":209,"./Object.assign":210,"./ReactDOMIDOperations":231,"./ReactUpdates":278,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],239:[function(require,module,exports){
+},{"./LinkedValueUtils":156,"./Object.assign":157,"./ReactDOMIDOperations":176,"./ReactUpdates":222,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],184:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -34278,7 +21408,7 @@ var ReactDefaultBatchingStrategy = {
 };
 
 module.exports = ReactDefaultBatchingStrategy;
-},{"./Object.assign":210,"./ReactUpdates":278,"./Transaction":295,"fbjs/lib/emptyFunction":34}],240:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactUpdates":222,"./Transaction":239,"fbjs/lib/emptyFunction":33}],185:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -34378,7 +21508,7 @@ module.exports = {
   inject: inject
 };
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":190,"./ChangeEventPlugin":194,"./ClientReactRootIndex":195,"./DefaultEventPluginOrder":200,"./EnterLeaveEventPlugin":201,"./HTMLDOMPropertyConfig":208,"./ReactBrowserComponentMixin":213,"./ReactComponentBrowserEnvironment":221,"./ReactDOMComponent":228,"./ReactDOMTextComponent":237,"./ReactDefaultBatchingStrategy":239,"./ReactDefaultPerf":241,"./ReactEventListener":249,"./ReactInjection":251,"./ReactInstanceHandles":253,"./ReactMount":257,"./ReactReconcileTransaction":267,"./SVGDOMPropertyConfig":280,"./SelectEventPlugin":281,"./ServerReactRootIndex":282,"./SimpleEventPlugin":283,"_process":178,"fbjs/lib/ExecutionEnvironment":28}],241:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":137,"./ChangeEventPlugin":141,"./ClientReactRootIndex":142,"./DefaultEventPluginOrder":147,"./EnterLeaveEventPlugin":148,"./HTMLDOMPropertyConfig":155,"./ReactBrowserComponentMixin":160,"./ReactComponentBrowserEnvironment":166,"./ReactDOMComponent":173,"./ReactDOMTextComponent":182,"./ReactDefaultBatchingStrategy":184,"./ReactDefaultPerf":186,"./ReactEventListener":194,"./ReactInjection":196,"./ReactInstanceHandles":198,"./ReactMount":202,"./ReactReconcileTransaction":212,"./SVGDOMPropertyConfig":224,"./SelectEventPlugin":225,"./ServerReactRootIndex":226,"./SimpleEventPlugin":227,"_process":126,"fbjs/lib/ExecutionEnvironment":27}],186:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -34616,7 +21746,7 @@ var ReactDefaultPerf = {
 };
 
 module.exports = ReactDefaultPerf;
-},{"./DOMProperty":197,"./ReactDefaultPerfAnalysis":242,"./ReactMount":257,"./ReactPerf":263,"fbjs/lib/performanceNow":50}],242:[function(require,module,exports){
+},{"./DOMProperty":144,"./ReactDefaultPerfAnalysis":187,"./ReactMount":202,"./ReactPerf":208,"fbjs/lib/performanceNow":49}],187:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -34818,7 +21948,7 @@ var ReactDefaultPerfAnalysis = {
 };
 
 module.exports = ReactDefaultPerfAnalysis;
-},{"./Object.assign":210}],243:[function(require,module,exports){
+},{"./Object.assign":157}],188:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -35068,7 +22198,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactCurrentOwner":225,"./canDefineProperty":299,"_process":178}],244:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactCurrentOwner":170,"./canDefineProperty":243,"_process":126}],189:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -35352,7 +22482,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":225,"./ReactElement":243,"./ReactPropTypeLocationNames":264,"./ReactPropTypeLocations":265,"./canDefineProperty":299,"./getIteratorFn":310,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],245:[function(require,module,exports){
+},{"./ReactCurrentOwner":170,"./ReactElement":188,"./ReactPropTypeLocationNames":209,"./ReactPropTypeLocations":210,"./canDefineProperty":243,"./getIteratorFn":254,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],190:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -35404,7 +22534,7 @@ assign(ReactEmptyComponent.prototype, {
 ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 
 module.exports = ReactEmptyComponent;
-},{"./Object.assign":210,"./ReactElement":243,"./ReactEmptyComponentRegistry":246,"./ReactReconciler":268}],246:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactElement":188,"./ReactEmptyComponentRegistry":191,"./ReactReconciler":213}],191:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -35453,7 +22583,7 @@ var ReactEmptyComponentRegistry = {
 };
 
 module.exports = ReactEmptyComponentRegistry;
-},{}],247:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -35533,7 +22663,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactErrorUtils;
 }).call(this,require('_process'))
-},{"_process":178}],248:[function(require,module,exports){
+},{"_process":126}],193:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -35572,7 +22702,7 @@ var ReactEventEmitterMixin = {
 };
 
 module.exports = ReactEventEmitterMixin;
-},{"./EventPluginHub":203}],249:[function(require,module,exports){
+},{"./EventPluginHub":150}],194:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -35784,7 +22914,7 @@ var ReactEventListener = {
 };
 
 module.exports = ReactEventListener;
-},{"./Object.assign":210,"./PooledClass":211,"./ReactInstanceHandles":253,"./ReactMount":257,"./ReactUpdates":278,"./getEventTarget":309,"fbjs/lib/EventListener":27,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/getUnboundedScrollPosition":39}],250:[function(require,module,exports){
+},{"./Object.assign":157,"./PooledClass":158,"./ReactInstanceHandles":198,"./ReactMount":202,"./ReactUpdates":222,"./getEventTarget":253,"fbjs/lib/EventListener":26,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/getUnboundedScrollPosition":38}],195:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -35851,7 +22981,7 @@ var ReactFragment = {
 
 module.exports = ReactFragment;
 }).call(this,require('_process'))
-},{"./ReactChildren":218,"./ReactElement":243,"_process":178,"fbjs/lib/emptyFunction":34,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],251:[function(require,module,exports){
+},{"./ReactChildren":163,"./ReactElement":188,"_process":126,"fbjs/lib/emptyFunction":33,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],196:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -35890,7 +23020,7 @@ var ReactInjection = {
 };
 
 module.exports = ReactInjection;
-},{"./DOMProperty":197,"./EventPluginHub":203,"./ReactBrowserEventEmitter":214,"./ReactClass":219,"./ReactComponentEnvironment":222,"./ReactEmptyComponent":245,"./ReactNativeComponent":260,"./ReactPerf":263,"./ReactRootIndex":270,"./ReactUpdates":278}],252:[function(require,module,exports){
+},{"./DOMProperty":144,"./EventPluginHub":150,"./ReactBrowserEventEmitter":161,"./ReactClass":164,"./ReactComponentEnvironment":167,"./ReactEmptyComponent":190,"./ReactNativeComponent":205,"./ReactPerf":208,"./ReactRootIndex":215,"./ReactUpdates":222}],197:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -36015,7 +23145,7 @@ var ReactInputSelection = {
 };
 
 module.exports = ReactInputSelection;
-},{"./ReactDOMSelection":235,"fbjs/lib/containsNode":31,"fbjs/lib/focusNode":36,"fbjs/lib/getActiveElement":37}],253:[function(require,module,exports){
+},{"./ReactDOMSelection":180,"fbjs/lib/containsNode":30,"fbjs/lib/focusNode":35,"fbjs/lib/getActiveElement":36}],198:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -36320,7 +23450,7 @@ var ReactInstanceHandles = {
 
 module.exports = ReactInstanceHandles;
 }).call(this,require('_process'))
-},{"./ReactRootIndex":270,"_process":178,"fbjs/lib/invariant":42}],254:[function(require,module,exports){
+},{"./ReactRootIndex":215,"_process":126,"fbjs/lib/invariant":41}],199:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -36368,7 +23498,7 @@ var ReactInstanceMap = {
 };
 
 module.exports = ReactInstanceMap;
-},{}],255:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -36445,7 +23575,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactChildren":218,"./ReactClass":219,"./ReactComponent":220,"./ReactDOMFactories":229,"./ReactElement":243,"./ReactElementValidator":244,"./ReactPropTypes":266,"./ReactVersion":279,"./onlyChild":316,"_process":178}],256:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactChildren":163,"./ReactClass":164,"./ReactComponent":165,"./ReactDOMFactories":174,"./ReactElement":188,"./ReactElementValidator":189,"./ReactPropTypes":211,"./ReactVersion":223,"./onlyChild":260,"_process":126}],201:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -36491,7 +23621,7 @@ var ReactMarkupChecksum = {
 };
 
 module.exports = ReactMarkupChecksum;
-},{"./adler32":298}],257:[function(require,module,exports){
+},{"./adler32":242}],202:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -37344,7 +24474,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 
 module.exports = ReactMount;
 }).call(this,require('_process'))
-},{"./DOMProperty":197,"./Object.assign":210,"./ReactBrowserEventEmitter":214,"./ReactCurrentOwner":225,"./ReactDOMFeatureFlags":230,"./ReactElement":243,"./ReactEmptyComponentRegistry":246,"./ReactInstanceHandles":253,"./ReactInstanceMap":254,"./ReactMarkupChecksum":256,"./ReactPerf":263,"./ReactReconciler":268,"./ReactUpdateQueue":277,"./ReactUpdates":278,"./instantiateReactComponent":313,"./setInnerHTML":319,"./shouldUpdateReactComponent":322,"./validateDOMNesting":325,"_process":178,"fbjs/lib/containsNode":31,"fbjs/lib/emptyObject":35,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],258:[function(require,module,exports){
+},{"./DOMProperty":144,"./Object.assign":157,"./ReactBrowserEventEmitter":161,"./ReactCurrentOwner":170,"./ReactDOMFeatureFlags":175,"./ReactElement":188,"./ReactEmptyComponentRegistry":191,"./ReactInstanceHandles":198,"./ReactInstanceMap":199,"./ReactMarkupChecksum":201,"./ReactPerf":208,"./ReactReconciler":213,"./ReactUpdateQueue":221,"./ReactUpdates":222,"./instantiateReactComponent":257,"./setInnerHTML":263,"./shouldUpdateReactComponent":266,"./validateDOMNesting":269,"_process":126,"fbjs/lib/containsNode":30,"fbjs/lib/emptyObject":34,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],203:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -37843,7 +24973,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 }).call(this,require('_process'))
-},{"./ReactChildReconciler":217,"./ReactComponentEnvironment":222,"./ReactCurrentOwner":225,"./ReactMultiChildUpdateTypes":259,"./ReactReconciler":268,"./flattenChildren":304,"_process":178}],259:[function(require,module,exports){
+},{"./ReactChildReconciler":162,"./ReactComponentEnvironment":167,"./ReactCurrentOwner":170,"./ReactMultiChildUpdateTypes":204,"./ReactReconciler":213,"./flattenChildren":248,"_process":126}],204:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37876,7 +25006,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 });
 
 module.exports = ReactMultiChildUpdateTypes;
-},{"fbjs/lib/keyMirror":45}],260:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":44}],205:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -37973,7 +25103,7 @@ var ReactNativeComponent = {
 
 module.exports = ReactNativeComponent;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"_process":178,"fbjs/lib/invariant":42}],261:[function(require,module,exports){
+},{"./Object.assign":157,"_process":126,"fbjs/lib/invariant":41}],206:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -38094,7 +25224,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/warning":53}],262:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/warning":52}],207:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38188,7 +25318,7 @@ var ReactOwner = {
 
 module.exports = ReactOwner;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],263:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],208:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38287,7 +25417,7 @@ function _noMeasure(objName, fnName, func) {
 
 module.exports = ReactPerf;
 }).call(this,require('_process'))
-},{"_process":178}],264:[function(require,module,exports){
+},{"_process":126}],209:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -38314,7 +25444,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":178}],265:[function(require,module,exports){
+},{"_process":126}],210:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38337,7 +25467,7 @@ var ReactPropTypeLocations = keyMirror({
 });
 
 module.exports = ReactPropTypeLocations;
-},{"fbjs/lib/keyMirror":45}],266:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":44}],211:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38694,7 +25824,7 @@ function getClassName(propValue) {
 }
 
 module.exports = ReactPropTypes;
-},{"./ReactElement":243,"./ReactPropTypeLocationNames":264,"./getIteratorFn":310,"fbjs/lib/emptyFunction":34}],267:[function(require,module,exports){
+},{"./ReactElement":188,"./ReactPropTypeLocationNames":209,"./getIteratorFn":254,"fbjs/lib/emptyFunction":33}],212:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38846,7 +25976,7 @@ assign(ReactReconcileTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
-},{"./CallbackQueue":193,"./Object.assign":210,"./PooledClass":211,"./ReactBrowserEventEmitter":214,"./ReactDOMFeatureFlags":230,"./ReactInputSelection":252,"./Transaction":295}],268:[function(require,module,exports){
+},{"./CallbackQueue":140,"./Object.assign":157,"./PooledClass":158,"./ReactBrowserEventEmitter":161,"./ReactDOMFeatureFlags":175,"./ReactInputSelection":197,"./Transaction":239}],213:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38954,7 +26084,7 @@ var ReactReconciler = {
 };
 
 module.exports = ReactReconciler;
-},{"./ReactRef":269}],269:[function(require,module,exports){
+},{"./ReactRef":214}],214:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39033,7 +26163,7 @@ ReactRef.detachRefs = function (instance, element) {
 };
 
 module.exports = ReactRef;
-},{"./ReactOwner":262}],270:[function(require,module,exports){
+},{"./ReactOwner":207}],215:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39063,7 +26193,7 @@ var ReactRootIndex = {
 };
 
 module.exports = ReactRootIndex;
-},{}],271:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -39087,7 +26217,7 @@ var ReactServerBatchingStrategy = {
 };
 
 module.exports = ReactServerBatchingStrategy;
-},{}],272:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -39173,7 +26303,7 @@ module.exports = {
   renderToStaticMarkup: renderToStaticMarkup
 };
 }).call(this,require('_process'))
-},{"./ReactDefaultBatchingStrategy":239,"./ReactElement":243,"./ReactInstanceHandles":253,"./ReactMarkupChecksum":256,"./ReactServerBatchingStrategy":271,"./ReactServerRenderingTransaction":273,"./ReactUpdates":278,"./instantiateReactComponent":313,"_process":178,"fbjs/lib/emptyObject":35,"fbjs/lib/invariant":42}],273:[function(require,module,exports){
+},{"./ReactDefaultBatchingStrategy":184,"./ReactElement":188,"./ReactInstanceHandles":198,"./ReactMarkupChecksum":201,"./ReactServerBatchingStrategy":216,"./ReactServerRenderingTransaction":218,"./ReactUpdates":222,"./instantiateReactComponent":257,"_process":126,"fbjs/lib/emptyObject":34,"fbjs/lib/invariant":41}],218:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -39261,7 +26391,7 @@ assign(ReactServerRenderingTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
-},{"./CallbackQueue":193,"./Object.assign":210,"./PooledClass":211,"./Transaction":295,"fbjs/lib/emptyFunction":34}],274:[function(require,module,exports){
+},{"./CallbackQueue":140,"./Object.assign":157,"./PooledClass":158,"./Transaction":239,"fbjs/lib/emptyFunction":33}],219:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39360,117 +26490,7 @@ var ReactTransitionChildMapping = {
 };
 
 module.exports = ReactTransitionChildMapping;
-},{"./flattenChildren":304}],275:[function(require,module,exports){
-/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule ReactTransitionEvents
- */
-
-'use strict';
-
-var ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-
-/**
- * EVENT_NAME_MAP is used to determine which event fired when a
- * transition/animation ends, based on the style property used to
- * define that event.
- */
-var EVENT_NAME_MAP = {
-  transitionend: {
-    'transition': 'transitionend',
-    'WebkitTransition': 'webkitTransitionEnd',
-    'MozTransition': 'mozTransitionEnd',
-    'OTransition': 'oTransitionEnd',
-    'msTransition': 'MSTransitionEnd'
-  },
-
-  animationend: {
-    'animation': 'animationend',
-    'WebkitAnimation': 'webkitAnimationEnd',
-    'MozAnimation': 'mozAnimationEnd',
-    'OAnimation': 'oAnimationEnd',
-    'msAnimation': 'MSAnimationEnd'
-  }
-};
-
-var endEvents = [];
-
-function detectEvents() {
-  var testEl = document.createElement('div');
-  var style = testEl.style;
-
-  // On some platforms, in particular some releases of Android 4.x,
-  // the un-prefixed "animation" and "transition" properties are defined on the
-  // style object but the events that fire will still be prefixed, so we need
-  // to check if the un-prefixed events are useable, and if not remove them
-  // from the map
-  if (!('AnimationEvent' in window)) {
-    delete EVENT_NAME_MAP.animationend.animation;
-  }
-
-  if (!('TransitionEvent' in window)) {
-    delete EVENT_NAME_MAP.transitionend.transition;
-  }
-
-  for (var baseEventName in EVENT_NAME_MAP) {
-    var baseEvents = EVENT_NAME_MAP[baseEventName];
-    for (var styleName in baseEvents) {
-      if (styleName in style) {
-        endEvents.push(baseEvents[styleName]);
-        break;
-      }
-    }
-  }
-}
-
-if (ExecutionEnvironment.canUseDOM) {
-  detectEvents();
-}
-
-// We use the raw {add|remove}EventListener() call because EventListener
-// does not know how to remove event listeners and we really should
-// clean up. Also, these events are not triggered in older browsers
-// so we should be A-OK here.
-
-function addEventListener(node, eventName, eventListener) {
-  node.addEventListener(eventName, eventListener, false);
-}
-
-function removeEventListener(node, eventName, eventListener) {
-  node.removeEventListener(eventName, eventListener, false);
-}
-
-var ReactTransitionEvents = {
-  addEndEventListener: function (node, eventListener) {
-    if (endEvents.length === 0) {
-      // If CSS transitions are not supported, trigger an "end animation"
-      // event immediately.
-      window.setTimeout(eventListener, 0);
-      return;
-    }
-    endEvents.forEach(function (endEvent) {
-      addEventListener(node, endEvent, eventListener);
-    });
-  },
-
-  removeEndEventListener: function (node, eventListener) {
-    if (endEvents.length === 0) {
-      return;
-    }
-    endEvents.forEach(function (endEvent) {
-      removeEventListener(node, endEvent, eventListener);
-    });
-  }
-};
-
-module.exports = ReactTransitionEvents;
-},{"fbjs/lib/ExecutionEnvironment":28}],276:[function(require,module,exports){
+},{"./flattenChildren":248}],220:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39676,7 +26696,7 @@ var ReactTransitionGroup = React.createClass({
 });
 
 module.exports = ReactTransitionGroup;
-},{"./Object.assign":210,"./React":212,"./ReactTransitionChildMapping":274,"fbjs/lib/emptyFunction":34}],277:[function(require,module,exports){
+},{"./Object.assign":157,"./React":159,"./ReactTransitionChildMapping":219,"fbjs/lib/emptyFunction":33}],221:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -39936,7 +26956,7 @@ var ReactUpdateQueue = {
 
 module.exports = ReactUpdateQueue;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactCurrentOwner":225,"./ReactElement":243,"./ReactInstanceMap":254,"./ReactUpdates":278,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],278:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactCurrentOwner":170,"./ReactElement":188,"./ReactInstanceMap":199,"./ReactUpdates":222,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],222:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -40162,7 +27182,7 @@ var ReactUpdates = {
 
 module.exports = ReactUpdates;
 }).call(this,require('_process'))
-},{"./CallbackQueue":193,"./Object.assign":210,"./PooledClass":211,"./ReactPerf":263,"./ReactReconciler":268,"./Transaction":295,"_process":178,"fbjs/lib/invariant":42}],279:[function(require,module,exports){
+},{"./CallbackQueue":140,"./Object.assign":157,"./PooledClass":158,"./ReactPerf":208,"./ReactReconciler":213,"./Transaction":239,"_process":126,"fbjs/lib/invariant":41}],223:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40177,7 +27197,7 @@ module.exports = ReactUpdates;
 'use strict';
 
 module.exports = '0.14.6';
-},{}],280:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40305,7 +27325,7 @@ var SVGDOMPropertyConfig = {
 };
 
 module.exports = SVGDOMPropertyConfig;
-},{"./DOMProperty":197}],281:[function(require,module,exports){
+},{"./DOMProperty":144}],225:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40507,7 +27527,7 @@ var SelectEventPlugin = {
 };
 
 module.exports = SelectEventPlugin;
-},{"./EventConstants":202,"./EventPropagators":206,"./ReactInputSelection":252,"./SyntheticEvent":287,"./isTextInputElement":315,"fbjs/lib/ExecutionEnvironment":28,"fbjs/lib/getActiveElement":37,"fbjs/lib/keyOf":46,"fbjs/lib/shallowEqual":51}],282:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPropagators":153,"./ReactInputSelection":197,"./SyntheticEvent":231,"./isTextInputElement":259,"fbjs/lib/ExecutionEnvironment":27,"fbjs/lib/getActiveElement":36,"fbjs/lib/keyOf":45,"fbjs/lib/shallowEqual":50}],226:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40537,7 +27557,7 @@ var ServerReactRootIndex = {
 };
 
 module.exports = ServerReactRootIndex;
-},{}],283:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -41127,7 +28147,7 @@ var SimpleEventPlugin = {
 
 module.exports = SimpleEventPlugin;
 }).call(this,require('_process'))
-},{"./EventConstants":202,"./EventPropagators":206,"./ReactMount":257,"./SyntheticClipboardEvent":284,"./SyntheticDragEvent":286,"./SyntheticEvent":287,"./SyntheticFocusEvent":288,"./SyntheticKeyboardEvent":290,"./SyntheticMouseEvent":291,"./SyntheticTouchEvent":292,"./SyntheticUIEvent":293,"./SyntheticWheelEvent":294,"./getEventCharCode":306,"_process":178,"fbjs/lib/EventListener":27,"fbjs/lib/emptyFunction":34,"fbjs/lib/invariant":42,"fbjs/lib/keyOf":46}],284:[function(require,module,exports){
+},{"./EventConstants":149,"./EventPropagators":153,"./ReactMount":202,"./SyntheticClipboardEvent":228,"./SyntheticDragEvent":230,"./SyntheticEvent":231,"./SyntheticFocusEvent":232,"./SyntheticKeyboardEvent":234,"./SyntheticMouseEvent":235,"./SyntheticTouchEvent":236,"./SyntheticUIEvent":237,"./SyntheticWheelEvent":238,"./getEventCharCode":250,"_process":126,"fbjs/lib/EventListener":26,"fbjs/lib/emptyFunction":33,"fbjs/lib/invariant":41,"fbjs/lib/keyOf":45}],228:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41167,7 +28187,7 @@ function SyntheticClipboardEvent(dispatchConfig, dispatchMarker, nativeEvent, na
 SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
-},{"./SyntheticEvent":287}],285:[function(require,module,exports){
+},{"./SyntheticEvent":231}],229:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41205,7 +28225,7 @@ function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent, 
 SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
 
 module.exports = SyntheticCompositionEvent;
-},{"./SyntheticEvent":287}],286:[function(require,module,exports){
+},{"./SyntheticEvent":231}],230:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41243,7 +28263,7 @@ function SyntheticDragEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeE
 SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
-},{"./SyntheticMouseEvent":291}],287:[function(require,module,exports){
+},{"./SyntheticMouseEvent":235}],231:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -41423,7 +28443,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.fourArgumentPooler);
 
 module.exports = SyntheticEvent;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./PooledClass":211,"_process":178,"fbjs/lib/emptyFunction":34,"fbjs/lib/warning":53}],288:[function(require,module,exports){
+},{"./Object.assign":157,"./PooledClass":158,"_process":126,"fbjs/lib/emptyFunction":33,"fbjs/lib/warning":52}],232:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41461,7 +28481,7 @@ function SyntheticFocusEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
-},{"./SyntheticUIEvent":293}],289:[function(require,module,exports){
+},{"./SyntheticUIEvent":237}],233:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41500,7 +28520,7 @@ function SyntheticInputEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 
 module.exports = SyntheticInputEvent;
-},{"./SyntheticEvent":287}],290:[function(require,module,exports){
+},{"./SyntheticEvent":231}],234:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41586,7 +28606,7 @@ function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent, nat
 SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
-},{"./SyntheticUIEvent":293,"./getEventCharCode":306,"./getEventKey":307,"./getEventModifierState":308}],291:[function(require,module,exports){
+},{"./SyntheticUIEvent":237,"./getEventCharCode":250,"./getEventKey":251,"./getEventModifierState":252}],235:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41660,7 +28680,7 @@ function SyntheticMouseEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
-},{"./SyntheticUIEvent":293,"./ViewportMetrics":296,"./getEventModifierState":308}],292:[function(require,module,exports){
+},{"./SyntheticUIEvent":237,"./ViewportMetrics":240,"./getEventModifierState":252}],236:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41707,7 +28727,7 @@ function SyntheticTouchEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
-},{"./SyntheticUIEvent":293,"./getEventModifierState":308}],293:[function(require,module,exports){
+},{"./SyntheticUIEvent":237,"./getEventModifierState":252}],237:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41768,7 +28788,7 @@ function SyntheticUIEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEve
 SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
-},{"./SyntheticEvent":287,"./getEventTarget":309}],294:[function(require,module,exports){
+},{"./SyntheticEvent":231,"./getEventTarget":253}],238:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41824,7 +28844,7 @@ function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
-},{"./SyntheticMouseEvent":291}],295:[function(require,module,exports){
+},{"./SyntheticMouseEvent":235}],239:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42058,7 +29078,7 @@ var Transaction = {
 
 module.exports = Transaction;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],296:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],240:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42086,7 +29106,7 @@ var ViewportMetrics = {
 };
 
 module.exports = ViewportMetrics;
-},{}],297:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -42148,7 +29168,7 @@ function accumulateInto(current, next) {
 
 module.exports = accumulateInto;
 }).call(this,require('_process'))
-},{"_process":178,"fbjs/lib/invariant":42}],298:[function(require,module,exports){
+},{"_process":126,"fbjs/lib/invariant":41}],242:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42191,7 +29211,7 @@ function adler32(data) {
 }
 
 module.exports = adler32;
-},{}],299:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42218,7 +29238,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = canDefineProperty;
 }).call(this,require('_process'))
-},{"_process":178}],300:[function(require,module,exports){
+},{"_process":126}],244:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42274,7 +29294,7 @@ function dangerousStyleValue(name, value) {
 }
 
 module.exports = dangerousStyleValue;
-},{"./CSSProperty":191}],301:[function(require,module,exports){
+},{"./CSSProperty":138}],245:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42325,7 +29345,7 @@ function deprecated(fnName, newModule, newPackage, ctx, fn) {
 
 module.exports = deprecated;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"_process":178,"fbjs/lib/warning":53}],302:[function(require,module,exports){
+},{"./Object.assign":157,"_process":126,"fbjs/lib/warning":52}],246:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42364,7 +29384,7 @@ function escapeTextContentForBrowser(text) {
 }
 
 module.exports = escapeTextContentForBrowser;
-},{}],303:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42416,7 +29436,7 @@ function findDOMNode(componentOrElement) {
 
 module.exports = findDOMNode;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":225,"./ReactInstanceMap":254,"./ReactMount":257,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],304:[function(require,module,exports){
+},{"./ReactCurrentOwner":170,"./ReactInstanceMap":199,"./ReactMount":202,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],248:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42467,7 +29487,7 @@ function flattenChildren(children) {
 
 module.exports = flattenChildren;
 }).call(this,require('_process'))
-},{"./traverseAllChildren":323,"_process":178,"fbjs/lib/warning":53}],305:[function(require,module,exports){
+},{"./traverseAllChildren":267,"_process":126,"fbjs/lib/warning":52}],249:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42497,7 +29517,7 @@ var forEachAccumulated = function (arr, cb, scope) {
 };
 
 module.exports = forEachAccumulated;
-},{}],306:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42548,7 +29568,7 @@ function getEventCharCode(nativeEvent) {
 }
 
 module.exports = getEventCharCode;
-},{}],307:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42652,7 +29672,7 @@ function getEventKey(nativeEvent) {
 }
 
 module.exports = getEventKey;
-},{"./getEventCharCode":306}],308:[function(require,module,exports){
+},{"./getEventCharCode":250}],252:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42697,7 +29717,7 @@ function getEventModifierState(nativeEvent) {
 }
 
 module.exports = getEventModifierState;
-},{}],309:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42727,7 +29747,7 @@ function getEventTarget(nativeEvent) {
 }
 
 module.exports = getEventTarget;
-},{}],310:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42768,7 +29788,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],311:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42842,7 +29862,7 @@ function getNodeForCharacterOffset(root, offset) {
 }
 
 module.exports = getNodeForCharacterOffset;
-},{}],312:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42876,7 +29896,7 @@ function getTextContentAccessor() {
 }
 
 module.exports = getTextContentAccessor;
-},{"fbjs/lib/ExecutionEnvironment":28}],313:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":27}],257:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42991,7 +30011,7 @@ function instantiateReactComponent(node) {
 
 module.exports = instantiateReactComponent;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"./ReactCompositeComponent":224,"./ReactEmptyComponent":245,"./ReactNativeComponent":260,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],314:[function(require,module,exports){
+},{"./Object.assign":157,"./ReactCompositeComponent":169,"./ReactEmptyComponent":190,"./ReactNativeComponent":205,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],258:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43052,7 +30072,7 @@ function isEventSupported(eventNameSuffix, capture) {
 }
 
 module.exports = isEventSupported;
-},{"fbjs/lib/ExecutionEnvironment":28}],315:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":27}],259:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43093,7 +30113,7 @@ function isTextInputElement(elem) {
 }
 
 module.exports = isTextInputElement;
-},{}],316:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43129,7 +30149,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":243,"_process":178,"fbjs/lib/invariant":42}],317:[function(require,module,exports){
+},{"./ReactElement":188,"_process":126,"fbjs/lib/invariant":41}],261:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43156,7 +30176,7 @@ function quoteAttributeValueForBrowser(value) {
 }
 
 module.exports = quoteAttributeValueForBrowser;
-},{"./escapeTextContentForBrowser":302}],318:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":246}],262:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43173,7 +30193,7 @@ module.exports = quoteAttributeValueForBrowser;
 var ReactMount = require('./ReactMount');
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
-},{"./ReactMount":257}],319:[function(require,module,exports){
+},{"./ReactMount":202}],263:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43264,7 +30284,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setInnerHTML;
-},{"fbjs/lib/ExecutionEnvironment":28}],320:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":27}],264:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43305,7 +30325,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setTextContent;
-},{"./escapeTextContentForBrowser":302,"./setInnerHTML":319,"fbjs/lib/ExecutionEnvironment":28}],321:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":246,"./setInnerHTML":263,"fbjs/lib/ExecutionEnvironment":27}],265:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43330,7 +30350,7 @@ function shallowCompare(instance, nextProps, nextState) {
 }
 
 module.exports = shallowCompare;
-},{"fbjs/lib/shallowEqual":51}],322:[function(require,module,exports){
+},{"fbjs/lib/shallowEqual":50}],266:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43374,7 +30394,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 }
 
 module.exports = shouldUpdateReactComponent;
-},{}],323:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43566,7 +30586,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":225,"./ReactElement":243,"./ReactInstanceHandles":253,"./getIteratorFn":310,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/warning":53}],324:[function(require,module,exports){
+},{"./ReactCurrentOwner":170,"./ReactElement":188,"./ReactInstanceHandles":198,"./getIteratorFn":254,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/warning":52}],268:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -43676,7 +30696,7 @@ function update(value, spec) {
 
 module.exports = update;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"_process":178,"fbjs/lib/invariant":42,"fbjs/lib/keyOf":46}],325:[function(require,module,exports){
+},{"./Object.assign":157,"_process":126,"fbjs/lib/invariant":41,"fbjs/lib/keyOf":45}],269:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -44042,12 +31062,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = validateDOMNesting;
 }).call(this,require('_process'))
-},{"./Object.assign":210,"_process":178,"fbjs/lib/emptyFunction":34,"fbjs/lib/warning":53}],326:[function(require,module,exports){
+},{"./Object.assign":157,"_process":126,"fbjs/lib/emptyFunction":33,"fbjs/lib/warning":52}],270:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":212}],327:[function(require,module,exports){
+},{"./lib/React":159}],271:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -44141,7 +31161,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./manager":328,"./socket":330,"./url":331,"debug":11,"socket.io-parser":335}],328:[function(require,module,exports){
+},{"./manager":272,"./socket":274,"./url":275,"debug":11,"socket.io-parser":279}],272:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -44700,7 +31720,7 @@ Manager.prototype.onreconnect = function(){
   this.emitAll('reconnect', attempt);
 };
 
-},{"./on":329,"./socket":330,"backo2":3,"component-bind":8,"component-emitter":332,"debug":11,"engine.io-client":13,"indexof":56,"socket.io-parser":335}],329:[function(require,module,exports){
+},{"./on":273,"./socket":274,"backo2":3,"component-bind":8,"component-emitter":276,"debug":11,"engine.io-client":13,"indexof":55,"socket.io-parser":279}],273:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -44726,7 +31746,7 @@ function on(obj, ev, fn) {
   };
 }
 
-},{}],330:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -45140,7 +32160,7 @@ Socket.prototype.compress = function(compress){
   return this;
 };
 
-},{"./on":329,"component-bind":8,"component-emitter":332,"debug":11,"has-binary":54,"socket.io-parser":335,"to-array":338}],331:[function(require,module,exports){
+},{"./on":273,"component-bind":8,"component-emitter":276,"debug":11,"has-binary":53,"socket.io-parser":279,"to-array":282}],275:[function(require,module,exports){
 (function (global){
 
 /**
@@ -45220,7 +32240,7 @@ function url(uri, loc){
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":11,"parseuri":177}],332:[function(require,module,exports){
+},{"debug":11,"parseuri":125}],276:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -45383,7 +32403,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],333:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 (function (global){
 /*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
@@ -46289,7 +33309,7 @@ Emitter.prototype.hasListeners = function(event){
 }).call(this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],334:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 (function (global){
 /*global Blob,File*/
 
@@ -46434,7 +33454,7 @@ exports.removeBlobs = function(data, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is-buffer":336,"isarray":68}],335:[function(require,module,exports){
+},{"./is-buffer":280,"isarray":67}],279:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -46836,7 +33856,7 @@ function error(data){
   };
 }
 
-},{"./binary":334,"./is-buffer":336,"component-emitter":337,"debug":11,"isarray":68,"json3":333}],336:[function(require,module,exports){
+},{"./binary":278,"./is-buffer":280,"component-emitter":281,"debug":11,"isarray":67,"json3":277}],280:[function(require,module,exports){
 (function (global){
 
 module.exports = isBuf;
@@ -46853,9 +33873,9 @@ function isBuf(obj) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],337:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 arguments[4][9][0].apply(exports,arguments)
-},{"dup":9}],338:[function(require,module,exports){
+},{"dup":9}],282:[function(require,module,exports){
 module.exports = toArray
 
 function toArray(list, index) {
@@ -46870,7 +33890,7 @@ function toArray(list, index) {
     return array
 }
 
-},{}],339:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/utf8js v2.0.0 by @mathias */
 ;(function(root) {
@@ -47118,71 +34138,7 @@ function toArray(list, index) {
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],340:[function(require,module,exports){
-(function (process){
-/**
- * Copyright 2014-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-'use strict';
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = function() {};
-
-if (process.env.NODE_ENV !== 'production') {
-  warning = function(condition, format, args) {
-    var len = arguments.length;
-    args = new Array(len > 2 ? len - 2 : 0);
-    for (var key = 2; key < len; key++) {
-      args[key - 2] = arguments[key];
-    }
-    if (format === undefined) {
-      throw new Error(
-        '`warning(condition, format, ...args)` requires a warning ' +
-        'message argument'
-      );
-    }
-
-    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
-      throw new Error(
-        'The warning format should be able to uniquely identify this ' +
-        'warning. Please, use a more descriptive format than: ' + format
-      );
-    }
-
-    if (!condition) {
-      var argIndex = 0;
-      var message = 'Warning: ' +
-        format.replace(/%s/g, function() {
-          return args[argIndex++];
-        });
-      if (typeof console !== 'undefined') {
-        console.error(message);
-      }
-      try {
-        // This error was thrown as a convenience so that you can use this stack
-        // to find the callsite that caused this warning to fire.
-        throw new Error(message);
-      } catch(x) {}
-    }
-  };
-}
-
-module.exports = warning;
-
-}).call(this,require('_process'))
-},{"_process":178}],341:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
@@ -47252,134 +34208,7 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-},{}],342:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _paper = require('material-ui/lib/paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _table = require('material-ui/lib/table/table');
-
-var _table2 = _interopRequireDefault(_table);
-
-var _tableBody = require('material-ui/lib/table/table-body');
-
-var _tableBody2 = _interopRequireDefault(_tableBody);
-
-var _tableFooter = require('material-ui/lib/table/table-footer');
-
-var _tableFooter2 = _interopRequireDefault(_tableFooter);
-
-var _tableHeader = require('material-ui/lib/table/table-header');
-
-var _tableHeader2 = _interopRequireDefault(_tableHeader);
-
-var _tableHeaderColumn = require('material-ui/lib/table/table-header-column');
-
-var _tableHeaderColumn2 = _interopRequireDefault(_tableHeaderColumn);
-
-var _tableRow = require('material-ui/lib/table/table-row');
-
-var _tableRow2 = _interopRequireDefault(_tableRow);
-
-var _tableRowColumn = require('material-ui/lib/table/table-row-column');
-
-var _tableRowColumn2 = _interopRequireDefault(_tableRowColumn);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var KafkaServerComponent = function (_React$Component) {
-  _inherits(KafkaServerComponent, _React$Component);
-
-  function KafkaServerComponent() {
-    _classCallCheck(this, KafkaServerComponent);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(KafkaServerComponent).apply(this, arguments));
-  }
-
-  _createClass(KafkaServerComponent, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var partitions = Object.keys(this.props.kafka.topicMetadata).filter(function (partition) {
-        return _this2.props.kafka.topicMetadata[partition].leader === _this2.props.id;
-      }).map(function (partition) {
-        return _react2.default.createElement(
-          _tableRow2.default,
-          { key: partition },
-          _react2.default.createElement(
-            _tableRowColumn2.default,
-            { className: 'kafka-partition-column' },
-            'Partition ',
-            partition
-          ),
-          _react2.default.createElement(
-            _tableRowColumn2.default,
-            { className: 'kafka-partition-column' },
-            _this2.props.kafka.consumed[partition]
-          )
-        );
-      });
-
-      var brokerOnline = this.props.kafka.brokers.filter(function (broker) {
-        return broker.id === _this2.props.id;
-      }).length > 0;
-      var status = undefined;
-      if (brokerOnline) {
-        status = 'images/kafka-online.png';
-      } else {
-        status = 'images/kafka-offline.png';
-      }
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _paper2.default,
-          { className: 'kafka-image-paper', zDepth: 2 },
-          _react2.default.createElement('img', { className: 'kafka-status-image', src: status })
-        ),
-        _react2.default.createElement(
-          _table2.default,
-          null,
-          _react2.default.createElement(
-            _tableHeader2.default,
-            { style: { display: 'none' } },
-            _react2.default.createElement(_tableRow2.default, null)
-          ),
-          _react2.default.createElement(
-            _tableBody2.default,
-            { displayRowCheckbox: false },
-            partitions
-          )
-        )
-      );
-    }
-  }]);
-
-  return KafkaServerComponent;
-}(_react2.default.Component);
-
-exports.default = KafkaServerComponent;
-
-},{"material-ui/lib/paper":118,"material-ui/lib/table/table":154,"material-ui/lib/table/table-body":148,"material-ui/lib/table/table-footer":149,"material-ui/lib/table/table-header":151,"material-ui/lib/table/table-header-column":150,"material-ui/lib/table/table-row":153,"material-ui/lib/table/table-row-column":152,"react":326}],343:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -47400,21 +34229,13 @@ var _appBar = require('material-ui/lib/app-bar');
 
 var _appBar2 = _interopRequireDefault(_appBar);
 
-var _leftNav = require('material-ui/lib/left-nav');
+var _divider = require('material-ui/lib/divider');
 
-var _leftNav2 = _interopRequireDefault(_leftNav);
+var _divider2 = _interopRequireDefault(_divider);
 
-var _menuItem = require('material-ui/lib/menus/menu-item');
+var _paper = require('material-ui/lib/paper');
 
-var _menuItem2 = _interopRequireDefault(_menuItem);
-
-var _twitter = require('./twitter');
-
-var _twitter2 = _interopRequireDefault(_twitter);
-
-var _status = require('./status');
-
-var _status2 = _interopRequireDefault(_status);
+var _paper2 = _interopRequireDefault(_paper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47423,11 +34244,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function cleanTweets(oldTweets, newTweet, count) {
-  var cleaned = [newTweet].concat(oldTweets);
-  return cleaned.slice(0, count);
-}
 
 var bufferState = undefined;
 var lastState = undefined;
@@ -47446,33 +34262,9 @@ var MainComponent = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(MainComponent)).call.apply(_Object$getPrototypeO, [this].concat(props)));
 
-    _this.displayTweets = function () {
-      return _this.setState({
-        menuOpen: false,
-        statusVisible: false
-      });
-    };
-
-    _this.displayStatus = function () {
-      return _this.setState({
-        menuOpen: false,
-        statusVisible: true
-      });
-    };
-
-    _this.openMenu = function () {
-      return _this.setState({
-        menuOpen: true,
-        statusVisible: _this.state.statusVisible
-      });
-    };
-
     _this.state = bufferState = lastState = {
-      menuOpen: false,
-      statusVisible: false,
-      kafka: {},
-      tweets: [],
-      published: 0
+      produced: 0,
+      perSecond: 0
     };
     setInterval(function () {
       if (bufferState && bufferState !== lastState) {
@@ -47486,56 +34278,46 @@ var MainComponent = function (_React$Component) {
   _createClass(MainComponent, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      var _this2 = this;
-
       var socket = (0, _socket2.default)(window.location.host + ':3000');
 
-      socket.on('connect', function () {
-        socket.emit('subscribe', _this2.props.topic);
-      });
-
-      socket.on('tweet', function (msg) {
-        var newTweets = [];
-        newTweets = cleanTweets(_this2.state.tweets, JSON.parse(msg.tweet.value), 25);
-        bufferState = {
-          kafka: msg.kafka,
-          tweets: newTweets,
-          published: bufferState.published
-        };
-      });
-
-      socket.on('published:' + this.props.topic, function (msg) {
-        return bufferState = {
-          kafka: bufferState.kafka,
-          tweets: bufferState.tweets,
-          published: msg
-        };
+      socket.on('produced', function (message) {
+        return bufferState = message;
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var visibleComponent = this.state.statusVisible ? _react2.default.createElement(_status2.default, { published: this.state.published, kafka: this.state.kafka }) : _react2.default.createElement(_twitter2.default, { tweets: this.state.tweets });
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_appBar2.default, { title: 'Kafka Consuming: #' + this.props.topic, onLeftIconButtonTouchTap: this.openMenu }),
+        _react2.default.createElement(_appBar2.default, { title: 'Kafka Massproducing', showMenuIconButton: false }),
         _react2.default.createElement(
-          _leftNav2.default,
-          { docked: false, open: this.state.menuOpen },
-          _react2.default.createElement(_appBar2.default, { title: 'Kafka Consuming', showMenuIconButton: false }),
+          _paper2.default,
+          { className: 'mass-paper', zDepth: 2 },
           _react2.default.createElement(
-            _menuItem2.default,
-            { onTouchTap: this.displayTweets },
-            'Tweets'
+            'span',
+            { className: 'mass-number' },
+            this.state.produced
           ),
+          _react2.default.createElement('br', null),
           _react2.default.createElement(
-            _menuItem2.default,
-            { onTouchTap: this.displayStatus },
-            'Status'
+            'span',
+            { className: 'mass-label' },
+            'produced'
+          ),
+          _react2.default.createElement(_divider2.default, { className: 'mass-divider' }),
+          _react2.default.createElement(
+            'span',
+            { className: 'mass-number' },
+            '~' + this.state.perSecond
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'span',
+            { className: 'mass-label' },
+            'per second'
           )
-        ),
-        visibleComponent
+        )
       );
     }
   }]);
@@ -47545,278 +34327,7 @@ var MainComponent = function (_React$Component) {
 
 exports.default = MainComponent;
 
-},{"./status":344,"./twitter":346,"material-ui/lib/app-bar":88,"material-ui/lib/left-nav":102,"material-ui/lib/menus/menu-item":110,"react":326,"socket.io-client":327}],344:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _paper = require('material-ui/lib/paper');
-
-var _paper2 = _interopRequireDefault(_paper);
-
-var _kafkaServer = require('./kafka-server');
-
-var _kafkaServer2 = _interopRequireDefault(_kafkaServer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StatusComponent = function (_React$Component) {
-  _inherits(StatusComponent, _React$Component);
-
-  function StatusComponent() {
-    _classCallCheck(this, StatusComponent);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(StatusComponent).apply(this, arguments));
-  }
-
-  _createClass(StatusComponent, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      if (!this.props.kafka.brokers) {
-        return _react2.default.createElement(
-          'div',
-          { style: { margin: '20px' } },
-          'Waiting for first tweet'
-        );
-      }
-      var brokers = [0, 1, 2].map(function (broker) {
-        return _react2.default.createElement(
-          'td',
-          { key: broker, className: 'kafka-column' },
-          _react2.default.createElement(_kafkaServer2.default, { id: broker, kafka: _this2.props.kafka })
-        );
-      });
-      var totalConsumed = Object.keys(this.props.kafka.consumed).reduce(function (previous, partition) {
-        return previous + _this2.props.kafka.consumed[partition];
-      }, 0);
-      return _react2.default.createElement(
-        'div',
-        { style: this.props.style, className: 'kafka-status' },
-        _react2.default.createElement(
-          _paper2.default,
-          { className: 'kafka-status-paper', zDepth: 2 },
-          _react2.default.createElement(
-            'table',
-            { className: 'kafka-table' },
-            _react2.default.createElement(
-              'tbody',
-              null,
-              _react2.default.createElement(
-                'tr',
-                null,
-                _react2.default.createElement(
-                  'td',
-                  { className: 'kafka-count-column' },
-                  _react2.default.createElement(
-                    _paper2.default,
-                    { className: 'kafka-count' },
-                    _react2.default.createElement('br', null),
-                    this.props.published,
-                    _react2.default.createElement('br', null),
-                    _react2.default.createElement(
-                      'span',
-                      { style: { fontSize: '0.8em' } },
-                      'Produced'
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'td',
-                  { className: 'kafka-count-column' },
-                  _react2.default.createElement(
-                    _paper2.default,
-                    { className: 'kafka-count' },
-                    _react2.default.createElement('br', null),
-                    totalConsumed,
-                    _react2.default.createElement('br', null),
-                    _react2.default.createElement(
-                      'span',
-                      { style: { fontSize: '0.8em' } },
-                      'Consumed'
-                    )
-                  )
-                )
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _paper2.default,
-          { className: 'kafka-status-paper', zDepth: 2 },
-          _react2.default.createElement(
-            'table',
-            { className: 'kafka-table' },
-            _react2.default.createElement(
-              'tbody',
-              null,
-              _react2.default.createElement(
-                'tr',
-                null,
-                brokers
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return StatusComponent;
-}(_react2.default.Component);
-
-exports.default = StatusComponent;
-
-},{"./kafka-server":342,"material-ui/lib/paper":118,"react":326}],345:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _card = require('material-ui/lib/card/card');
-
-var _card2 = _interopRequireDefault(_card);
-
-var _cardHeader = require('material-ui/lib/card/card-header');
-
-var _cardHeader2 = _interopRequireDefault(_cardHeader);
-
-var _cardTitle = require('material-ui/lib/card/card-title');
-
-var _cardTitle2 = _interopRequireDefault(_cardTitle);
-
-var _cardText = require('material-ui/lib/card/card-text');
-
-var _cardText2 = _interopRequireDefault(_cardText);
-
-var _moment = require('moment');
-
-var _moment2 = _interopRequireDefault(_moment);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TweetComponent = function (_React$Component) {
-  _inherits(TweetComponent, _React$Component);
-
-  function TweetComponent() {
-    _classCallCheck(this, TweetComponent);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(TweetComponent).apply(this, arguments));
-  }
-
-  _createClass(TweetComponent, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        _card2.default,
-        { zDepth: 2, className: 'kafka-card' },
-        _react2.default.createElement(_cardHeader2.default, { title: this.props.tweet.user.name, subtitle: (0, _moment2.default)(this.props.tweet['timestamp_ms'], 'x').fromNow(), avatar: this.props.tweet.user['profile_image_url'] }),
-        _react2.default.createElement(
-          _cardText2.default,
-          null,
-          this.props.tweet.text
-        )
-      );
-    }
-  }]);
-
-  return TweetComponent;
-}(_react2.default.Component);
-
-exports.default = TweetComponent;
-
-},{"material-ui/lib/card/card":95,"material-ui/lib/card/card-header":92,"material-ui/lib/card/card-text":93,"material-ui/lib/card/card-title":94,"moment":173,"react":326}],346:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
-var _tweet = require('./tweet');
-
-var _tweet2 = _interopRequireDefault(_tweet);
-
-var _guid = require('../lib/guid');
-
-var _guid2 = _interopRequireDefault(_guid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TwitterComponent = function (_React$Component) {
-  _inherits(TwitterComponent, _React$Component);
-
-  function TwitterComponent() {
-    _classCallCheck(this, TwitterComponent);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(TwitterComponent).apply(this, arguments));
-  }
-
-  _createClass(TwitterComponent, [{
-    key: 'render',
-    value: function render() {
-      var tweets = this.props.tweets.filter(function (tweet) {
-        return tweet.id;
-      }).map(function (tweet) {
-        return _react2.default.createElement(_tweet2.default, { key: tweet.id + (0, _guid2.default)(), tweet: tweet });
-      });
-      return _react2.default.createElement(
-        'div',
-        { style: this.props.style, className: 'kafka-tweets' },
-        tweets
-      );
-    }
-  }]);
-
-  return TwitterComponent;
-}(_react2.default.Component);
-
-exports.default = TwitterComponent;
-
-},{"../lib/guid":348,"./tweet":345,"react":326,"react-addons-css-transition-group":180}],347:[function(require,module,exports){
+},{"material-ui/lib/app-bar":85,"material-ui/lib/divider":86,"material-ui/lib/paper":93,"react":270,"socket.io-client":271}],286:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -47835,43 +34346,10 @@ var _reactTapEventPlugin = require('react-tap-event-plugin');
 
 var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
 
-var _parameter = require('./lib/parameter');
-
-var _parameter2 = _interopRequireDefault(_parameter);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _reactTapEventPlugin2.default)();
 
-var topic = (0, _parameter2.default)('topic');
-_reactDom2.default.render(_react2.default.createElement(_main2.default, { topic: topic }), document.getElementById('container'));
+_reactDom2.default.render(_react2.default.createElement(_main2.default, null), document.getElementById('container'));
 
-},{"./components/main":343,"./lib/parameter":349,"react":326,"react-dom":184,"react-tap-event-plugin":188}],348:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = guid;
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-}
-
-},{}],349:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getParameterByName;
-function getParameterByName(name) {
-  var replacedName = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-  var regex = new RegExp("[\\?&]" + replacedName + "=([^&#]*)");
-  var results = regex.exec(location.search);
-  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-},{}]},{},[347]);
+},{"./components/main":285,"react":270,"react-dom":131,"react-tap-event-plugin":135}]},{},[286]);
