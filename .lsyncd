@@ -20,5 +20,26 @@ settings {
     source = "/home/juras/Source/big-data/big-data/kafka-producer",
     target = "10.155.208.186:/home/juras/kafka-producer",
     exclude = "node_modules"
+  },
+
+  sync {
+    default.rsync,
+    source = "/home/juras/Source/big-data/big-data/kafka-producer",
+    target = "10.155.208.95:/home/juras/kafka-producer",
+    exclude = "node_modules"
+  },
+
+  sync {
+    default.rsync,
+    source = "/home/juras/Source/big-data/big-data/kafka-producer",
+    target = "10.155.208.107:/home/juras/kafka-producer",
+    exclude = "node_modules"
+  },
+
+  sync {
+    default.rsync,
+    source = "/home/juras/Source/big-data/big-data/kafka-producer",
+    target = "10.155.208.110:/home/juras/kafka-producer",
+    exclude = "node_modules"
   }
 }

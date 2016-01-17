@@ -1,6 +1,7 @@
 'use strict';
 
 const async = require('async');
+const args = require('yargs').argv;
 
 // Kafka
 const kafka = require('kafka-node');
@@ -29,6 +30,15 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 
+let message = '';
+function buildMessage(size) {
+  const kb = size || 1;
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < kb * 1000; i++) {
+    message += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+}
+
 const kafkaClient = new kafka.Client(connectionString);
 const producer = new kafka.HighLevelProducer(kafkaClient);
 const topic = guid();
@@ -45,7 +55,7 @@ producer.on('ready', () => {
         async.whilst(() => !success, callback => {
           producer.send([{
             topic: topic,
-            messages: 'What a string',
+            messages: message,
             attributes: 1 // Use gzip compression
           }], (error, data) => {
             if (error) {
@@ -65,6 +75,7 @@ producer.on('ready', () => {
         });
       });
     }, 5000);
+    buildMessage(args.size);
   });
 });
 
