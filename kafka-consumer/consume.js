@@ -4,26 +4,31 @@ const topicSubscribers = {};
 
 // Redis
 const Redis = require('ioredis');
-const redis = [new Redis({
+const hosts = [{
   port: 6379,
   host: process.env.REDIS_CONNECTION_1
-}), new Redis({
+}, {
   port: 6379,
   host: process.env.REDIS_CONNECTION_2
-}), new Redis({
+}, {
   port: 6379,
   host: process.env.REDIS_CONNECTION_3
-})];
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_4,
+  slave: true
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_5,
+  slave: true
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_6,
+  slave: true
+}];
+const redis = hosts.filter(host => !host.slave).map(host => new Redis(host));
 
-const redisGet = new Redis.Cluster([{
-    port: 6379,host: process.env.REDIS_CONNECTION_1
-  }, {
-    port: 6379,
-    host: process.env.REDIS_CONNECTION_2
-  }, {
-    port: 6379,
-    host: process.env.REDIS_CONNECTION_3
-  }]);
+const redisGet = new Redis.Cluster(hosts);
 
 const totalPublished = {};
 const status = {};
@@ -51,7 +56,7 @@ function getBrokerId(hostname) {
 
 const msgs = {};
 
-const messageBuffer ={};
+const messageBuffer = {};
 
 // socket.io
 const io = require('socket.io')(3000);
@@ -81,9 +86,9 @@ io.on('connection', socket => {
 
       kafkaConsumer.on('message', tweet => {
         if (!consumed[message]) {
-          consumed[message] = { };
+          consumed[message] = {};
         }
-        if(!consumed[message][tweet.partition]) {
+        if (!consumed[message][tweet.partition]) {
           consumed[message][tweet.partition] = 0;
         }
         consumed[message][tweet.partition]++;

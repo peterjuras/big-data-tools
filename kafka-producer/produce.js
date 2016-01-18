@@ -17,6 +17,15 @@ const redis = new Redis.Cluster([{
 }, {
   port: 6379,
   host: process.env.REDIS_CONNECTION_3
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_4
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_5
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_6
 }]);
 
 if (args.reset) {

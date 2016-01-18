@@ -9,13 +9,23 @@ const connectionString = process.env.KAFKA_CONNECTION; // Otherwise kafka-node w
 
 const Redis = require('ioredis');
 const hosts = [{
-    port: 6379,host: process.env.REDIS_CONNECTION_1
-  }, {
-    port: 6379,
-    host: process.env.REDIS_CONNECTION_2
-  }, {
-    port: 6379,
-    host: process.env.REDIS_CONNECTION_3
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_1
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_2
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_3
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_4
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_5
+}, {
+  port: 6379,
+  host: process.env.REDIS_CONNECTION_6
 }];
 const redis = new Redis.Cluster(hosts);
 redis.set('massproduce', 0);
@@ -31,6 +41,7 @@ function guid() {
 }
 
 let message = '';
+
 function buildMessage(size) {
   const kb = size || 1;
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
