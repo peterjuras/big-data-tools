@@ -1,0 +1,8 @@
+{
+  "name": "redis-producer",
+  "dependencies": {
+    "ioredis": "^1.14.0",
+    "moment": "^2.11.1",
+    "yargs": "^3.32.0"
+  }
+}
