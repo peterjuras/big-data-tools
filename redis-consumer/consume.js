@@ -47,8 +47,8 @@ hosts.filter(host => !host.slave)
   });
 
 // Driver setup
-const driverOneKeyPattern = `{${moment().week()}-0}`;
-const driverTwoKeyPattern = `{${moment().week()}-1}`;
+const driverOneKeyPattern = `{${moment().week()}}0:`;
+const driverTwoKeyPattern = `{${moment().week()}}1:`;
 
 const drivers = [{
   currentSpeed: 0,
@@ -65,14 +65,19 @@ const drivers = [{
 let totalMessages = 0;
 let messagesSinceLastSecond = 0;
 let perSecond = 0;
+let averageCalculationTime = 0;
 setInterval(() => {
   perSecond = totalMessages - messagesSinceLastSecond;
   messagesSinceLastSecond = totalMessages;
 
-  updateFromLatestSetIncrease(`${driverOneKeyPattern}:speedSet`);
-  updateFromLatestSetIncrease(`${driverOneKeyPattern}:rpmSet`);
-  updateFromLatestSetIncrease(`${driverTwoKeyPattern}:speedSet`);
-  updateFromLatestSetIncrease(`${driverTwoKeyPattern}:rpmSet`);
+  const startTime = new Date().getTime();
+  Promise.all([
+    updateFromLatestSetIncrease(`${driverOneKeyPattern}speedSet`),
+    updateFromLatestSetIncrease(`${driverOneKeyPattern}rpmSet`),
+    updateFromLatestSetIncrease(`${driverTwoKeyPattern}speedSet`),
+    updateFromLatestSetIncrease(`${driverTwoKeyPattern}rpmSet`)
+  ]).then(() => averageCalculationTime = new Date().getTime() - startTime);
+
 }, 1000);
 
 function updateFromLatestListEntry(key) {
@@ -88,9 +93,8 @@ function updateFromLatestListEntry(key) {
 }
 
 function updateFromLatestSetIncrease(key) {
-  redis.zrange(key, 0, Number.MAX_SAFE_INTEGER, 'WITHSCORES')
+  return redis.zrange(key, 0, Number.MAX_SAFE_INTEGER, 'WITHSCORES')
     .then(message => {
-
       let average = 0;
       let total = 0;
 
@@ -129,7 +133,8 @@ setInterval(() => {
     socket.emit('update', {
       drivers: drivers,
       totalMessages: totalMessages,
-      perSecond: perSecond
+      perSecond: perSecond,
+      averageCalculationTime: averageCalculationTime
     });
   });
 }, 16);

@@ -11,6 +11,8 @@ import TableRowColumn from 'material-ui/lib/table/table-row-column';
 export default class DriverComponent extends React.Component {
   render() {
     const image = this.props.id === 0 ? 'hamilton' : 'rosberg';
+    const averageSpeed = this.props.driver.averageSpeed ? this.props.driver.averageSpeed.toFixed(2) : 0;
+    const averageRPM = this.props.driver.averageRPM ? this.props.driver.averageRPM.toFixed(2) : 0;
     return <Paper zDepth={2} style={this.props.style}>
       <br/>
       <Avatar size={150} className="driver-avatar" src={`images/${image}.png`} /><br />
@@ -22,11 +24,11 @@ export default class DriverComponent extends React.Component {
         <TableBody displayRowCheckbox={false}>
           <TableRow>
             <TableRowColumn className="redis-partition-column">Average Speed</TableRowColumn>
-            <TableRowColumn className="redis-partition-column">{this.props.driver.averageSpeed.toFixed(2)}</TableRowColumn>
+            <TableRowColumn className="redis-partition-column">{averageSpeed}</TableRowColumn>
           </TableRow>
           <TableRow>
             <TableRowColumn className="redis-partition-column">Average RPM</TableRowColumn>
-            <TableRowColumn className="redis-partition-column">{this.props.driver.averageRPM.toFixed(2)}</TableRowColumn>
+            <TableRowColumn className="redis-partition-column">{averageRPM}</TableRowColumn>
           </TableRow>
         </TableBody>
       </Table>

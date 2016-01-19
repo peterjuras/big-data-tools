@@ -71,4 +71,5 @@
 .kafka-partition-column {
   text-align: center !important;
   vertical-align: middle;
+  font-size: 1.3em !important;
 }

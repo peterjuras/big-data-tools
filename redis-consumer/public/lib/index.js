@@ -36962,6 +36962,8 @@ var DriverComponent = function (_React$Component) {
     key: 'render',
     value: function render() {
       var image = this.props.id === 0 ? 'hamilton' : 'rosberg';
+      var averageSpeed = this.props.driver.averageSpeed ? this.props.driver.averageSpeed.toFixed(2) : 0;
+      var averageRPM = this.props.driver.averageRPM ? this.props.driver.averageRPM.toFixed(2) : 0;
       return _react2.default.createElement(
         _paper2.default,
         { zDepth: 2, style: this.props.style },
@@ -36991,7 +36993,7 @@ var DriverComponent = function (_React$Component) {
               _react2.default.createElement(
                 _tableRowColumn2.default,
                 { className: 'redis-partition-column' },
-                this.props.driver.averageSpeed.toFixed(2)
+                averageSpeed
               )
             ),
             _react2.default.createElement(
@@ -37005,7 +37007,7 @@ var DriverComponent = function (_React$Component) {
               _react2.default.createElement(
                 _tableRowColumn2.default,
                 { className: 'redis-partition-column' },
-                this.props.driver.averageRPM.toFixed(2)
+                averageRPM
               )
             )
           )
@@ -37084,7 +37086,8 @@ var MainComponent = function (_React$Component) {
     _this.state = bufferState = lastState = {
       totalMessages: 0,
       perSecond: 0,
-      drivers: []
+      drivers: [],
+      averageCalculationTime: 0
     };
     setInterval(function () {
       if (bufferState && bufferState !== lastState) {
@@ -37163,6 +37166,23 @@ var MainComponent = function (_React$Component) {
                         'span',
                         { style: { fontSize: '0.8em' } },
                         '~ Messages / s'
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    { className: 'redis-count-column' },
+                    _react2.default.createElement(
+                      _paper2.default,
+                      { className: 'redis-count' },
+                      _react2.default.createElement('br', null),
+                      this.state.averageCalculationTime,
+                      ' ms',
+                      _react2.default.createElement('br', null),
+                      _react2.default.createElement(
+                        'span',
+                        { style: { fontSize: '0.8em' } },
+                        'AVG calc. time'
                       )
                     )
                   )

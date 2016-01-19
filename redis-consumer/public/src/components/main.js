@@ -15,7 +15,8 @@ class MainComponent extends React.Component {
     this.state = bufferState = lastState = {
       totalMessages: 0,
       perSecond: 0,
-      drivers: []
+      drivers: [],
+      averageCalculationTime: 0
     };
     setInterval(() => {
       if (bufferState && bufferState !== lastState) {
@@ -54,6 +55,12 @@ class MainComponent extends React.Component {
                   <Paper className="redis-count">
                     <br/>{this.state.perSecond}<br/>
                     <span style={{fontSize: '0.8em'}}>~ Messages / s</span>
+                  </Paper>
+                </td>
+                <td className="redis-count-column">
+                  <Paper className="redis-count">
+                    <br/>{this.state.averageCalculationTime} ms<br/>
+                    <span style={{fontSize: '0.8em'}}>AVG calc. time</span>
                   </Paper>
                 </td>
               </tr>

@@ -38,7 +38,7 @@ redis.forEach(redis => redis.psubscribe('__keyevent@0__:incrby'));
 
 // Kafka
 const kafka = require('kafka-node');
-const connectionString = process.env.KAFKA_CONNECTION; // Otherwise kafka-node will use default value localhost:2181
+const connectionString = process.env.KAFKA_CONNECTION; 
 
 const kafkaClients = {};
 const kafkaConsumers = {};
