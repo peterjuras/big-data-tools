@@ -24,16 +24,20 @@ const hosts = [{
 
 // Driver setup
 const args = require('yargs').argv;
-const getPartition = require('./partition');
+const moment = require('moment');
 
 const driver = args.driver || 0;
-const driverPartition = getPartition(driver);
-const driverRedis = (new Redis(hosts[driver]));
+const redis = new Redis.Cluster(hosts);
+
+const speedListKey = `{${moment().week()}-${driver}}:speedList`;
+const speedSetKey = `{${moment().week()}-${driver}}:speedSet`;
+const rpmListKey = `{${moment().week()}-${driver}}:rpmList`;
+const rpmSetKey = `{${moment().week()}-${driver}}:rpmSet`;
 
 // Simulate speed
 const vmax = 330;
 const curve = 110;
-const lowRPM = 12000;
+const lowRPM = 4000;
 const maxRPM = 18000;
 const diffRPM = maxRPM - lowRPM;
 const breakTime = 2000;
@@ -81,6 +85,7 @@ function getCurrentSpeed() {
       startTime = new Date().getTime();
     }
   }
+  currentSpeed = Math.floor(currentSpeed);
   return currentSpeed;
 }
 
@@ -95,5 +100,11 @@ function getCurrentRPM(speed) {
 
 setInterval(() => {
   const currentSpeed = getCurrentSpeed();
-  console.log(`Speed: ${currentSpeed}, RPM: ${getCurrentRPM(currentSpeed)}`);
-}, 100);
+  const currentRPM = getCurrentRPM(currentSpeed);
+
+  redis.lpush(speedListKey, currentSpeed);
+  redis.lpush(rpmListKey, currentRPM);
+
+  redis.zincrby(speedSetKey, 1, currentSpeed);
+  redis.zincrby(rpmSetKey, 1, currentRPM);
+});

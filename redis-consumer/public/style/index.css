@@ -1,0 +1,58 @@
+.redis-status-paper {
+  margin: 10px 0px;
+}
+
+.redis-table {
+  width: 100%
+}
+
+.redis-column, .redis-count-column {
+  text-align: center;
+}
+
+.redis-count-column {
+  padding: 15px 0px;
+}
+
+.redis-count {
+  font-size: 1.5em;
+  text-align: center;
+  margin: auto;
+  height: 100px;
+  max-width: 200px;
+}
+
+.redis-status {
+  margin: 0 auto;
+}
+
+@media (min-width: 1111px) {
+  .redis-status {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1110px) {
+  .redis-status {
+    max-width: 90%;
+  }
+}
+
+.redis-partition-column {
+  text-align: center !important;
+  vertical-align: middle;
+  font-size: 1.2em !important;
+}
+
+.redis-average-table {
+  margin-top: 20px;
+}
+
+.driver-avatar, .driver-gauge {
+  display: block !important;
+  margin: auto;
+}
+
+.driver-gauge {
+  margin-top: 20px;
+}
