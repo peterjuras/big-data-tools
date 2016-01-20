@@ -47,8 +47,8 @@ hosts.filter(host => !host.slave)
   });
 
 // Driver setup
-const driverOneKeyPattern = `{${moment().week()}}0:`;
-const driverTwoKeyPattern = `{${moment().week()}}1:`;
+const driverOneKeyPattern = `{${moment().week()}-0}:`;
+const driverTwoKeyPattern = `{${moment().week()}-1}:`;
 
 const drivers = [{
   currentSpeed: 0,

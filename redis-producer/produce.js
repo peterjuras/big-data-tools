@@ -29,10 +29,10 @@ const moment = require('moment');
 const driver = args.driver || 0;
 const redis = new Redis.Cluster(hosts);
 
-const speedListKey = `{${moment().week()}}${driver}:speedList`;
-const speedSetKey = `{${moment().week()}}${driver}:speedSet`;
-const rpmListKey = `{${moment().week()}}${driver}:rpmList`;
-const rpmSetKey = `{${moment().week()}}${driver}:rpmSet`;
+const speedListKey = `{${moment().week()}-${driver}}:speedList`;
+const speedSetKey = `{${moment().week()}-${driver}}:speedSet`;
+const rpmListKey = `{${moment().week()}-${driver}}:rpmList`;
+const rpmSetKey = `{${moment().week()}-${driver}}:rpmSet`;
 
 // Simulate speed
 const vmax = 330;
